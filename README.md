@@ -20,7 +20,7 @@ Nakon vaše prijave bit će vam dodijeljen mentor s kojim ćete tijekom semestra
 Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime | Seminarska grupa
 ------------  | ------------------- | ----- | --------------------- | ----------------
 Robert Vrđuka | rvrduka20@student.foi.hr | 0016148751 | rvrduka20 | G02
-Ime i prezime | mojaadresa@foi.hr | 000000000 | githubuser | G01
+Danijel Žebčević | dzebcevic20@foi.hr | 0016149470  | DanijelZebcevic | G02
 Ime i prezime | mojaadresa@foi.hr | 000000000 | githubuser | G01
 Ivo Rošić | irosic20@student.foi.hr | 0016151299 | irosic20 | G02
 
