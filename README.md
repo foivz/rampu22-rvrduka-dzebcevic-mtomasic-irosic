@@ -22,7 +22,7 @@ Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime | Seminarsk
 Robert Vrđuka | rvrduka20@student.foi.hr | 0016148751 | rvrduka20 | G02
 Ime i prezime | mojaadresa@foi.hr | 000000000 | githubuser | G01
 Ime i prezime | mojaadresa@foi.hr | 000000000 | githubuser | G01
-Ime i prezime | mojaadresa@foi.hr | 000000000 | githubuser | G01
+Ivo Rošić | irosic20@student.foi.hr | 0016151299 | irosic20 | G02
 
 ## Opis domene
 Umjesto ovih uputa opišite domenu ili problem koji pokrivate vašim projektom. Domena može biti proizvoljna, ali obratite pozornost da sukladno ishodima učenja, domena omogući primjenu zahtijevanih koncepata kako je to navedeno u sljedećem poglavlju. Priložite odgovarajuće skice gdje je to prikladno.
