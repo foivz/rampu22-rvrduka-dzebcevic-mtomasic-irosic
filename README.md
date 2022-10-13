@@ -21,7 +21,7 @@ Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime | Seminarsk
 ------------  | ------------------- | ----- | --------------------- | ----------------
 Robert Vrđuka | rvrduka20@student.foi.hr | 0016148751 | rvrduka20 | G02
 Danijel Žebčević | dzebcevic20@foi.hr | 0016149470  | DanijelZebcevic | G02
-Ime i prezime | mojaadresa@foi.hr | 000000000 | githubuser | G01
+Matija Tomašić | mtomasic20@student.foi.hr | 0016149486 | mtomasic2 | G02
 Ivo Rošić | irosic20@student.foi.hr | 0016151299 | irosic20 | G02
 
 ## Opis domene
