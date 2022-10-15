@@ -31,18 +31,18 @@ Umjesto ovih uputa opišite zahtjeve za funkcionalnošću mobilne aplikacije ili
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
-F01 | Registracija | Korisnik će se morati registrirati kako bi mogao pristupiti sustavu. | ...
-F02 | Prijava | Da bi korisnik mogao koristiti aplikaciju mora se prvo prijaviti u sustav. | ...
+F01 | Registracija | Korisnik će se morati registrirati kako bi mogao pristupiti sustavu. | Ivo Rošić
+F02 | Prijava | Da bi korisnik mogao koristiti aplikaciju mora se prvo prijaviti u sustav. | Ivo Rošić
 F03 | Unos i brisanje stanova | Sustav će omogućiti dodavanje i brisanje novih stanova na popis dostupnih. | Danijel Žebčević
 F04 | Generiranje računa | Korisnik će moći kreirati račun koji drugi korisnik mora platiti. | Matija Tomašić
 F05 | Plaćanje računa | Nakon što stanodavac kreira račun stanar će moći platiti račun pomoću sustava. | Matija Tomašić
-F06 | Grafički prikaz stanara | Sustav će omogućiti korisniku pregled rezervacija svojih stanova. | ...
+F06 | Grafički prikaz stanara | Sustav će omogućiti korisniku pregled rezervacija svojih stanova. | Robert Vrđuka
 F07 | Dodavanje ljudi u stan | Stanodavac će moći dodati nove stanare u svoj stan. | Danijel Žebčević
 F08 | Planiranje selidbe | Sustav će omogućiti korisniku da rezervira datum kad se želi useliti u stan. | Danijel Žebčević
 F09 | Komuniciranje pomoću maila | Stanar i stanodavac će moći komunicirati pomoću aplikacije. | Matija Tomašić
-F10 | Stvaranje događaja | Korisnik će moći kreirati događaj u svome stanu koje će ostali korisnici moći vidjeti. | ...
-F11 | Kreiranje ugovora | Sustav će omogućiti kreiranje ugovora između stanodavca i stanara. |...
-F12 | Prijava kvarova | U slučaju da korisnik ima kvar u stanu, moći će ga prijaviti u aplikaciji. |...
+F10 | Stvaranje događaja | Korisnik će moći kreirati događaj u svome stanu koje će ostali korisnici moći vidjeti. | Robert Vrđuka
+F11 | Kreiranje ugovora | Sustav će omogućiti kreiranje ugovora između stanodavca i stanara. | Ivo Rošić
+F12 | Prijava kvarova | U slučaju da korisnik ima kvar u stanu, moći će ga prijaviti u aplikaciji. | Robert Vrđuka
 
 
 ## Tehnologije i oprema
