@@ -19,7 +19,7 @@ Oznaka | Naziv | Kratki opis | Odgovorni član tima
 F01 | Registracija | Korisnik će se morati registrirati kako bi mogao pristupiti sustavu. | Ivo Rošić
 F02 | Prijava | Da bi korisnik mogao koristiti aplikaciju mora se prvo prijaviti u sustav. | Ivo Rošić
 F03 | Unos i brisanje stanova | Sustav će omogućiti dodavanje i brisanje novih stanova na popis dostupnih. | Danijel Žebčević
-F04 | Generiranje računa | Korisnik će moći kreirati račun koji drugi korisnik mora platiti. | Matija Tomašić
+F04 | Generiranje računa | Stanodavac će moći kreirati račun kojeg stanari moraju platiti. | Matija Tomašić
 F05 | Plaćanje računa | Nakon što stanodavac kreira račun stanar će moći platiti račun pomoću sustava. | Matija Tomašić
 F06 | Grafički prikaz rezervacija | Sustav će omogućiti korisniku pregled rezervacija svojih stanova. | Robert Vrđuka
 F07 | Dodavanje ljudi u stan | Stanodavac će moći dodati nove stanare u svoj stan. | Danijel Žebčević
