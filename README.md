@@ -21,7 +21,7 @@ F02 | Prijava | Da bi korisnik mogao koristiti aplikaciju mora se prvo prijaviti
 F03 | Unos i brisanje stanova | Sustav će omogućiti dodavanje i brisanje novih stanova na popis dostupnih. | Danijel Žebčević
 F04 | Generiranje računa | Stanodavac će moći kreirati račun kojeg stanari moraju platiti. | Matija Tomašić
 F05 | Plaćanje računa | Nakon što stanodavac kreira račun stanar će moći platiti račun pomoću sustava. | Matija Tomašić
-F06 | Grafički prikaz rezervacija | Sustav će omogućiti korisniku pregled rezervacija svojih stanova. | Robert Vrđuka
+F06 | Grafički prikaz rezervacija |Sustav će stanodavcu, omogućiti prikaz stanja svakog stana (zauzet ili slobodan), te broj stanara unutar svakog stana. | Robert Vrđuka
 F07 | Dodavanje ljudi u stan | Stanodavac će moći dodati nove stanare u svoj stan. | Danijel Žebčević
 F08 | Planiranje useljenja | Sustav će omogućiti korisniku da rezervira datum kad se želi useliti u stan. | Danijel Žebčević
 F09 | Aplikacijski chat između stanodavca i podstanara | Stanar i stanodavac će moći komunicirati preko chat-a unutar same aplikacije | Matija Tomašić
