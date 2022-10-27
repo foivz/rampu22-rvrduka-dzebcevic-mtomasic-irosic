@@ -28,7 +28,7 @@ F09 | Aplikacijski chat između stanodavca i podstanara | Stanar i stanodavac ć
 F10 | Obavještavanje kvarova | Vlasnik će dobiti "push" notifikaciju kada je prijavljen kvar u njegovom stanu. | Robert Vrđuka
 F11 | Kreiranje ugovora | Sustav će omogućiti kreiranje ugovora između stanodavca i stanara. | Ivo Rošić
 F12 | Prijava kvarova | U slučaju da korisnik ima kvar u stanu, moći će ga prijaviti u aplikaciji. | Robert Vrđuka
-F13 | Mijenjanje statusa kvarova | Nakon što se prijavljeni kvar pokvari, korisnik će ga moći označiti kao popravljenim. | Danijel Žebčević
+F13 | Mijenjanje statusa kvarova | Nakon što se prijavljeni kvar popravi, stanodavac će ga moći označiti kao popravljenim. | Danijel Žebčević
 F14 | Planiranje selidbe | Aplikacija će omogućiti stanarima da najave svoje iseljenje iz stana, te će zatražiti za koliko dana se stanar planira iseliti (minimalno 30 dana) | Ivo Rošić
 
 
