@@ -23,11 +23,12 @@ F04 | Generiranje računa | Korisnik će moći kreirati račun koji drugi korisn
 F05 | Plaćanje računa | Nakon što stanodavac kreira račun stanar će moći platiti račun pomoću sustava. | Matija Tomašić
 F06 | Grafički prikaz stanara | Sustav će omogućiti korisniku pregled rezervacija svojih stanova. | Robert Vrđuka
 F07 | Dodavanje ljudi u stan | Stanodavac će moći dodati nove stanare u svoj stan. | Danijel Žebčević
-F08 | Planiranje selidbe | Sustav će omogućiti korisniku da rezervira datum kad se želi useliti u stan. | Danijel Žebčević
+F08 | Planiranje useljenja | Sustav će omogućiti korisniku da rezervira datum kad se želi useliti u stan. | Danijel Žebčević
 F09 | Aplikacijski chat između stanodavca i podstanara | Stanar i stanodavac će moći komunicirati preko chat-a unutar same aplikacije | Matija Tomašić
 F10 | Stvaranje događaja | Korisnik će moći kreirati događaj u svome stanu koje će ostali korisnici moći vidjeti. | Robert Vrđuka
 F11 | Kreiranje ugovora | Sustav će omogućiti kreiranje ugovora između stanodavca i stanara. | Ivo Rošić
 F12 | Prijava kvarova | U slučaju da korisnik ima kvar u stanu, moći će ga prijaviti u aplikaciji. | Robert Vrđuka
+F13 | Mijenjanje statusa kvarova | Nakon što se prijavljeni kvar pokvari, korisnik će ga moći označiti kao popravljenim. | Danijel Žebčević
 
 
 ## Tehnologije i oprema
