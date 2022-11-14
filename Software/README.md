@@ -1,6 +1,6 @@
 ## Važno - .gitignore
 
-Ovo je mapa vašeg programskog koda. U nju smjestite vaše rješenje (solution) i pripadajuće mape. Kod izrade rješenja **jako je važno** prije prvog uploada dokumenata postaviti i koristiti ispravan .gitignore. Za vas smo pripremili inicijalnu verziju .gitignore dokumenta koju po potrebi možete dopuniti i doraditi, a sukladno tehnologijama koje ćete koristiti. 
+O je mapa vašeg programskog koda. U nju smjestite vaše rješenje (solution) i pripadajuće mape. Kod izrade rješenja **jako je važno** prije prvog uploada dokumenata postaviti i koristiti ispravan .gitignore. Za vas smo pripremili inicijalnu verziju .gitignore dokumenta koju po potrebi možete dopuniti i doraditi, a sukladno tehnologijama koje ćete koristiti. 
 
 Ovisno o tehnologiji i programskom jeziku, gitignore možete automatski generirai ili pomoću razvojnog okruženja (npr. Android Studio) ili pomoću besplatnog online alata dostupnog na https://www.toptal.com/developers/gitignore
 
