@@ -4,7 +4,7 @@ data class Flat(
     val id : Int,
     val address: String,
     val city: String,
-    val owner: User,
+    val owner: Owner,
     val occupied: Boolean,
-    val postal_code: Int
+    val postalCode: Int
 )
