@@ -1,10 +1,10 @@
 package hr.foi.rampu.stanarko.entities
 
-class Rent(
-    id: Int,
-    tenant: Tenant,
-    month_to_be_paid: Int,
-    year_to_be_paid: Int,
-    amount: Double,
-    rent_paid: Boolean = false
+data class Rent(
+    val id: Int,
+    val tenant: Tenant,
+    val month_to_be_paid: Int,
+    val year_to_be_paid: Int,
+    val amount: Double,
+    val rent_paid: Boolean = false
 )
