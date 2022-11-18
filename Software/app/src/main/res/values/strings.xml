@@ -3,4 +3,7 @@
     <string name="email_register">Email</string>
     <string name="password_register">Password</string>
     <string name="confirm_password_register">Confirm password</string>
+    <string name="name_register">Name</string>
+    <string name="surname_register">Surname</string>
+    <string name="phone_number_register">Phone number</string>
 </resources>
