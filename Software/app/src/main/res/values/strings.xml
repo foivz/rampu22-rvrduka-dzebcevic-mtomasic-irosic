@@ -8,4 +8,5 @@
     <string name="phone_number_register">Phone number</string>
     <string name="blank_register_fields">All fields must be filled!</string>
     <string name="incorrect_register_password">Password incorrect!</string>
+    <string name="incorrect_phone_number">Enter a phone number!</string>
 </resources>
