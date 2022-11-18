@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Stanarko</string>
+    <string name="flat_free">Free</string>
+    <string name="flat_occupied">Occupied</string>
 </resources>
