@@ -1,7 +1,5 @@
 package hr.foi.rampu.stanarko.adapters
 
-import android.content.Context
-import android.provider.Settings.System.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +22,7 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
             flatId.text = flat.id.toString()
             flatAdress.text = flat.address
             flatOccupied.text = when(flat.occupied) {
-                false -> "Free"
+                false -> "Free" //nisam siguran kako dohvatiti kontekst te onda ne hardkodirane stringove
                 true -> "Occupied"
             }
         }
