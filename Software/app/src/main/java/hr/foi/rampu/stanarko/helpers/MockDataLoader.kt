@@ -2,6 +2,7 @@ package hr.foi.rampu.stanarko.helpers
 
 import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.entities.Owner
+import hr.foi.rampu.stanarko.entities.Rent
 import hr.foi.rampu.stanarko.entities.Tenant
 
 object MockDataLoader {
@@ -18,5 +19,10 @@ object MockDataLoader {
         Tenant(2,"Ivana","Ivanic",987421854,"ivanaIvanic@gmail.com", getDemoFlat()[0]),
         Tenant(3,"Marko","Markic",98742354,"markoMarkic@gmail.com", getDemoFlat()[1]),
         Tenant(4,"Ljubo","Zlatan",98214854,"ljuboZlatan@gmail.com", getDemoFlat()[4])
+    )
+    fun getDemoRent(): List<Rent> = listOf(
+        Rent(1,getDemoTenant()[0], 11,2022,1500.00,false),
+        Rent(2,getDemoTenant()[1], 11,2022,1600.00,false),
+        Rent(3,getDemoTenant()[2], 11,2022,1700.00,false)
     )
 }

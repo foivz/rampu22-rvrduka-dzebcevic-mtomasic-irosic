@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Stanarko</string>
+    <string name="racuni">Računi</string>
+    <string name="placeholder_text">Placeholder text</string>
+    <string name="rent_title">Detalji računa</string>
+    <string name="rent_main_title">Detalji računa</string>
+    <string name="label_rent_tenant">Ime stanara:</string>
+    <string name="label_rent_month">Mjesec plaćanja:</string>
+    <string name="label_rent_year">Godina plaćanja:</string>
+    <string name="label_rent_name">Naziv računa:</string>
 </resources>
