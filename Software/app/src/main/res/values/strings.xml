@@ -6,4 +6,6 @@
     <string name="name_register">Name</string>
     <string name="surname_register">Surname</string>
     <string name="phone_number_register">Phone number</string>
+    <string name="blank_register_fields">All fields must be filled!</string>
+    <string name="incorrect_register_password">Password incorrect!</string>
 </resources>
