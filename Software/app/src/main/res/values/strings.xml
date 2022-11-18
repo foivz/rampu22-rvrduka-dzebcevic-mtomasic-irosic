@@ -9,4 +9,5 @@
     <string name="blank_register_fields">All fields must be filled!</string>
     <string name="incorrect_register_password">Password incorrect!</string>
     <string name="incorrect_phone_number">Enter a phone number!</string>
+    <string name="incorrect_mail_register">Invalid email address!</string>
 </resources>

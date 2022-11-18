@@ -27,6 +27,7 @@ class Registracija : AppCompatActivity() {
 
         if (!BlankCheck(name, surname, phoneNumber, mail, password, confirmPassword)) return
         if(!PhoneNumberCheck(phoneNumber)) return
+        if(!MailCheck(mail)) return
         if(!PasswordCheck(password,confirmPassword)) return
     }
 
@@ -42,6 +43,13 @@ class Registracija : AppCompatActivity() {
         val pattern = Regex("^([\\d]{10,10})\$")
         if (pattern.matches(phoneNumber))  return true
         Toast.makeText(baseContext,getString(R.string.incorrect_phone_number),Toast.LENGTH_SHORT).show()
+        return false
+    }
+
+    fun MailCheck(mail: String): Boolean {
+        val pattern = Regex("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}\$")
+        if (pattern.matches(mail)) return true
+        Toast.makeText(baseContext,getString(R.string.incorrect_mail_register),Toast.LENGTH_SHORT).show()
         return false
     }
 
