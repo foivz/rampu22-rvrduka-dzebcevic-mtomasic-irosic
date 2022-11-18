@@ -6,7 +6,8 @@ class Tenant(
     surname: String,
     phoneNumber: Int,
     mail: String,
+    password: String,
     flat: Flat,
     role: Role = Role.TENANT
-) : Person(id, name, surname, phoneNumber, mail, role)
+) : Person(id, name, surname, phoneNumber, mail, password, role)
 

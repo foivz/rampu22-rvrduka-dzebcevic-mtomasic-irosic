@@ -6,5 +6,6 @@ open class Person (
     val surname: String,
     val phoneNumber: Int,
     val mail: String,
+    val password: String,
     val role: Role
 )
