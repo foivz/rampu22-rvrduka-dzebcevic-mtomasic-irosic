@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "220783526098",
+    "project_id": "stanarko-9b460",
+    "storage_bucket": "stanarko-9b460.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220783526098:android:ba20e60e727643c56e2d0b",
+        "android_client_info": {
+          "package_name": "hr.foi.rampu.stanarko"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220783526098-h7ocd0ukg574tqb8vch2d5fitlfgh1g6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBga213XQ7q5DWcqHOtPNsz-2veIBuvy6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220783526098-h7ocd0ukg574tqb8vch2d5fitlfgh1g6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
