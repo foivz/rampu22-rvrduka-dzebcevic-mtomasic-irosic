@@ -4,10 +4,13 @@ class Tenant(
     id: Int,
     name: String,
     surname: String,
-    phoneNumber: Int,
+    phoneNumber: String,
     mail: String,
     password: String,
-    flat: Flat,
+    val flat: Flat?,
+    val dateOfMovingIn: String,
     role: Role = Role.TENANT
-) : Person(id, name, surname, phoneNumber, mail, password, role)
+) : Person(id, name, surname, phoneNumber, mail, password, flat, dateOfMovingIn, role)
 
+    constructor() : this(0, "", "", "", "", "", null, "", Role.TENANT)
+}
