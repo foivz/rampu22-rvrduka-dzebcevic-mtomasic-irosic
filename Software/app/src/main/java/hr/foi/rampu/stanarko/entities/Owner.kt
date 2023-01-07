@@ -4,7 +4,11 @@ class Owner(
     id: Int,
     name: String,
     surname: String,
-    phoneNumber: Int,
+    phoneNumber: String,
     mail: String,
     role: Role = Role.OWNER
-) : Person(id, name, surname, phoneNumber, mail, role)
+) : Person(id, name, surname, phoneNumber, mail, role){
+
+    constructor() : this(0, "", "", "", "", Role.OWNER)
+}
+
