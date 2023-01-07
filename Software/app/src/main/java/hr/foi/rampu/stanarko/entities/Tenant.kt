@@ -6,7 +6,8 @@ class Tenant(
     surname: String,
     phoneNumber: Int,
     mail: String,
-    flat: Flat,
+    val flat: Flat,
+    val dateOfMovingIn: String,
     role: Role = Role.TENANT
 ) : Person(id, name, surname, phoneNumber, mail, role)
 
