@@ -36,14 +36,14 @@ class RentsAdapter(private val rentLists: List<Rent>) : RecyclerView.Adapter<Ren
 
         @SuppressLint("SetTextI18n")
         fun bind(rent: Rent) {
-            rentPersonName.text = "${rent.tenant.name} ${rent.tenant.surname}";
-            //rentPersonAddress.text = rent.tenant.flat
-            //rentPersonDateOfMovingIn.text = "since. ${rent.tenant.dateOfMovingIn}"
+            rentPersonName.text = "${rent.tenant?.name} ${rent.tenant?.surname}";
+            rentPersonAddress.text = rent.tenant?.flat?.address.toString();
+            rentPersonDateOfMovingIn.text = "since. ${rent.tenant?.dateOfMovingIn}"
             //rentDueMonth.text = rent.dueMonth.toString()
             rentDueMonth.text = formatMonth(rent.month_to_be_paid).substring(0,3).uppercase()
             rentDueYear.text = rent.year_to_be_paid.toString()
             //setDueMonthYearColor(rent.paid)
-            //rentAmount.text = "${rent.person.apartment?.price.toString()} €"
+            rentAmount.text = "${rent.tenant?.flat?.amount.toString()} €"
         }
 
         private fun formatMonth(month: Int): String {
