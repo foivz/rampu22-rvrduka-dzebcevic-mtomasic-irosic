@@ -10,7 +10,6 @@ class Tenant(
     val flat: Flat?,
     val dateOfMovingIn: String,
     role: Role = Role.TENANT
-) : Person(id, name, surname, phoneNumber, mail, password, flat, dateOfMovingIn, role)
-
+) : Person(id, name, surname, phoneNumber, mail, password, role){
     constructor() : this(0, "", "", "", "", "", null, "", Role.TENANT)
 }

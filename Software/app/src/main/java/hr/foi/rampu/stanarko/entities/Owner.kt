@@ -8,7 +8,7 @@ class Owner(
     mail: String,
     password: String,
     role: Role = Role.OWNER
-) : Person(id, name, surname, phoneNumber, mail, password,role)
+) : Person(id, name, surname, phoneNumber, mail, password,role){
 
     constructor() : this(0, "", "", "", "", "", Role.OWNER)
 }
