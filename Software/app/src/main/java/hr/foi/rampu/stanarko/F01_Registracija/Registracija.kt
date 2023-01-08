@@ -1,11 +1,13 @@
 package hr.foi.rampu.stanarko.F01_Registracija
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.rampu.stanarko.MainActivity
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Tenant
@@ -48,9 +50,16 @@ class Registracija : AppCompatActivity() {
                         dateOfMovingIn = null
                     )
                     TenantsDAO().createTenant(tenant,this)
+                    val userId = FirebaseAuth.getInstance().currentUser?.uid
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("userId",userId)
+                    intent.putExtra("mail",mail)
+                    startActivity(intent)
+                    finish()
                 } else {
                     // Registration failed
-                    Toast.makeText(this,"Registracija neuspješna", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"Registration failed", Toast.LENGTH_SHORT).show()
                 }
             }
     }
