@@ -110,14 +110,14 @@ class RentsDAO {
                 documents.forEach{
                     val rent = it.toObject(Rent::class.java)
                     if(rent != null){
-                        Log.w("DOCUMENT ID", it.id);
+                        Log.w("DOCUMENT ID", it.id)
                         val documentReference = db.collection("rents").document(it.id)
                         documentReference.update("rent_paid", true)
                             .addOnSuccessListener {
-                                Log.w("RACUN JE PLACEN", "DADADAD");
+                                Log.w("RACUN JE PLACEN", "DADADAD")
                             }
                             .addOnFailureListener { e ->
-                                Log.w("RACUN NIJEJE PLACEN", "DADADAD");
+                                Log.w("RACUN NIJEJE PLACEN", "DADADAD")
                             }
                     }
                 }

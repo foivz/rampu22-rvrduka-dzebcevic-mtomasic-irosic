@@ -8,22 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.app.ActivityCompat.recreate
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.rampu.stanarko.R
-import hr.foi.rampu.stanarko.RentManagerActivity
 import hr.foi.rampu.stanarko.database.RentsDAO
 import hr.foi.rampu.stanarko.entities.Rent
+import org.w3c.dom.Text
 import java.text.DateFormatSymbols
-import java.text.SimpleDateFormat
 import java.util.*
 
-class RentsAdapter(private val rentLists: MutableList<Rent>,) : RecyclerView.Adapter<RentsAdapter.RentViewHolder>() {
+class RentsAdapter(private val rentLists: MutableList<Rent>) : RecyclerView.Adapter<RentsAdapter.RentViewHolder>() {
+    @SuppressLint("MissingInflatedId")
     inner class RentViewHolder(view: View) : RecyclerView.ViewHolder(view)  {
-        private val rentsDAO = RentsDAO();
-
-        private val sdf: SimpleDateFormat = SimpleDateFormat("dd.MM.yyyy. HH:mm", Locale.ENGLISH)
+        private val rentsDAO = RentsDAO()
 
         private val rentPersonName : TextView
         private val rentPersonAddress : TextView
@@ -32,6 +28,11 @@ class RentsAdapter(private val rentLists: MutableList<Rent>,) : RecyclerView.Ada
         private val rentDueYear : TextView
         private val rentDueMonthYear : LinearLayout
         private val rentAmount : TextView
+
+        private val rentInfoTenantName : TextView
+        private val rentInfoPhoneNumber : TextView
+        private val rentInfoAddress : TextView
+        private val rentInfoMonthYear : TextView
         init {
             rentPersonName = view.findViewById(R.id.tv_rent_person_name)
             rentPersonAddress = view.findViewById(R.id.tv_rent_person_address)
@@ -40,19 +41,44 @@ class RentsAdapter(private val rentLists: MutableList<Rent>,) : RecyclerView.Ada
             rentDueYear = view.findViewById(R.id.tv_rent_due_year)
             rentDueMonthYear = view.findViewById(R.id.ll_month_year)
             rentAmount = view.findViewById(R.id.tv_rent_amount)
-            view.setOnClickListener {
 
-                AlertDialog.Builder(view.context)
-                    .setTitle(rentPersonName.text)
-                    .setNeutralButton("Plati račun") { _, _ ->
-                        val paidRent = rentLists[adapterPosition]
-                        rentsDAO.payRentByDocumentID("id", paidRent.id)
-                        removeRentFromList()
-                    }
-                    .setNegativeButton("Odustani") { dialog, _ ->
-                        dialog.cancel();
-                    }
-                    .show()
+
+            var rentInfoDialogView = LayoutInflater
+                .from(view.context)
+                .inflate(R.layout.rent_more_info_dialog, null, false)
+            rentInfoTenantName = rentInfoDialogView.findViewById(R.id.tv_rent_info_tenant_name)
+            rentInfoPhoneNumber = rentInfoDialogView.findViewById(R.id.tv_rent_info_phone_number)
+            rentInfoAddress = rentInfoDialogView.findViewById(R.id.tv_rent_info_flat_address)
+            rentInfoMonthYear = rentInfoDialogView.findViewById(R.id.tv_rent_info_month_year)
+
+            view.setOnClickListener {
+                val currentParent = (view.parent) as ViewGroup
+                currentParent.removeAllViews()
+
+                val currentRent = rentLists[adapterPosition]
+
+                if(currentRent.rent_paid){
+                    AlertDialog.Builder(view.context)
+                        .setView(rentInfoDialogView)
+                        .setTitle("Rent details")
+                        .setNegativeButton("Cancel") { dialog, _ ->
+                            dialog.cancel()
+                        }
+                        .show()
+                }else{
+                    AlertDialog.Builder(view.context)
+                        .setView(rentInfoDialogView)
+                        .setTitle("Rent details")
+                        .setNeutralButton("Pay rent") { _, _ ->
+                            val paidRent = rentLists[adapterPosition]
+                            rentsDAO.payRentByDocumentID("id", paidRent.id)
+                            removeRentFromList()
+                        }
+                        .setNegativeButton("Cancel") { dialog, _ ->
+                            dialog.cancel()
+                        }
+                        .show()
+                }
                 return@setOnClickListener
             }
         }
@@ -64,14 +90,19 @@ class RentsAdapter(private val rentLists: MutableList<Rent>,) : RecyclerView.Ada
 
         @SuppressLint("SetTextI18n")
         fun bind(rent: Rent) {
-            rentPersonName.text = "${rent.tenant?.name} ${rent.tenant?.surname}";
-            rentPersonAddress.text = rent.tenant?.flat?.address.toString();
+            //Rent list
+            rentPersonName.text = "${rent.tenant?.name} ${rent.tenant?.surname}"
+            rentPersonAddress.text = rent.tenant?.flat?.address.toString()
             rentPersonDateOfMovingIn.text = "since. ${rent.tenant?.dateOfMovingIn}"
-            //rentDueMonth.text = rent.dueMonth.toString()
             rentDueMonth.text = formatMonth(rent.month_to_be_paid).substring(0,3).uppercase()
             rentDueYear.text = rent.year_to_be_paid.toString()
-            //setDueMonthYearColor(rent.paid)
             rentAmount.text = "${rent.tenant?.flat?.amount.toString()} €"
+
+            //Rent more info
+            rentInfoTenantName.text = "${rent.tenant?.name} ${rent.tenant?.surname}"
+            rentInfoPhoneNumber.text = rent.tenant?.phoneNumber.toString()
+            rentInfoAddress.text = rent.tenant?.flat?.address.toString()
+            rentInfoMonthYear.text = formatMonth(rent.month_to_be_paid).substring(0,3).uppercase() + " " + rent.year_to_be_paid.toString()
         }
 
         private fun formatMonth(month: Int): String {
