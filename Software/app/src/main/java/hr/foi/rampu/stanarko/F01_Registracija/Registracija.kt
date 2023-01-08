@@ -7,6 +7,8 @@ import android.widget.EditText
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.R
+import hr.foi.rampu.stanarko.database.TenantsDAO
+import hr.foi.rampu.stanarko.entities.Tenant
 
 class Registracija : AppCompatActivity() {
 
@@ -36,7 +38,16 @@ class Registracija : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Registration successful
-                    Toast.makeText(this,"Registracija uspiješna", Toast.LENGTH_SHORT).show()
+                    val tenant = Tenant(
+                        name = name,
+                        surname = surname,
+                        phoneNumber = phoneNumber,
+                        mail = mail,
+                        password = password,
+                        flat = null,
+                        dateOfMovingIn = null
+                    )
+                    TenantsDAO().createTenant(tenant,this)
                 } else {
                     // Registration failed
                     Toast.makeText(this,"Registracija neuspješna", Toast.LENGTH_SHORT).show()
