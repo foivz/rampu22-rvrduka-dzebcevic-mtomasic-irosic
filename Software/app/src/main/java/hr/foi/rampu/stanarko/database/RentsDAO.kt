@@ -42,65 +42,86 @@ class RentsDAO {
         val currentDate = Date()
         val currentMonthAndYear = dateFormat.format(currentDate).split("/")
 
-        //val currentMonth = currentMonthAndYear[0].toInt()
-
-        val currentMonth = 3;
+        val currentMonth = currentMonthAndYear[0].toInt()
         val currentYear = currentMonthAndYear[1].toInt()
-
-        Log.w("TEST", "$currentMonth. mjesec $currentYear. godina");
 
         val tenantsDAO = TenantsDAO()
         val rentsRef = db.collection("rents")
+        var sizeOfColletion = 0
 
-        tenantsDAO.getAllTenants()
+        var rentsToBeWritten = mutableListOf<Rent>()
+
+        rentsRef.get()
+            .addOnSuccessListener { snapshot ->
+                sizeOfColletion = snapshot.size()
+            }
+
+        tenantsDAO.getTenantsWithFlat()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val tenant = document.toObject(Tenant::class.java)
                     val userDate: String = tenant.dateOfMovingIn
                     var userMonth: Int = userDate.substring(5, 7).toInt()
                     var userYear: Int = userDate.substring(0, 4).toInt()
+
                     Log.w("PERSON", tenant.id.toString() + " " + tenant.name + " " + tenant.surname + " " + userMonth.toString() + " " + userYear.toString())
 
+                    val startMonth = userMonth
+                    val startYear = userYear
+                    var endMonth = currentMonth
+                    var endYear = currentYear
 
-                    while (userYear < currentYear || (userYear == currentYear && userMonth <= currentMonth)) {
-                        // your code here
-                        println("Month: $userMonth, Year: $userYear")
 
-                        if (userMonth == 12) {
-                            userMonth = 1
-                            userYear += 1
-                        } else {
-                            userMonth += 1
-                        }
-                    }
-                    /*
-                    for (i in userYear..currentYear) {
-                        while (userMonth != currentMonth + 1) {
+                    for (year in startYear..endYear) {
+                        val monthStart = if (year == startYear) startMonth else 1
+                        val monthEnd = if (year == endYear) endMonth else 12
+
+                        for (month in monthStart..monthEnd) {
                             rentsRef
-                                .whereEqualTo("id", tenant.id)
-                                .whereEqualTo("month_to_be_paid", userMonth)
-                                .whereEqualTo("year_to_be_paid", i)
+                                .whereEqualTo("tenant.id", tenant.id)
+                                .whereEqualTo("month_to_be_paid", month)
+                                .whereEqualTo("year_to_be_paid", year)
                                 .get()
                                 .addOnSuccessListener { rents ->
                                     if (rents.isEmpty) {
-                                        Log.w("PERSON", tenant.id.toString() + " Nema za ovaj: " + userMonth.toString() + " " + i.toString())
-                                        // If there is no such rent bill, create a new one and add it to the list
-                                        //val newRent = Rent(newRentList.size + 1, user, userMonth, i, false)
-                                        //newRentList.add(newRent)
+                                        //Log.w("RENT MISSING", tenant.id.toString() + " Nema za ovaj: " + month.toString() + " " + year.toString())
+                                        rentsRef.add(Rent(sizeOfColletion + 1, tenant, month, year, false))
                                     }
                                 }
-
-
-                            if (userMonth == 12) {
-                                userMonth = 1
-                                userYear += 1
-                            } else {
-                                userMonth += 1
-                            }
                         }
+
                     }
-                    */
+
+                }
+
+            }
+    }
+
+    fun payRentByDocumentID(attribute: String, value: Any){
+        db.collection("rents").whereEqualTo(attribute, value).addSnapshotListener {
+                snapshot, e ->
+            if(e != null){
+                Log.w("Check for error", "Listen failed", e)
+                return@addSnapshotListener
+            }
+            if(snapshot != null){
+                val allRents = arrayListOf<Rent>()
+                val documents = snapshot.documents
+                documents.forEach{
+                    val rent = it.toObject(Rent::class.java)
+                    if(rent != null){
+                        Log.w("DOCUMENT ID", it.id);
+                        val documentReference = db.collection("rents").document(it.id)
+                        documentReference.update("rent_paid", true)
+                            .addOnSuccessListener {
+                                Log.w("RACUN JE PLACEN", "DADADAD");
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("RACUN NIJEJE PLACEN", "DADADAD");
+                            }
+                    }
                 }
             }
+        }
     }
 }
