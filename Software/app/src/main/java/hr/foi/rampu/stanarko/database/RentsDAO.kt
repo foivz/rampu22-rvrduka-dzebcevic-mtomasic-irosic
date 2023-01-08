@@ -64,7 +64,7 @@ class RentsDAO {
                     var userMonth: Int = userDate.substring(5, 7).toInt()
                     var userYear: Int = userDate.substring(0, 4).toInt()
 
-                    Log.w("PERSON", tenant.id.toString() + " " + tenant.name + " " + tenant.surname + " " + userMonth.toString() + " " + userYear.toString())
+                    Log.w("PERSON", tenant.name + " " + tenant.surname + " " + userMonth.toString() + " " + userYear.toString())
 
                     val startMonth = userMonth
                     val startYear = userYear
@@ -78,7 +78,7 @@ class RentsDAO {
 
                         for (month in monthStart..monthEnd) {
                             rentsRef
-                                .whereEqualTo("tenant.id", tenant.id)
+                                .whereEqualTo("tenant.mail", tenant.mail)
                                 .whereEqualTo("month_to_be_paid", month)
                                 .whereEqualTo("year_to_be_paid", year)
                                 .get()
@@ -97,31 +97,38 @@ class RentsDAO {
             }
     }
 
-    fun payRentByDocumentID(attribute: String, value: Any){
-        db.collection("rents").whereEqualTo(attribute, value).addSnapshotListener {
-                snapshot, e ->
-            if(e != null){
-                Log.w("Check for error", "Listen failed", e)
+    fun payRentByDocumentID(attribute: String, value: Any) {
+        val rentsRef = db.collection("rents").whereEqualTo(attribute, value)
+        rentsRef.addSnapshotListener { snapshot, e ->
+            if (e != null) {
+                logError("Listen failed", e)
                 return@addSnapshotListener
             }
-            if(snapshot != null){
+            if (snapshot != null) {
                 val allRents = arrayListOf<Rent>()
                 val documents = snapshot.documents
-                documents.forEach{
+                documents.forEach {
                     val rent = it.toObject(Rent::class.java)
-                    if(rent != null){
-                        Log.w("DOCUMENT ID", it.id)
-                        val documentReference = db.collection("rents").document(it.id)
-                        documentReference.update("rent_paid", true)
-                            .addOnSuccessListener {
-                                Log.w("RACUN JE PLACEN", "DADADAD")
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w("RACUN NIJEJE PLACEN", "DADADAD")
-                            }
+                    if (rent != null) {
+                        updateRentPaidStatus(it.id)
                     }
                 }
             }
         }
+    }
+
+    private fun updateRentPaidStatus(documentId: String) {
+        val documentReference = db.collection("rents").document(documentId)
+        documentReference.update("rent_paid", true)
+            .addOnSuccessListener {
+                Log.w("BILL PAID", "PAID")
+            }
+            .addOnFailureListener { e ->
+                logError("BILL NOT PAID", e)
+            }
+    }
+
+    private fun logError(message: String, error: Exception) {
+        Log.w(message, error)
     }
 }
