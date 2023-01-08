@@ -13,3 +13,5 @@ class Tenant(
 
     constructor() : this(0, "", "", "", "", null, "", Role.TENANT)
 }
+
+

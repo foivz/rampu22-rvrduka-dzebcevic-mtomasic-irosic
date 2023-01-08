@@ -11,3 +11,4 @@ class Owner(
 
     constructor() : this(0, "", "", "", "", Role.OWNER)
 }
+

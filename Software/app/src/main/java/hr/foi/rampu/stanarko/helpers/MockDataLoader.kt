@@ -13,7 +13,7 @@ object MockDataLoader {
         Flat(4,"Petra Kresimira IV 42","Rijeka", Owner(1,"Pero","Peric","998887766","peroPeric@gmail.com"),false,400.00, 44250 ),
         Flat(5,"Petra Kresimira IV 42","Sisak", Owner(1,"Marko","Markic","998887456","markoMarkic@gmail.com"),true,450.00, 42000 ),
         Flat(6,"Martina Kresimira IV 42","Karlovac", Owner(1,"Marko","Markic","998887456","markoMarkic@gmail.com"),false,350.00, 42000 )
-    )
+        )
     fun getDemoTenant(): List<Tenant> = listOf(
         Tenant(1,"Ivan","Ivanic","98764854","ivanIvanic@gmail.com", getDemoFlat()[0], "01-01-2023"),
         Tenant(2,"Ivana","Ivanic","987421854","ivanaIvanic@gmail.com", getDemoFlat()[0], "01-01-2023"),

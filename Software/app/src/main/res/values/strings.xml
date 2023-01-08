@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Stanarko</string>
+    <string name="racuni">Računi</string>
+    <string name="placeholder_text">Placeholder text</string>
+    <string name="rent_title">Detalji računa</string>
+    <string name="rent_main_title">Detalji računa</string>
+    <string name="label_rent_tenant">Ime stanara:</string>
+    <string name="label_rent_month">Mjesec plaćanja:</string>
+    <string name="label_rent_year">Godina plaćanja:</string>
+    <string name="label_rent_name">Naziv računa:</string>
+    <string name="paid_rent">Paid rent</string>
+    <string name="unpaid_rent">Unpaid rent</string>
+    <string name="test_money_amount">350 €</string>
+    <string name="more_info_about_rent">More info about rent</string>
+    <string name="test_month">DEC</string>
+    <string name="test_year_number">2022</string>
+    <string name="test_person_name">John Doe</string>
+    <string name="text_address_value">Street Address 123</string>
+    <string name="rent_manager">Rent Manager</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
