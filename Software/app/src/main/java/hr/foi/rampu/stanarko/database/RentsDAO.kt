@@ -37,7 +37,19 @@ class RentsDAO {
             .get()
     }
 
-    fun checkForRents(){
+    fun checkForRents() {
+        val tenantsDAO = TenantsDAO()
+        tenantsDAO.getTenantsWithFlat()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val tenant = document.toObject(Tenant::class.java)
+                    checkForMissingRents(tenant)
+                }
+            }
+    }
+
+    private fun checkForMissingRents(tenant: Tenant) {
+        val rentsRef = db.collection("rents")
         val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
         val currentDate = Date()
         val currentMonthAndYear = dateFormat.format(currentDate).split("/")
@@ -45,55 +57,40 @@ class RentsDAO {
         val currentMonth = currentMonthAndYear[0].toInt()
         val currentYear = currentMonthAndYear[1].toInt()
 
-        val tenantsDAO = TenantsDAO()
+        val userDate: String = tenant.dateOfMovingIn
+        val userMonth: Int = userDate.substring(5, 7).toInt()
+        val userYear: Int = userDate.substring(0, 4).toInt()
+
+        val startMonth = userMonth
+        val startYear = userYear
+        val endMonth = currentMonth
+        val endYear = currentYear
+
+        for (year in startYear..endYear) {
+            val monthStart = if (year == startYear) startMonth else 1
+            val monthEnd = if (year == endYear) endMonth else 12
+
+            for (month in monthStart..monthEnd) {
+                rentsRef
+                    .whereEqualTo("tenant.mail", tenant.mail)
+                    .whereEqualTo("month_to_be_paid", month)
+                    .whereEqualTo("year_to_be_paid", year)
+                    .get()
+                    .addOnSuccessListener { rents ->
+                        if (rents.isEmpty) {
+                            createRent(tenant, month, year)
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun createRent(tenant: Tenant, month: Int, year: Int) {
         val rentsRef = db.collection("rents")
-        var sizeOfColletion = 0
-
-        var rentsToBeWritten = mutableListOf<Rent>()
-
         rentsRef.get()
             .addOnSuccessListener { snapshot ->
-                sizeOfColletion = snapshot.size()
-            }
-
-        tenantsDAO.getTenantsWithFlat()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val tenant = document.toObject(Tenant::class.java)
-                    val userDate: String = tenant.dateOfMovingIn
-                    var userMonth: Int = userDate.substring(5, 7).toInt()
-                    var userYear: Int = userDate.substring(0, 4).toInt()
-
-                    Log.w("PERSON", tenant.name + " " + tenant.surname + " " + userMonth.toString() + " " + userYear.toString())
-
-                    val startMonth = userMonth
-                    val startYear = userYear
-                    var endMonth = currentMonth
-                    var endYear = currentYear
-
-
-                    for (year in startYear..endYear) {
-                        val monthStart = if (year == startYear) startMonth else 1
-                        val monthEnd = if (year == endYear) endMonth else 12
-
-                        for (month in monthStart..monthEnd) {
-                            rentsRef
-                                .whereEqualTo("tenant.mail", tenant.mail)
-                                .whereEqualTo("month_to_be_paid", month)
-                                .whereEqualTo("year_to_be_paid", year)
-                                .get()
-                                .addOnSuccessListener { rents ->
-                                    if (rents.isEmpty) {
-                                        //Log.w("RENT MISSING", tenant.id.toString() + " Nema za ovaj: " + month.toString() + " " + year.toString())
-                                        rentsRef.add(Rent(sizeOfColletion + 1, tenant, month, year, false))
-                                    }
-                                }
-                        }
-
-                    }
-
-                }
-
+                val sizeOfCollection = snapshot.size()
+                rentsRef.add(Rent(sizeOfCollection + 1, tenant, month, year, false))
             }
     }
 
