@@ -1,9 +1,18 @@
 package hr.foi.rampu.stanarko.helpers
 
+import android.content.ContentValues
+import android.util.Log
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.ktx.Firebase
+import hr.foi.rampu.stanarko.database.FlatsDAO
 import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.entities.Owner
 import hr.foi.rampu.stanarko.entities.Rent
 import hr.foi.rampu.stanarko.entities.Tenant
+import kotlinx.coroutines.tasks.await
 
 object MockDataLoader {
     fun getDemoFlat(): List<Flat> = listOf(
@@ -14,6 +23,14 @@ object MockDataLoader {
         Flat(5,"Petra Kresimira IV 42","Sisak", Owner(1,"Marko","Markic","998887456","markoMarkic@gmail.com"),true,450.00, 42000 ),
         Flat(6,"Martina Kresimira IV 42","Karlovac", Owner(1,"Marko","Markic","998887456","markoMarkic@gmail.com"),false,350.00, 42000 )
     )
+
+     suspend fun getFirebaseFlats(): List<Flat> {
+        val flatsDAO = FlatsDAO()
+        val flats = mutableListOf<Flat>()
+        val result = flatsDAO.getAllFlats().await()
+        flats.addAll(result.toObjects(Flat::class.java))
+        return flats
+    }
     fun getDemoTenant(): List<Tenant> = listOf(
         Tenant(1,"Ivan","Ivanic","98764854","ivanIvanic@gmail.com", getDemoFlat()[0], "01-01-2023"),
         Tenant(2,"Ivana","Ivanic","987421854","ivanaIvanic@gmail.com", getDemoFlat()[0], "01-01-2023"),
