@@ -1,12 +1,5 @@
 package hr.foi.rampu.stanarko.helpers
 
-import android.content.ContentValues
-import android.util.Log
-import com.google.android.gms.tasks.Tasks
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObjects
-import com.google.firebase.ktx.Firebase
 import hr.foi.rampu.stanarko.database.FlatsDAO
 import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.entities.Owner

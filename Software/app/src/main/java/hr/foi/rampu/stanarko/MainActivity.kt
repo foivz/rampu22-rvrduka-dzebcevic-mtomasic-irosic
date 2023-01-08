@@ -1,16 +1,10 @@
 package hr.foi.rampu.stanarko
 
-import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import hr.foi.rampu.stanarko.adapters.FlatsAdapter
-import hr.foi.rampu.stanarko.database.FlatsDAO
-import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.helpers.MockDataLoader
 import kotlinx.coroutines.runBlocking
 
