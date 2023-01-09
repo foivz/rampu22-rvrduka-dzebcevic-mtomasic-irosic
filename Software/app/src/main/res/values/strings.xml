@@ -17,8 +17,9 @@
     <string name="test_person_name">John Doe</string>
     <string name="text_address_value">Street Address 123</string>
     <string name="rent_manager">Rent Manager</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="flat_address_label">Flat address:</string>
     <string name="month_and_year_to_be_paid_label">Month and year to be paid</string>
+    <string name="tenant_name_label">Tenant name:</string>
+    <string name="phone_number_label">Phone number:</string>
 </resources>

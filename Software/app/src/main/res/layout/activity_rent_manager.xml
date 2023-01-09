@@ -6,20 +6,23 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     tools:context=".RentManagerActivity">
+
     <TextView
         android:id="@+id/text_view_rent_manager"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/rent_manager"
-        android:textAllCaps="true"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
