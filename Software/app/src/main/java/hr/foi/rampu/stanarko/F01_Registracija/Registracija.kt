@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.rampu.stanarko.F02_Prijava.Prijava
 import hr.foi.rampu.stanarko.MainActivity
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.database.TenantsDAO
@@ -29,7 +30,7 @@ class Registracija : AppCompatActivity() {
         val spannable = SpannableString("Already have an account? Login")
         val span = object : ClickableSpan(){
             override fun onClick(widget:View){
-                val intent = Intent(this@Registracija, MainActivity::class.java)
+                val intent = Intent(this@Registracija, Prijava::class.java)
                 startActivity(intent)
             }
         }

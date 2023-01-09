@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Stanarko</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email_login">Email</string>
+    <string name="password_login">Password</string>
     <string name="email_register">Email</string>
     <string name="password_register">Password</string>
     <string name="confirm_password_register">Confirm password</string>
@@ -35,4 +38,5 @@
     <string name="month_and_year_to_be_paid_label">Month and year to be paid</string>
     <string name="tenant_name_label">Tenant name:</string>
     <string name="phone_number_label">Phone number:</string>
+    <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
 </resources>
