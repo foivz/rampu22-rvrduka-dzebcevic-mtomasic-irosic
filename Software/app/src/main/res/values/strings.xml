@@ -3,4 +3,15 @@
     <string name="sign_in">Sign in</string>
     <string name="email_login">Email</string>
     <string name="password_login">Password</string>
+    <string name="email_register">Email</string>
+    <string name="password_register">Password</string>
+    <string name="confirm_password_register">Confirm password</string>
+    <string name="name_register">Name</string>
+    <string name="surname_register">Surname</string>
+    <string name="phone_number_register">Phone number</string>
+    <string name="blank_register_fields">All fields must be filled!</string>
+    <string name="incorrect_register_password">Password incorrect!</string>
+    <string name="incorrect_phone_number">Enter a phone number!</string>
+    <string name="incorrect_mail_register">Invalid email address!</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
 </resources>
