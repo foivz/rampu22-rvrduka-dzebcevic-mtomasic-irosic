@@ -1,7 +1,6 @@
 package hr.foi.rampu.stanarko.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.adapters.RentsAdapter
-import hr.foi.rampu.stanarko.database.FlatsDAO
 import hr.foi.rampu.stanarko.database.RentsDAO
-import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Rent
-import hr.foi.rampu.stanarko.helpers.MockDataLoader
 
 
 class UnpaidRentFragment : Fragment() {
@@ -32,16 +28,22 @@ class UnpaidRentFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val currentUserID = 1
-
-        val tenantDao = TenantsDAO()
+        val currentUser = "markomarkic@gmail.com"
         val rentsDAO = RentsDAO()
-        val flatDAO = FlatsDAO()
 
-        rentsDAO.getAllRentsByTenantID(currentUserID,false)
+        rentsDAO.getAllRentsByMail(currentUser,false)
             .addOnSuccessListener { snapshot ->
                 val rents = snapshot.toObjects(Rent::class.java)
-                recyclerView.adapter = RentsAdapter(rents)
+                val rentsAdapter = RentsAdapter(rents.toMutableList()) { rentId, dueMonth, dueYear ->
+                    val bundle = Bundle()
+                    val additionalValues = mapOf("rentId" to rentId, "dueMonth" to dueMonth, "dueYear" to dueYear)
+                    for ((key, value) in additionalValues) {
+                        bundle.putInt(key, value)
+                    }
+                    parentFragmentManager.setFragmentResult("rent_paid", bundle)
+                }
+
+                recyclerView.adapter = rentsAdapter
             }
             .addOnFailureListener { exception ->
                 // Handle the exception
@@ -50,3 +52,4 @@ class UnpaidRentFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(view.context)
     }
 }
+

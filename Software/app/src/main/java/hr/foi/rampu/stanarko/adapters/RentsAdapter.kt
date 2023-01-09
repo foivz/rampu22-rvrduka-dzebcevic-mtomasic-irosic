@@ -2,7 +2,6 @@ package hr.foi.rampu.stanarko.adapters
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.database.RentsDAO
 import hr.foi.rampu.stanarko.entities.Rent
-import org.w3c.dom.Text
+import kotlinx.coroutines.runBlocking
 import java.text.DateFormatSymbols
 import java.util.*
 
-class RentsAdapter(private val rentLists: MutableList<Rent>) : RecyclerView.Adapter<RentsAdapter.RentViewHolder>() {
+class RentsAdapter(
+    private val rentLists: MutableList<Rent>,
+    private val onPaidRent: ((taskId: Int, dueMonth: Int, dueYear: Int) -> Unit)? = null
+) : RecyclerView.Adapter<RentsAdapter.RentViewHolder>() {
     @SuppressLint("MissingInflatedId")
     inner class RentViewHolder(view: View) : RecyclerView.ViewHolder(view)  {
         private val rentsDAO = RentsDAO()
@@ -42,8 +44,7 @@ class RentsAdapter(private val rentLists: MutableList<Rent>) : RecyclerView.Adap
             rentDueMonthYear = view.findViewById(R.id.ll_month_year)
             rentAmount = view.findViewById(R.id.tv_rent_amount)
 
-
-            var rentInfoDialogView = LayoutInflater
+            val rentInfoDialogView = LayoutInflater
                 .from(view.context)
                 .inflate(R.layout.rent_more_info_dialog, null, false)
             rentInfoTenantName = rentInfoDialogView.findViewById(R.id.tv_rent_info_tenant_name)
@@ -71,8 +72,9 @@ class RentsAdapter(private val rentLists: MutableList<Rent>) : RecyclerView.Adap
                         .setTitle("Rent details")
                         .setNeutralButton("Pay rent") { _, _ ->
                             val paidRent = rentLists[adapterPosition]
-                            rentsDAO.payRentByDocumentID("id", paidRent.id)
+                            runBlocking {rentsDAO.payRentByDocumentID("id", paidRent.id, "month_to_be_paid", paidRent.month_to_be_paid, "year_to_be_paid", paidRent.year_to_be_paid)}
                             removeRentFromList()
+                            onPaidRent?.invoke(paidRent.id, paidRent.month_to_be_paid, paidRent.year_to_be_paid)
                         }
                         .setNegativeButton("Cancel") { dialog, _ ->
                             dialog.cancel()
@@ -90,7 +92,6 @@ class RentsAdapter(private val rentLists: MutableList<Rent>) : RecyclerView.Adap
 
         @SuppressLint("SetTextI18n")
         fun bind(rent: Rent) {
-            //Rent list
             rentPersonName.text = "${rent.tenant?.name} ${rent.tenant?.surname}"
             rentPersonAddress.text = rent.tenant?.flat?.address.toString()
             rentPersonDateOfMovingIn.text = "since. ${rent.tenant?.dateOfMovingIn}"
@@ -98,7 +99,6 @@ class RentsAdapter(private val rentLists: MutableList<Rent>) : RecyclerView.Adap
             rentDueYear.text = rent.year_to_be_paid.toString()
             rentAmount.text = "${rent.tenant?.flat?.amount.toString()} €"
 
-            //Rent more info
             rentInfoTenantName.text = "${rent.tenant?.name} ${rent.tenant?.surname}"
             rentInfoPhoneNumber.text = rent.tenant?.phoneNumber.toString()
             rentInfoAddress.text = rent.tenant?.flat?.address.toString()
@@ -110,6 +110,18 @@ class RentsAdapter(private val rentLists: MutableList<Rent>) : RecyclerView.Adap
             val monthNames: Array<String> = symbols.months
             return monthNames[month - 1]
         }
+    }
+
+
+    fun addRentToList(newRent: Rent) {
+        var newIndexInList = rentLists.indexOfFirst { rent ->
+            rent.month_to_be_paid > newRent.month_to_be_paid
+        }
+        if (newIndexInList == -1) {
+            newIndexInList = rentLists.size
+        }
+        rentLists.add(newIndexInList, newRent)
+        notifyItemInserted(newIndexInList)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RentViewHolder {

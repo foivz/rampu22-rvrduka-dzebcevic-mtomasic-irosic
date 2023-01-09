@@ -11,13 +11,13 @@ class RentManagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle)
 
     data class FragmentItem(val titleRes: Int, val fragmentClass: KClass<*>)
 
-    val fragmentItems = ArrayList<FragmentItem>()
+    private val fragmentItems = ArrayList<FragmentItem>()
 
     fun addFragment(fragment: FragmentItem){
-        fragmentItems.add(fragment);
+        fragmentItems.add(fragment)
     }
 
-    override fun getItemCount(): Int = fragmentItems.size;
+    override fun getItemCount(): Int = fragmentItems.size
 
     override fun createFragment(position: Int): Fragment {
         return fragmentItems[position].fragmentClass.java.newInstance() as Fragment
