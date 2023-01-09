@@ -12,7 +12,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.rampu.stanarko.F01_Registracija.Registracija
+import hr.foi.rampu.stanarko.MainActivity
 import hr.foi.rampu.stanarko.R
 
 class Prijava : AppCompatActivity() {
@@ -41,7 +43,22 @@ class Prijava : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.et_password).text.toString()
 
         FirebaseAuth.getInstance().signInWithEmailAndPassword(mail,password).addOnSuccessListener {
-            Toast.makeText(this,"Successful login",Toast.LENGTH_SHORT).show()
+            val userMail = FirebaseAuth.getInstance().currentUser!!.email
+            val ownersCollection = FirebaseFirestore.getInstance().collection("owners")
+            ownersCollection.whereEqualTo("mail",userMail).get().addOnSuccessListener { document ->
+                if(!document.isEmpty){
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("Email",mail)
+                    startActivity(intent)
+                }
+                val tenantsCollection = FirebaseFirestore.getInstance().collection("tenants")
+                tenantsCollection.whereEqualTo("mail",userMail).get().addOnSuccessListener { document ->
+                    if(!document.isEmpty){
+                        //Implement activity redirection here after generating TenantActivity
+                        Toast.makeText(this,"We have a tenant",Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }.addOnFailureListener {
             Toast.makeText(this,"Invalid login",Toast.LENGTH_SHORT).show()
         }
