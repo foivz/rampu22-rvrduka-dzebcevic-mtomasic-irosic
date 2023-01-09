@@ -13,8 +13,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
-import hr.foi.rampu.stanarko.MainActivity
 import hr.foi.rampu.stanarko.R
+import hr.foi.rampu.stanarko.TenantActivity
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Tenant
 
@@ -68,7 +68,7 @@ class Registracija : AppCompatActivity() {
                     )
                     TenantsDAO().createTenant(tenant,this)
                     val userId = FirebaseAuth.getInstance().currentUser?.uid
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, TenantActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("userId",userId)
                     intent.putExtra("mail",mail)
