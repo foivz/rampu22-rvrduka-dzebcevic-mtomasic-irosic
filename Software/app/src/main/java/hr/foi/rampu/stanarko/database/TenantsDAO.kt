@@ -21,9 +21,7 @@ class TenantsDAO {
     }
 
     fun createTenant(tenant: Tenant, context: Context){
-        db.collection("tenants").add(tenant).addOnSuccessListener {
-            Toast.makeText(context, "Data inserted",Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener { e ->
+        db.collection("tenants").add(tenant).addOnFailureListener { e ->
             Toast.makeText(context,"Error:${e.message}",Toast.LENGTH_SHORT).show()
         }
     }
