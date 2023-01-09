@@ -16,8 +16,7 @@ object MockDataLoader {
         Flat(5,"Petra Kresimira IV 42","Sisak", Owner("Marko","Markic","998887456","markoMarkic@gmail.com","123"),true,450.00, 42000 ),
         Flat(6,"Martina Kresimira IV 42","Karlovac", Owner("Marko","Markic","998887456","markoMarkic@gmail.com","123"),false,350.00, 42000 )
     )
-
-     suspend fun getFirebaseFlats(): List<Flat> {
+    suspend fun getFirebaseFlats(): List<Flat> {
         val flatsDAO = FlatsDAO()
         val flats = mutableListOf<Flat>()
         val result = flatsDAO.getAllFlats().await()
