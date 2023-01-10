@@ -25,4 +25,10 @@ class TenantsDAO {
             Toast.makeText(context,"Error:${e.message}",Toast.LENGTH_SHORT).show()
         }
     }
+
+    fun getTenantsByFlatId(flatID : Int): Task<QuerySnapshot> {
+        return db.collection("tenants")
+            .whereEqualTo("flat.id", flatID)
+            .get()
+    }
 }

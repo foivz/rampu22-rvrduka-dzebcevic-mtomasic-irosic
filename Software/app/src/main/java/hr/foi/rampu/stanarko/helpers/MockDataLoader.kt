@@ -1,6 +1,7 @@
 package hr.foi.rampu.stanarko.helpers
 
 import hr.foi.rampu.stanarko.database.FlatsDAO
+import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.entities.Owner
 import hr.foi.rampu.stanarko.entities.Rent
@@ -24,6 +25,14 @@ object MockDataLoader {
         flats.addAll(result.toObjects(Flat::class.java))
         return flats
     }
+    suspend fun getFirebaseTenants(id: Int): List<Tenant> {
+        val tenantsDAO = TenantsDAO()
+        val tenants = mutableListOf<Tenant>()
+        val result = tenantsDAO.getTenantsByFlatId(id).await()
+        tenants.addAll(result.toObjects(Tenant::class.java))
+        return tenants
+    }
+
     fun getDemoTenant(): List<Tenant> = listOf(
         Tenant("Ivan","Ivanic","98764854","ivanIvanic@gmail.com","123", getDemoFlat()[0], "01-01-2023"),
         Tenant("Ivana","Ivanic","987421854","ivanaIvanic@gmail.com","123", getDemoFlat()[0], "01-01-2023"),

@@ -11,13 +11,13 @@ import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewFlats: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerView = findViewById(R.id.rv_flat_list)
-        recyclerView.adapter = runBlocking { FlatsAdapter(MockDataLoader.getFirebaseFlats()) }
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerViewFlats = findViewById(R.id.rv_flat_list)
+        recyclerViewFlats.adapter = runBlocking { FlatsAdapter(MockDataLoader.getFirebaseFlats()) }
+        recyclerViewFlats.layoutManager = LinearLayoutManager(this)
     }
 }
