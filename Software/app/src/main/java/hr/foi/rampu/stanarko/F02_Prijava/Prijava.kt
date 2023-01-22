@@ -49,6 +49,7 @@ class Prijava : AppCompatActivity() {
             ownersCollection.whereEqualTo("mail",userMail).get().addOnSuccessListener { document ->
                 if(!document.isEmpty){
                     val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("Email",mail)
                     startActivity(intent)
                 }
