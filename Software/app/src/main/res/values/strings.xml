@@ -39,4 +39,5 @@
     <string name="tenant_name_label">Tenant name:</string>
     <string name="phone_number_label">Phone number:</string>
     <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
+    <string name="menu_log_out">Log out</string>
 </resources>
