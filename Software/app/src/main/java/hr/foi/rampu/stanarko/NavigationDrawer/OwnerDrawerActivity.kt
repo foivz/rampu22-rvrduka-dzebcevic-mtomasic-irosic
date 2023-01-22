@@ -11,7 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import hr.foi.rampu.stanarko.R
 
-class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var drawerLayout: DrawerLayout
     override fun setContentView(view: View?) {
         drawerLayout = layoutInflater.inflate(R.layout.activity_owner_drawer,null) as DrawerLayout
