@@ -7,5 +7,7 @@
     tools:context=".NavigationDrawer.OwnerDrawerActivity"
     tools:openDrawer="start"
     android:fitsSystemWindows="true">
-
+    <include layout="@layout/content_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"/>
 </androidx.drawerlayout.widget.DrawerLayout>
