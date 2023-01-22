@@ -31,4 +31,8 @@ class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         TODO("Not yet implemented")
     }
+
+    protected fun allocateActivityTitle(title: String){
+        supportActionBar?.let {it.title = title}
+    }
 }
