@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
@@ -23,11 +24,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Ivana mažuranića 11" />
+
         <TextView
             android:id="@+id/tv_flat_occupied"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Occupied" />
+        <ImageButton
+            android:contentDescription="@string/button_expand"
+            android:id="@+id/ib_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            app:srcCompat="@drawable/ic_baseline_expand_more_24" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tenant_list"
