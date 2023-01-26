@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import hr.foi.rampu.stanarko.R
 import androidx.appcompat.widget.Toolbar
@@ -21,8 +22,11 @@ class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationIte
         var toolbar: Toolbar = drawerLayout.findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         var navView: NavigationView = drawerLayout.findViewById(R.id.nav_view)
-
         navView.setNavigationItemSelectedListener(this)
+
+        val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
