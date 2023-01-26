@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
+import hr.foi.rampu.stanarko.RentManagerActivity
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var drawerLayout: DrawerLayout
@@ -47,6 +48,13 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                         Toast.makeText(this,"Failed to log out!", Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+            R.id.menu_rents_tenant -> {
+                var currentUser = FirebaseAuth.getInstance().currentUser
+                val intent = Intent(this, RentManagerActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("mail", currentUser?.email)
+                startActivity(intent)
             }
         }
         return false
