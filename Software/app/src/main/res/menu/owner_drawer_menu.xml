@@ -3,8 +3,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_rents_owner"
-            android:title="Rents"
+            android:title="@string/menu_rents"
             android:icon="@drawable/ic_baseline_payment_24"/>
+        <item
+            android:id="@+id/menu_chat_owner"
+            android:title="@string/menu_chat_with_tenants"
+            android:icon="@drawable/ic_baseline_chat_24"/>
         <item
             android:id="@+id/menu_log_out_owner"
             android:title="@string/menu_log_out"
