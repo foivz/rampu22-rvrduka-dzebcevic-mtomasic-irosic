@@ -48,4 +48,8 @@
     <string name="message_time_10_30">10:30</string>
     <string name="chat_user_markic12">markic12</string>
     <string name="chat_message_good_morning">Good morning!</string>
+    <string name="create_new_conversation_between_owner_and_tenant">Create new conversation between owner and tenant</string>
+    <string name="back_button">Back button</string>
+    <string name="enter_message">Enter message</string>
+    <string name="send_button">Send button</string>
 </resources>

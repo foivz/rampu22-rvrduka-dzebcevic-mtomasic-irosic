@@ -10,7 +10,7 @@ import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.database.RentsDAO
 import hr.foi.rampu.stanarko.fragments.PaidRentFragment
 import hr.foi.rampu.stanarko.fragments.UnpaidRentFragment
-import hr.foi.rampu.teststanarko.adapters.RentManagerAdapter
+import hr.foi.rampu.stanarko.adapters.RentManagerAdapter
 import hr.foi.rampu.stanarko.databinding.ActivityRentManagerBinding
 
 class RentManagerActivity : TenantDrawerActivity() {
