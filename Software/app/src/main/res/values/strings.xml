@@ -42,4 +42,6 @@
     <string name="menu_log_out">Log out</string>
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
+    <string name="popis_stanova">Popis stanova</string>
+    <string name="button_expand">Button for expanding tenants</string>
 </resources>
