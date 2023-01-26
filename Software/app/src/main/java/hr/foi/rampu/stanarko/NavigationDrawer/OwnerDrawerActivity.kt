@@ -23,7 +23,7 @@ open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
         super.setContentView(drawerLayout)
         val toolbar: Toolbar = drawerLayout.findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        val navView: NavigationView = drawerLayout.findViewById(R.id.nav_view)
+        val navView: NavigationView = drawerLayout.findViewById(R.id.nav_view_owner)
         navView.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close)

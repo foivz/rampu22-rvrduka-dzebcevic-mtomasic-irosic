@@ -21,7 +21,7 @@ class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationIte
 
         var toolbar: Toolbar = drawerLayout.findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        var navView: NavigationView = drawerLayout.findViewById(R.id.nav_view)
+        var navView: NavigationView = drawerLayout.findViewById(R.id.nav_view_tenant)
         navView.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close)

@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:layout_gravity="start"
-        android:id="@+id/nav_view"
+        android:id="@+id/nav_view_owner"
         app:headerLayout="@layout/drawer_menu_header"
         app:menu="@menu/owner_drawer_menu"/>
 </androidx.drawerlayout.widget.DrawerLayout>
