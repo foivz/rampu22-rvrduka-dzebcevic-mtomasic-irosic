@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -27,17 +28,7 @@ class Registracija : AppCompatActivity() {
         signUp.setOnClickListener{
             registerUser()
         }
-        val spannable = SpannableString("Already have an account? Login")
-        val span = object : ClickableSpan(){
-            override fun onClick(widget:View){
-                val intent = Intent(this@Registracija, Prijava::class.java)
-                startActivity(intent)
-            }
-        }
-        spannable.setSpan(span,25,30,0)
-        val login = findViewById<TextView>(R.id.login_prompt)
-        login.text = spannable
-        login.movementMethod = LinkMovementMethod.getInstance()
+        spannableString()
     }
 
     private fun registerUser(){
@@ -76,8 +67,29 @@ class Registracija : AppCompatActivity() {
                     finish()
                 } else {
                     // Registration failed
-                    Toast.makeText(this,"Registration failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,getString(R.string.failed_registration_message), Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun spannableString(){
+        val spannable = SpannableString(getString(R.string.already_have_an_account_login)+" "+getString(R.string.login_prompt))
+        val clickableString = getString(R.string.login_prompt)
+        val start = spannable.indexOf(clickableString)
+        val end = start + clickableString.length
+        if (start != -1 && end != -1){
+            val span = object : ClickableSpan(){
+                override fun onClick(widget: View) {
+                    val intent = Intent(this@Registracija, Prijava::class.java)
+                    startActivity(intent)
+                }
+            }
+            spannable.setSpan(span,start,end,0)
+            val register = findViewById<TextView>(R.id.login_prompt)
+            register.text = spannable
+            register.movementMethod = LinkMovementMethod.getInstance()
+        }else{
+            Log.e("ERROR", "Clickable string not found in spannable string.")
+        }
     }
 }
