@@ -1,6 +1,7 @@
 package hr.foi.rampu.stanarko.NavigationDrawer
 
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
@@ -12,8 +13,11 @@ import hr.foi.rampu.stanarko.R
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.rampu.stanarko.ChatActivity
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
 import hr.foi.rampu.stanarko.RentManagerActivity
+import hr.foi.rampu.stanarko.database.ChannelsDAO
+import kotlinx.coroutines.runBlocking
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var drawerLayout: DrawerLayout
@@ -50,10 +54,20 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                 }
             }
             R.id.menu_rents_tenant -> {
-                var currentUser = FirebaseAuth.getInstance().currentUser
+                val currentUser = FirebaseAuth.getInstance().currentUser
                 val intent = Intent(this, RentManagerActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra("mail", currentUser?.email)
+                startActivity(intent)
+            }
+            R.id.menu_chat_tenant -> {
+                val currentUser = FirebaseAuth.getInstance().currentUser
+                val currentUserMail = currentUser?.email.toString()
+                val channelsDAO = ChannelsDAO();
+                val channelID = runBlocking {channelsDAO.getChannelID(currentUserMail)}
+                val intent = Intent(this, ChatActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("channel", channelID)
                 startActivity(intent)
             }
         }
