@@ -13,7 +13,6 @@
     <string name="incorrect_register_password">Password incorrect!</string>
     <string name="incorrect_phone_number">Enter a phone number!</string>
     <string name="incorrect_mail_register">Invalid email address!</string>
-    <string name="already_have_an_account_login">Already have an account? Login</string>
     <string name="don_t_have_an_account_register">Don\'t have an account?</string>
     <string name="register_prompt">Register</string>
     <string name="flat_free">Free</string>
@@ -45,4 +44,10 @@
     <string name="drawer_close">Drawer close</string>
     <string name="popis_stanova">Popis stanova</string>
     <string name="button_expand">Button for expanding tenants</string>
+    <string name="already_have_an_account_login">Already have an account?</string>
+    <string name="login_prompt">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="failed_registration_message">Registration failed</string>
+    <string name="invalid_login_message">Invalid login</string>
+    <string name="failed_to_log_out_message">Failed to log out!</string>
 </resources>

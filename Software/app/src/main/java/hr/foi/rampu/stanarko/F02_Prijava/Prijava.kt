@@ -86,7 +86,7 @@ class Prijava : AppCompatActivity() {
                 }
             }
         }.addOnFailureListener {
-            Toast.makeText(this,"Invalid login",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,getString(R.string.invalid_login_message),Toast.LENGTH_SHORT).show()
         }
     }
 

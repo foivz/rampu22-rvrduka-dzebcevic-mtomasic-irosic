@@ -44,7 +44,7 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                     }else{
-                        Toast.makeText(this,"Failed to log out!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,getString(R.string.failed_to_log_out_message), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
