@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.Query
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.entities.Chat
 import java.text.SimpleDateFormat
@@ -21,6 +22,9 @@ class ChatAdapter(query: Query, private val context: Context, modelClass: Class<
             .setQuery(query, modelClass)
             .build()
     ) {
+
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val currentUserMail = currentUser?.email.toString()
 
     val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
@@ -45,7 +49,7 @@ class ChatAdapter(query: Query, private val context: Context, modelClass: Class<
 
     override fun getItemViewType(position: Int): Int {
         val chat = getItem(position)
-        return if (chat.username == "user1") 0 else 1
+        return if (chat.username == currentUserMail) 0 else 1
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

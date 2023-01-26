@@ -1,27 +1,28 @@
 package hr.foi.rampu.stanarko
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
-import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.adapters.ChatAdapter
+import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityChatBinding
-import hr.foi.rampu.stanarko.databinding.ActivityRentManagerBinding
 import hr.foi.rampu.stanarko.entities.Channel
 import hr.foi.rampu.stanarko.entities.Chat
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class ChatActivity : TenantDrawerActivity() {
-    var currentUser = FirebaseAuth.getInstance().currentUser
+    private val currentUser = FirebaseAuth.getInstance().currentUser
+    private val currentUserMail = currentUser?.email.toString()
+    private val tenantsDAO = TenantsDAO()
 
     private lateinit var binding: ActivityChatBinding
 
@@ -77,7 +78,6 @@ class ChatActivity : TenantDrawerActivity() {
             val messageText = messageEditText.text.toString()
             val chat = Chat(currentUserMail, messageText, Date())
             db.collection("channels").document(channelId.toString()).collection("messages").add(chat)
-            //db.collection("chats").add(chat)
             messageEditText.text.clear()
         }
     }
@@ -90,5 +90,17 @@ class ChatActivity : TenantDrawerActivity() {
     override fun onStop() {
         super.onStop()
         adapter.stopListening()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val isTenant = runBlocking { tenantsDAO.isUserTenant(currentUserMail) }
+        val intent: Intent = if(isTenant){
+            Intent(this, TenantActivity::class.java)
+        }else{
+            Intent(this, ChannelsActivity::class.java)
+        }
+        startActivity(intent)
+        finish()
     }
 }
