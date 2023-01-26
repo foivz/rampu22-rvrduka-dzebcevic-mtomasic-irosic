@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.rampu.stanarko.F01_Registracija.Registracija
 import hr.foi.rampu.stanarko.MainActivity
 import hr.foi.rampu.stanarko.R
+import hr.foi.rampu.stanarko.TenantActivity
 
 class Prijava : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,13 +40,17 @@ class Prijava : AppCompatActivity() {
             ownersCollection.whereEqualTo("mail",userMail).get().addOnSuccessListener { document ->
                 if(!document.isEmpty){
                     val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("Email",mail)
                     startActivity(intent)
                 }
                 val tenantsCollection = FirebaseFirestore.getInstance().collection("tenants")
                 tenantsCollection.whereEqualTo("mail",userMail).get().addOnSuccessListener { document ->
                     if(!document.isEmpty){
-                        //Implement activity redirection here after generating TenantActivity
+                        val intent = Intent(this,TenantActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        intent.putExtra("Email",mail)
+                        startActivity(intent)
                         Toast.makeText(this,"We have a tenant",Toast.LENGTH_SHORT).show()
                     }
                 }
