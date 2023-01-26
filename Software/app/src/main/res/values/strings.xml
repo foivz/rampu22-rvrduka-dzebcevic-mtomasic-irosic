@@ -45,4 +45,7 @@
     <string name="menu_rents">Rents</string>
     <string name="menu_chat_with_owner">Chat with owner</string>
     <string name="menu_chat_with_tenants">Chat with tenants</string>
+    <string name="message_time_10_30">10:30</string>
+    <string name="chat_user_markic12">markic12</string>
+    <string name="chat_message_good_morning">Good morning!</string>
 </resources>
