@@ -14,6 +14,8 @@
     <string name="incorrect_phone_number">Enter a phone number!</string>
     <string name="incorrect_mail_register">Invalid email address!</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="don_t_have_an_account_register">Don\'t have an account?</string>
+    <string name="register_prompt">Register</string>
     <string name="flat_free">Free</string>
     <string name="flat_occupied">Occupied</string>
     <string name="racuni">Računi</string>
@@ -38,7 +40,6 @@
     <string name="month_and_year_to_be_paid_label">Month and year to be paid</string>
     <string name="tenant_name_label">Tenant name:</string>
     <string name="phone_number_label">Phone number:</string>
-    <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
     <string name="menu_log_out">Log out</string>
     <string name="drawer_open">Drawer open</string>
     <string name="drawer_close">Drawer close</string>
