@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -25,17 +26,7 @@ class Prijava : AppCompatActivity() {
         loginButton.setOnClickListener {
             loginUser()
         }
-        val spannable = SpannableString("Don't have an account? Register")
-        val span = object : ClickableSpan(){
-            override fun onClick(widget: View) {
-                val intent = Intent(this@Prijava, Registracija::class.java)
-                startActivity(intent)
-            }
-        }
-        spannable.setSpan(span,23,31,0)
-        val register = findViewById<TextView>(R.id.register_prompt)
-        register.text = spannable
-        register.movementMethod = LinkMovementMethod.getInstance()
+        spannableString()
     }
 
     private fun loginUser() {
@@ -61,6 +52,27 @@ class Prijava : AppCompatActivity() {
             }
         }.addOnFailureListener {
             Toast.makeText(this,"Invalid login",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun spannableString(){
+        val spannable = SpannableString(getString(R.string.don_t_have_an_account_register)+" "+getString(R.string.register_prompt))
+        val clickableString = getString(R.string.register_prompt)
+        val start = spannable.indexOf(clickableString)
+        val end = start + clickableString.length
+        if (start != -1 && end != -1){
+            val span = object : ClickableSpan(){
+                override fun onClick(widget: View) {
+                    val intent = Intent(this@Prijava, Registracija::class.java)
+                    startActivity(intent)
+                }
+            }
+            spannable.setSpan(span,start,end,0)
+            val register = findViewById<TextView>(R.id.register_prompt)
+            register.text = spannable
+            register.movementMethod = LinkMovementMethod.getInstance()
+        }else{
+            Log.e("ERROR", "Clickable string not found in spannable string.")
         }
     }
 }

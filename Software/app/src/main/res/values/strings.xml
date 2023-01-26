@@ -14,5 +14,6 @@
     <string name="incorrect_phone_number">Enter a phone number!</string>
     <string name="incorrect_mail_register">Invalid email address!</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
-    <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
+    <string name="don_t_have_an_account_register">Don\'t have an account?</string>
+    <string name="register_prompt">Register</string>
 </resources>
