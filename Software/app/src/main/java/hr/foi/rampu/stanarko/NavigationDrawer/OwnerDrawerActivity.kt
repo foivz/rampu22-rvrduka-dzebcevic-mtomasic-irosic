@@ -33,11 +33,12 @@ open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_log_out ->{
-                val currentUser = FirebaseAuth.getInstance().currentUser
+            R.id.menu_log_out_owner ->{
+                var currentUser = FirebaseAuth.getInstance().currentUser
                 if(currentUser!=null){
                     FirebaseAuth.getInstance().signOut()
-                    if(currentUser!= null){
+                    currentUser = FirebaseAuth.getInstance().currentUser
+                    if(currentUser== null){
                         val intent = Intent(this,Prijava::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
