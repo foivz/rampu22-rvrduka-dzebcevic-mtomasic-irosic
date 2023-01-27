@@ -21,6 +21,14 @@ class TenantsDAO {
         return tenants.size() > 0
     }
 
+    suspend fun isUserInFlat(userMail: String) : Boolean{
+        var tenants = db.collection("tenants")
+            .whereEqualTo("mail", userMail)
+            .whereEqualTo("flat", null)
+            .get().await()
+        return tenants.size() <= 0
+    }
+
     fun getTenantByID(tenantID : Int): Task<QuerySnapshot> {
         return db.collection("flats")
             .whereEqualTo("id", tenantID)

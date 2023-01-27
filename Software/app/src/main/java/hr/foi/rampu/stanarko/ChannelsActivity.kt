@@ -19,7 +19,7 @@ import hr.foi.rampu.stanarko.entities.Channel
 import kotlinx.coroutines.runBlocking
 
 class ChannelsActivity : OwnerDrawerActivity() {
-    private val currentUser = FirebaseAuth.getInstance().currentUser
+    override var currentUser = FirebaseAuth.getInstance().currentUser
     private val currentUserMail = currentUser?.email.toString()
     private val tenantsDAO = TenantsDAO()
 

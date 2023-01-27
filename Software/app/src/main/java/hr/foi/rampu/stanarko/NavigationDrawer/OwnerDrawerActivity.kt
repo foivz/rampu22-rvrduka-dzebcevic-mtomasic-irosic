@@ -17,6 +17,7 @@ import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.RentManagerActivity
 
 open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    open var currentUser = FirebaseAuth.getInstance().currentUser
     lateinit var drawerLayout: DrawerLayout
     override fun setContentView(view: View?) {
         drawerLayout = layoutInflater.inflate(R.layout.activity_owner_drawer,null) as DrawerLayout
@@ -36,7 +37,6 @@ open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_log_out_owner ->{
-                var currentUser = FirebaseAuth.getInstance().currentUser
                 if(currentUser!=null){
                     FirebaseAuth.getInstance().signOut()
                     currentUser = FirebaseAuth.getInstance().currentUser
@@ -50,14 +50,12 @@ open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
                 }
             }
             R.id.menu_rents_owner -> {
-                var currentUser = FirebaseAuth.getInstance().currentUser
                 val intent = Intent(this, RentManagerActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra("mail", currentUser?.email)
                 startActivity(intent)
             }
             R.id.menu_chat_owner -> {
-                var currentUser = FirebaseAuth.getInstance().currentUser
                 val intent = Intent(this, ChannelsActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 intent.putExtra("mail", currentUser?.email)

@@ -20,7 +20,6 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class ChatActivity : TenantDrawerActivity() {
-    private val currentUser = FirebaseAuth.getInstance().currentUser
     private val currentUserMail = currentUser?.email.toString()
     private val tenantsDAO = TenantsDAO()
 
