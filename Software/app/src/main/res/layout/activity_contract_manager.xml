@@ -5,5 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ContractManagerActivity">
-
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/contract_manager_tab"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        app:tabMode="fixed"
+        android:backgroundTint="@color/design_default_color_primary"
+        app:tabGravity="fill"
+        app:tabRippleColor="@color/design_default_color_primary"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/white"
+        app:tabIconTint="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
