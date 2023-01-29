@@ -22,6 +22,8 @@ class ChannelAdapter(options: FirestoreRecyclerOptions<Channel>) :
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val currentUserMail = currentUser?.email.toString()
 
+    private val channelsDAO = ChannelsDAO()
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textViewChannelName : TextView
 
@@ -29,25 +31,26 @@ class ChannelAdapter(options: FirestoreRecyclerOptions<Channel>) :
             textViewChannelName = itemView.findViewById(R.id.textViewChannelName)
 
             itemView.setOnClickListener {
-                val channel = getSnapshots().getSnapshot(adapterPosition)
+                val channel = snapshots.getSnapshot(adapterPosition)
                 val intent = Intent(itemView.context, ChatActivity::class.java)
                 intent.putExtra("channel", channel.id)
+                intent.putExtra("chatPartner",
+                    channel.toObject(Channel::class.java)?.let { ch -> getChatPartner(ch) })
                 itemView.context.startActivity(intent)
             }
         }
 
         fun bind(channel: Channel) {
-            val channelsDAO = ChannelsDAO()
+            textViewChannelName.text = getChatPartner(channel)
+        }
+
+        private fun getChatPartner(channel: Channel): String{
             val participants = runBlocking { channelsDAO.participantsNameSurname(channel) }
 
-            if (channel.participants.size < 2) {
-                return
-            }
-
-            if(channel.participants[0] == currentUserMail){
-                textViewChannelName.text = participants[1]
+            return if(channel.participants[0] == currentUserMail){
+                participants[1]
             }else{
-                textViewChannelName.text = participants[0]
+                participants[0]
             }
         }
     }

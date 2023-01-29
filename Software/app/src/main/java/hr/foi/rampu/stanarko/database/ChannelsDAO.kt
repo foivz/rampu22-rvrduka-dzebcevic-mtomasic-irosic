@@ -2,6 +2,7 @@ package hr.foi.rampu.stanarko.database
 
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import hr.foi.rampu.stanarko.entities.Channel
 import hr.foi.rampu.stanarko.entities.Chat
 import kotlinx.coroutines.runBlocking
@@ -17,6 +18,12 @@ class ChannelsDAO {
             .get().await()
         val documents = rentsRef.documents
         return documents[0].toObject(Channel::class.java)
+    }
+
+    fun getMessageQuery(channelId: String): Query {
+        return db.collection("channels").document(channelId).collection("messages")
+            .whereNotEqualTo("timestamp", "")
+            .orderBy("timestamp")
     }
 
     suspend fun getChannelID(mail: String?) : String {
