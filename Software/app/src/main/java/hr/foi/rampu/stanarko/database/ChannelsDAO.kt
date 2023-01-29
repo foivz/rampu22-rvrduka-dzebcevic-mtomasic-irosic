@@ -1,13 +1,9 @@
 package hr.foi.rampu.stanarko.database
 
-import android.util.Log
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import hr.foi.rampu.stanarko.entities.Channel
 import hr.foi.rampu.stanarko.entities.Chat
-import hr.foi.rampu.stanarko.entities.Rent
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import java.util.*
@@ -15,10 +11,19 @@ import java.util.*
 class ChannelsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val ownersDAO = OwnersDAO()
+    suspend fun getChannel(id: String?) : Channel? {
+        val rentsRef = db.collection("channels")
+            .whereArrayContains("id", id.toString())
+            .get().await()
+        val documents = rentsRef.documents
+        return documents[0].toObject(Channel::class.java)
+    }
+
     suspend fun getChannelID(mail: String?) : String {
         val rentsRef = db.collection("channels")
             .whereArrayContains("participants", mail.toString())
-            .get().await()
+            .get()
+            .await()
         val documents = rentsRef.documents
         return documents[0].id
     }
@@ -51,17 +56,35 @@ class ChannelsDAO {
 
     suspend fun createNewChannel(tenantMail: String?){
         if(!isThereChannelWithOwner(tenantMail)){
-            val landlordMail = ownersDAO.getLandlord(tenantMail.toString())
-            val participants = listOf(landlordMail, tenantMail.toString())
-            val db = FirebaseFirestore.getInstance()
-            val channelsRef = db.collection("channels")
-            val newChannel = Channel("", participants, Date(), emptyList())
-            channelsRef.add(newChannel)
+            val landlordMail = ownersDAO.getOwner(tenantMail.toString())?.mail
+            if(landlordMail != null && landlordMail != ""){
+                val participants = listOf(landlordMail, tenantMail.toString())
+                val db = FirebaseFirestore.getInstance()
+                val channelsRef = db.collection("channels")
+                val newChannel = Channel("", participants, Date(), emptyList())
+                channelsRef.add(newChannel)
 
-            val channelID = runBlocking { getChannelID(tenantMail) }
-
-            runBlocking { updateChannelID(channelID) }
-            runBlocking { addNewMessage(channelID) }
+                val channelID = runBlocking { getChannelID(tenantMail) }
+                runBlocking { updateChannelID(channelID) }
+                runBlocking { addNewMessage(channelID) }
+            }
         }
+    }
+
+    suspend fun participantsNameSurname(channel: Channel): List<String> {
+        val participants = channel.participants
+        val list = ArrayList<String>()
+        val tenantsDAO = TenantsDAO()
+        val ownersDAO = OwnersDAO()
+        for (participant in participants){
+            if(tenantsDAO.isUserTenant(participant)){
+                val participant = runBlocking {tenantsDAO.getTenant(participant)}
+                list.add("${participant?.name} ${participant?.surname}")
+            }else{
+                val owner = runBlocking {ownersDAO.getOwnerInfo(participant)}
+                list.add("${owner?.name} ${owner?.surname}")
+            }
+        }
+        return list
     }
 }

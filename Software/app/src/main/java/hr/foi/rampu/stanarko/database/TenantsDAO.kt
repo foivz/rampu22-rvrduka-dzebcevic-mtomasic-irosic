@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.Task
+import com.google.common.util.concurrent.ListenableFutureTask
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -15,18 +16,28 @@ class TenantsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     suspend fun isUserTenant(userMail: String) : Boolean{
-        var tenants = db.collection("tenants")
+        var tenant = db.collection("tenants")
             .whereEqualTo("mail", userMail)
-            .get().await()
-        return tenants.size() > 0
+            .get()
+            .await()
+        return tenant.size() > 0
     }
 
     suspend fun isUserInFlat(userMail: String) : Boolean{
-        var tenants = db.collection("tenants")
+        var tenant = db.collection("tenants")
             .whereEqualTo("mail", userMail)
             .whereEqualTo("flat", null)
-            .get().await()
-        return tenants.size() <= 0
+            .get()
+            .await()
+        return tenant.size() <= 0
+    }
+
+    suspend fun getTenant(userMail: String) : Tenant? {
+        var tenant = db.collection("tenants")
+            .whereEqualTo("mail", userMail)
+            .get()
+            .await()
+        return tenant.documents[0].toObject(Tenant::class.java)
     }
 
     fun getTenantByID(tenantID : Int): Task<QuerySnapshot> {
