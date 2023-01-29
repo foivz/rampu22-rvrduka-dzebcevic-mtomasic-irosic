@@ -44,7 +44,6 @@ class ChatAdapter(query: Query, private val context: Context, modelClass: Class<
 
     override fun onDataChanged() {
         super.onDataChanged()
-        // refresh UI here
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -54,7 +53,6 @@ class ChatAdapter(query: Query, private val context: Context, modelClass: Class<
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(chat: Chat) {
-            itemView.findViewById<TextView>(R.id.textViewUsername).text = chat.username
             itemView.findViewById<TextView>(R.id.textViewMessage).text = chat.message
             val timestamp = dateFormat.format(chat.timestamp)
             itemView.findViewById<TextView>(R.id.textViewTime).text = timestamp

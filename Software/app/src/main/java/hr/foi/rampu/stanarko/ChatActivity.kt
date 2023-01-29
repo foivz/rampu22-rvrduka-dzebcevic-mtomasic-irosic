@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.adapters.ChatAdapter
+import hr.foi.rampu.stanarko.database.ChannelsDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityChatBinding
 import hr.foi.rampu.stanarko.entities.Channel
@@ -22,6 +23,7 @@ import java.util.*
 class ChatActivity : TenantDrawerActivity() {
     private val currentUserMail = currentUser?.email.toString()
     private val tenantsDAO = TenantsDAO()
+    private val channelsDAO = ChannelsDAO()
 
     private lateinit var binding: ActivityChatBinding
 
@@ -30,9 +32,9 @@ class ChatActivity : TenantDrawerActivity() {
     private lateinit var adapter: ChatAdapter
     private lateinit var recyclerView: RecyclerView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         allocatedActivityTitle("Owner")
@@ -55,7 +57,6 @@ class ChatActivity : TenantDrawerActivity() {
 
         val sendButton = findViewById<ImageButton>(R.id.buttonSend)
         val messageEditText = findViewById<EditText>(R.id.editTextMessage)
-        //val userIMessage = findViewById<TextView>(R.id.tv_person_i_message)
 
         FirebaseFirestore.getInstance().collection("channels").document(channelId.toString()).addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -76,7 +77,7 @@ class ChatActivity : TenantDrawerActivity() {
         sendButton.setOnClickListener {
             val messageText = messageEditText.text.toString()
             val chat = Chat(currentUserMail, messageText, Date())
-            db.collection("channels").document(channelId.toString()).collection("messages").add(chat)
+            runBlocking { channelsDAO.addNewMessage(channelId.toString(), chat) }
             messageEditText.text.clear()
         }
     }

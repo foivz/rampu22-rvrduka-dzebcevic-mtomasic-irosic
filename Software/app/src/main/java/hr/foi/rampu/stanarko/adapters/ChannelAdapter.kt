@@ -1,6 +1,7 @@
 package hr.foi.rampu.stanarko.adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.ChatActivity
 import hr.foi.rampu.stanarko.R
+import hr.foi.rampu.stanarko.database.ChannelsDAO
 import hr.foi.rampu.stanarko.entities.Channel
+import kotlinx.coroutines.runBlocking
 
 class ChannelAdapter(options: FirestoreRecyclerOptions<Channel>) :
     FirestoreRecyclerAdapter<Channel, ChannelAdapter.ViewHolder>(options) {
@@ -26,9 +29,6 @@ class ChannelAdapter(options: FirestoreRecyclerOptions<Channel>) :
             textViewChannelName = itemView.findViewById(R.id.textViewChannelName)
 
             itemView.setOnClickListener {
-                //val currentParent = (itemView.parent) as ViewGroup
-                //currentParent.removeAllViews()
-
                 val channel = getSnapshots().getSnapshot(adapterPosition)
                 val intent = Intent(itemView.context, ChatActivity::class.java)
                 intent.putExtra("channel", channel.id)
@@ -37,14 +37,17 @@ class ChannelAdapter(options: FirestoreRecyclerOptions<Channel>) :
         }
 
         fun bind(channel: Channel) {
+            val channelsDAO = ChannelsDAO()
+            val participants = runBlocking { channelsDAO.participantsNameSurname(channel) }
+
             if (channel.participants.size < 2) {
                 return
             }
 
             if(channel.participants[0] == currentUserMail){
-                textViewChannelName.text = "${channel.participants[1]}"
+                textViewChannelName.text = participants[1]
             }else{
-                textViewChannelName.text = "${channel.participants[0]}"
+                textViewChannelName.text = participants[0]
             }
         }
     }
