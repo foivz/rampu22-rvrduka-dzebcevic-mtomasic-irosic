@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import hr.foi.rampu.stanarko.R
 
-class ActiveContractsFragment : Fragment() {
+class OwnerActiveContractsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,6 +17,6 @@ class ActiveContractsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_active_contracts, container, false)
+        return inflater.inflate(R.layout.fragment_owner_active_contracts, container, false)
     }
 }
