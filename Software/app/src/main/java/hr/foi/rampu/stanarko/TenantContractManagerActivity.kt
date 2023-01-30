@@ -7,6 +7,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.databinding.ActivityTenantContractManagerBinding
 import hr.foi.rampu.stanarko.fragments.TenantActiveContractsFragment
+import hr.foi.rampu.stanarko.fragments.TenantExpiredContractsFragment
 import hr.foi.rampu.teststanarko.adapters.RentManagerAdapter
 
 class TenantContractManagerActivity : TenantDrawerActivity() {
@@ -26,6 +27,12 @@ class TenantContractManagerActivity : TenantDrawerActivity() {
             RentManagerAdapter.FragmentItem(
                 R.string.owner_active_contract_fragment,
                 TenantActiveContractsFragment::class
+            )
+        )
+        contractAdapter.addFragment(
+            RentManagerAdapter.FragmentItem(
+                R.string.owner_expired_contract_fragment,
+                TenantExpiredContractsFragment::class
             )
         )
 
