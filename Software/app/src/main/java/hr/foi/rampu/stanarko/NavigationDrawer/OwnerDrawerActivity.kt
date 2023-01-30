@@ -12,6 +12,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
+import hr.foi.rampu.stanarko.MainActivity
+import hr.foi.rampu.stanarko.OwnerContractManagerActivity
 import hr.foi.rampu.stanarko.R
 
 open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +48,14 @@ open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
                         Toast.makeText(this,getString(R.string.failed_to_log_out_message),Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+            R.id.menu_owner_contracts ->{
+                val intent = Intent(this,OwnerContractManagerActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.menu_owner_starting_activity ->{
+                val intent = Intent(this,MainActivity::class.java)
+                startActivity(intent)
             }
         }
         return false
