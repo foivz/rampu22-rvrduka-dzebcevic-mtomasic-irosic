@@ -11,10 +11,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:gravity="center"
             android:text="@string/owner_expired_contract_fragment" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_owner_expired_contracts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/contract_list_item"/>
     </LinearLayout>
 </FrameLayout>

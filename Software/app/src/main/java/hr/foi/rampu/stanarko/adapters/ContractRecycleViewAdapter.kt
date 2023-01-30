@@ -37,9 +37,9 @@ class ContractRecycleViewAdapter(private val contractList:MutableList<Contract>)
         val dateFormat = SimpleDateFormat("dd.MM.yyyy")
         val text = contractList[position].tenant
         return text?.flat?.owner?.name + " " + text?.flat?.owner?.surname + " " + "from" + " " +
-                text?.flat?.city+", street"+ " "+ text?.flat?.address + ", as lessor and" + " " +
+                text?.flat?.city+", street"+ " "+ text?.flat?.address + ", as owner and" + " " +
                 text?.name + " " + text?.surname + " " + "from"+ " " +
-                text?.flat?.city+", street"+ " "+ text?.flat?.address + ", as lessee they signed on" +
+                text?.flat?.city+", street"+ " "+ text?.flat?.address + ", as tenant they signed on" +
                 " " + dateFormat.format(contractList[position].todayDate) + " "+ "in" + " " +
                 text?.flat?.city
     }
