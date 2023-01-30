@@ -22,4 +22,10 @@ class OwnerActiveContractsFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_owner_active_contracts, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        btnCreateContract = view.findViewById(R.id.create_new_contract_floating_button)
+        btnCreateContract.setOnClickListener {
+        }
+    }
 }
