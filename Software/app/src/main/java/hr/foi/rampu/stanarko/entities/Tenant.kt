@@ -8,7 +8,8 @@ class Tenant(
     password: String,
     val flat: Flat?,
     val dateOfMovingIn: String?,
+    val dateOfMovingOut: String?,
     role: Role = Role.TENANT
 ) : Person( name, surname, phoneNumber, mail, password, role){
-    constructor() : this( "", "", "", "", "", null, "", Role.TENANT)
+    constructor() : this( "", "", "", "", "", null, "","", Role.TENANT)
 }
