@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.rampu.stanarko.AddFlatActivity
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
 import hr.foi.rampu.stanarko.R
 
@@ -46,6 +47,10 @@ open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
                         Toast.makeText(this,getString(R.string.failed_to_log_out_message),Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+            R.id.menu_add_flat_owner ->{
+                val intent = Intent(this,AddFlatActivity::class.java)
+                startActivity(intent)
             }
         }
         return false

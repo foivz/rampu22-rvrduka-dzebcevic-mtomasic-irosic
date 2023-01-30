@@ -2,6 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/menu_add_flat_owner"
+            android:title="@string/add_flat" />
+        <item
             android:id="@+id/menu_log_out_owner"
             android:title="@string/menu_log_out"
             android:icon="@drawable/ic_baseline_logout_24"/>
