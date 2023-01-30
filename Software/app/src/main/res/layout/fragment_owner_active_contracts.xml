@@ -16,7 +16,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_owner_active_contracts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            tools:listitem="@layout/contract_list_item"/>
     </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:contentDescription="@string/create_new_contract_floating_button"
