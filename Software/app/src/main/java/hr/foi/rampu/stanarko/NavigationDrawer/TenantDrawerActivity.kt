@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
+import hr.foi.rampu.stanarko.TenantContractManagerActivity
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var drawerLayout: DrawerLayout
@@ -47,6 +48,10 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                         Toast.makeText(this,getString(R.string.failed_to_log_out_message), Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+            R.id.menu_tenant_contracts -> {
+                val intent = Intent(this,TenantContractManagerActivity::class.java)
+                startActivity(intent)
             }
         }
         return false

@@ -13,6 +13,13 @@
         android:theme="@style/Theme.Stanarko"
         tools:targetApi="31">
         <activity
+            android:name=".TenantContractManagerActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".OwnerContractManagerActivity"
             android:exported="false">
             <meta-data
