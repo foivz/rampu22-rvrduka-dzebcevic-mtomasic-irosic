@@ -53,7 +53,6 @@ class AddFlatActivity : AppCompatActivity() {
             if(cmbOkupiran.selectedItem.toString() == "No"){
                 flatOccupied=false
             }
-            Log.d("DADA", "PRIJE CRASHA")
 
 
             var prijavljen = FirebaseAuth.getInstance().currentUser?.email

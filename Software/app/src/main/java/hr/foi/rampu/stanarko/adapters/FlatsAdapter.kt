@@ -64,7 +64,8 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
 
             delete.setOnClickListener{
                 var delete = FlatsDAO()
-                delete.removeFlat("address", flat.address)
+                delete.removeFlat("address", flat.address, flat.id)
+                notifyDataSetChanged()
             }
         }
 

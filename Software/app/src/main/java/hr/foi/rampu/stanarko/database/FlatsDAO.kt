@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import hr.foi.rampu.stanarko.entities.Flat
+import hr.foi.rampu.stanarko.entities.Tenant
 
 class FlatsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
@@ -21,9 +22,8 @@ class FlatsDAO {
         db.collection("flats").add(referencedFlat)
     }
 
-    fun removeFlat(attribute: String, value: Any) {
+    fun removeFlat(attribute: String, value: Any, attribute2 : Int) {
         val db = FirebaseFirestore.getInstance()
-
 
         val referenceToDatabase = db.collection("flats").whereEqualTo(attribute, value)
         referenceToDatabase.addSnapshotListener{snapshot, e->
@@ -32,14 +32,20 @@ class FlatsDAO {
             }
             if(snapshot != null){
                 val documents = snapshot.documents
-                Log.d("DADA", documents.toString() )
 
                 documents.forEach{
                     val helpVariable = it.toObject(Flat::class.java)
                     if(helpVariable != null){
-                        if(helpVariable.tenants.isEmpty()){
-                            db.collection("flats").document(it.id).delete()
+                        var tenant = TenantsDAO()
+                        tenant.getTenantsByFlatId(attribute2).addOnSuccessListener { snapshot ->
+                            var allTenants = snapshot.toObjects(Tenant::class.java)
+                            if(allTenants.isEmpty()){
+                                db.collection("flats").document(it.id).delete()
+                            }
+
                         }
+
+
                     }
                 }
             }

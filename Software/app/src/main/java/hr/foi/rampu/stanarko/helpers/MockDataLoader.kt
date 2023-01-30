@@ -25,11 +25,11 @@ object MockDataLoader {
         return flats
     }
     suspend fun getFirebaseTenants(id: Int): List<Tenant> {
-        val tenantsDAO = TenantsDAO()
-        val tenants = mutableListOf<Tenant>()
-        val result = tenantsDAO.getTenantsByFlatId(id).await()
-        tenants.addAll(result.toObjects(Tenant::class.java))
-        return tenants
+       // val tenantsDAO = TenantsDAO()
+       // val tenants = mutableListOf<Tenant>()
+       // val result = tenantsDAO.getTenantsByFlatId(id).await()
+      //  tenants.addAll(result.toObjects(Tenant::class.java))
+        return emptyList()
     }
 
     fun getDemoTenant(): List<Tenant> = listOf(
