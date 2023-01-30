@@ -1,5 +1,6 @@
 package hr.foi.rampu.stanarko.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,6 +27,12 @@ class OwnerActiveContractsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         btnCreateContract = view.findViewById(R.id.create_new_contract_floating_button)
         btnCreateContract.setOnClickListener {
+            showDialog()
         }
+    }
+
+    private fun showDialog() {
+        val newContractDialogView = LayoutInflater.from(context).inflate(R.layout.new_contract_dialog,null)
+        AlertDialog.Builder(context).setView(newContractDialogView).setTitle("Generate new contract").show()
     }
 }
