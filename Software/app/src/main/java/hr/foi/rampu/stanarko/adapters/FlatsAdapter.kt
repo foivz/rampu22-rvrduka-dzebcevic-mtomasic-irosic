@@ -1,13 +1,16 @@
 package hr.foi.rampu.stanarko.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.stanarko.R
+import hr.foi.rampu.stanarko.database.FlatsDAO
 import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.helpers.MockDataLoader
 import kotlinx.coroutines.runBlocking
@@ -20,6 +23,7 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
         private val flatOccupied: TextView
         private val tenants: RecyclerView
         private val expand: ImageButton
+        private val delete: ImageButton
 
         init {
             flatId = view.findViewById(R.id.tv_flat_id)
@@ -27,6 +31,7 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
             flatOccupied = view.findViewById(R.id.tv_flat_occupied)
             tenants = view.findViewById(R.id.rv_tenant_list)
             expand = view.findViewById(R.id.ib_expand)
+            delete = view.findViewById(R.id.ib_delete)
         }
         fun bind(flat: Flat) {
             flatId.text = flat.id.toString()
@@ -55,6 +60,11 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
                     tenants.visibility = View.VISIBLE
                     expand.setImageResource(R.drawable.ic_baseline_expand_less_24)
                 }
+            }
+
+            delete.setOnClickListener{
+                var delete = FlatsDAO()
+                delete.removeFlat("address", flat.address)
             }
         }
 

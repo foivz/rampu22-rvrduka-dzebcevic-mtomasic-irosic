@@ -1,6 +1,7 @@
 package hr.foi.rampu.stanarko.NavigationDrawer
 
 import android.content.Intent
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
@@ -48,6 +49,7 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                     }
                 }
             }
+
         }
         return false
     }

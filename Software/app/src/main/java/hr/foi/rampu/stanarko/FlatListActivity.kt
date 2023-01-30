@@ -1,7 +1,9 @@
 package hr.foi.rampu.stanarko
 
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.stanarko.adapters.FlatsAdapter
@@ -17,5 +19,7 @@ class FlatListActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.rv_flat_list)
         recyclerView.adapter = runBlocking { FlatsAdapter(MockDataLoader.getFirebaseFlats()) }
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+
     }
 }
