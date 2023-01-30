@@ -55,4 +55,5 @@
     <string name="create_new_contract_floating_button">create new contract</string>
     <string name="contract_tenant_email">Tenant email</string>
     <string name="contract_expiring_date">Expiring date</string>
+    <string name="generate_new_contract_dialog">Generate new contract</string>
 </resources>
