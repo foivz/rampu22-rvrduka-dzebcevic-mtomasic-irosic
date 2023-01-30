@@ -12,6 +12,8 @@ import kotlinx.coroutines.runBlocking
 
 class FlatListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flat_list)

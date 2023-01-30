@@ -1,12 +1,12 @@
 package hr.foi.rampu.stanarko.adapters
 
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil.setContentView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.stanarko.R
@@ -16,12 +16,12 @@ import hr.foi.rampu.stanarko.helpers.MockDataLoader
 import kotlinx.coroutines.runBlocking
 
 
-class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<FlatsAdapter.FlatViewHolder>() {
+class FlatsAdapter(private var flatsList : MutableList<Flat>) : RecyclerView.Adapter<FlatsAdapter.FlatViewHolder>() {
     inner class FlatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val flatId: TextView
         private val flatAdress: TextView
         private val flatOccupied: TextView
-        private val tenants: RecyclerView
+        private var tenants: RecyclerView
         private val expand: ImageButton
         private val delete: ImageButton
 
@@ -63,9 +63,18 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
             }
 
             delete.setOnClickListener{
+                lateinit var recyclerView: RecyclerView
+
                 var delete = FlatsDAO()
                 delete.removeFlat("address", flat.address, flat.id)
+
+                val indexToRemove = flatsList.indexOfFirst { it.address == flat.address }
+
+                flatsList.removeAt(indexToRemove)
+
                 notifyDataSetChanged()
+
+
             }
         }
 
