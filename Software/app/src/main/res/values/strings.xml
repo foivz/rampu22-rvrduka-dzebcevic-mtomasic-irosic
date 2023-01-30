@@ -51,4 +51,5 @@
     <string name="invalid_login_message">Invalid login</string>
     <string name="failed_to_log_out_message">Failed to log out!</string>
     <string name="add_flat">Add flat</string>
+    <string name="button_for_deleting_flat">Button for deleting flat</string>
 </resources>
