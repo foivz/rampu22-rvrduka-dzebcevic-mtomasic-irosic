@@ -51,4 +51,6 @@
     <string name="invalid_login_message">Invalid login</string>
     <string name="failed_to_log_out_message">Failed to log out!</string>
     <string name="menu_contracts">Contracts</string>
+    <string name="owner_active_contract_fragment">Active contracts</string>
+    <string name="owner_expired_contract_fragment">Expired contracts</string>
 </resources>
