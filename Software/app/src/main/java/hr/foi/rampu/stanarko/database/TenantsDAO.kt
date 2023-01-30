@@ -14,6 +14,7 @@ import kotlinx.coroutines.tasks.await
 
 class TenantsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val tenantsRef = db.collection("tenants")
 
     suspend fun isUserTenant(userMail: String) : Boolean{
         var tenant = db.collection("tenants")
@@ -54,6 +55,15 @@ class TenantsDAO {
         return db.collection("tenants")
             .whereNotEqualTo("flat", null)
             .get()
+    }
+
+    suspend fun getUncontactedTenants(currentUserMail: String): MutableList<Tenant> {
+        val tenants = tenantsRef
+            .whereEqualTo("flat.owner.mail", currentUserMail)
+            .get()
+            .await()
+            .toObjects(Tenant::class.java)
+        return tenants
     }
 
     fun createTenant(tenant: Tenant, context: Context){
