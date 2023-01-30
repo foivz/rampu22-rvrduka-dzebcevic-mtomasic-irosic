@@ -7,7 +7,9 @@ data class Flat(
     val owner: Owner?,
     val occupied: Boolean,
     val amount: Double,
-    val postalCode: Int
+    val postalCode: Int,
+    val tenants: List<Tenant> = emptyList()
+
 ){
-    constructor() : this(0, "", "", null, false,0.00,0)
+    constructor() : this(0, "", "", null, false,0.00,0, emptyList())
 }

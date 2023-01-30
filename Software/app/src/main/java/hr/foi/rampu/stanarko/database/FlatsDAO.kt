@@ -37,8 +37,9 @@ class FlatsDAO {
                 documents.forEach{
                     val helpVariable = it.toObject(Flat::class.java)
                     if(helpVariable != null){
-
-                        db.collection("flats").document(it.id).delete()
+                        if(helpVariable.tenants.isEmpty()){
+                            db.collection("flats").document(it.id).delete()
+                        }
                     }
                 }
             }
