@@ -1,6 +1,7 @@
 package hr.foi.rampu.stanarko.adapters
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,17 +9,20 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import hr.foi.rampu.stanarko.MainActivity
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.database.FlatsDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Flat
+import hr.foi.rampu.stanarko.entities.Tenant
 import hr.foi.rampu.stanarko.helpers.MockDataLoader
 import kotlinx.coroutines.runBlocking
 
 
-class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adapter<FlatsAdapter.FlatViewHolder>() {
+class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Adapter<FlatsAdapter.FlatViewHolder>() {
     inner class FlatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val flatId: TextView
         private val flatAdress: TextView
@@ -27,7 +31,6 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
         private val expand: ImageButton
         private val delete: ImageButton
         private val add_tenant: ImageButton
-
 
         init {
             flatId = view.findViewById(R.id.tv_flat_id)
@@ -75,13 +78,13 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
                     .setView(newTenantDialog)
                     .setTitle(flatId.context.getString(R.string.add_tenant))
 
-                    .setPositiveButton("Add new tenant"){_,_ ->
+                    .setPositiveButton("Add new tenant") { _, _ ->
                         var emailAddress = newTenantDialog.findViewById<EditText>(R.id.et_tenant_mail)
                         var helperVariable = TenantsDAO()
-                        helperVariable.changeFlatOfTenant(emailAddress.text.toString(),flat)
+                        helperVariable.changeFlatOfTenant(emailAddress.text.toString(), flat)
+
                     }
                     .show()
-                notifyDataSetChanged()
 
             }
 
