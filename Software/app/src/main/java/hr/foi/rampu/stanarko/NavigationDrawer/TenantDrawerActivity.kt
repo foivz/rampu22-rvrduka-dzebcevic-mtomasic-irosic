@@ -1,6 +1,7 @@
 package hr.foi.rampu.stanarko.NavigationDrawer
 
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.util.Log
 import android.view.MenuItem
@@ -13,11 +14,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import hr.foi.rampu.stanarko.ChatActivity
+import hr.foi.rampu.stanarko.*
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
-import hr.foi.rampu.stanarko.R
-import hr.foi.rampu.stanarko.RentManagerActivity
-import hr.foi.rampu.stanarko.TenantContractManagerActivity
 import hr.foi.rampu.stanarko.database.ChannelsDAO
 import hr.foi.rampu.stanarko.database.OwnersDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
@@ -92,19 +90,42 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
             }
             R.id.menu_tenant_dateOfMove ->{
 
-                val c = Calendar.getInstance()
-                val year = c.get(Calendar.YEAR)
-                val month = c.get(Calendar.MONTH)
-                val day = c.get(Calendar.DAY_OF_MONTH)
 
-                val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-                    val selectedDate = "$dayOfMonth/${monthOfYear + 1}/$year"
-                        var help = TenantsDAO()
-                        help.changeDateOfMovingIn(currentUserMail, selectedDate)
-                }, year, month, day)
-                dpd.show()
+                val c = Calendar.getInstance()
+                var year = c.get(Calendar.YEAR)
+                var month = c.get(Calendar.MONTH)
+                var day = c.get(Calendar.DAY_OF_MONTH)
+                var selectedDate = ""
+
+
+                val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                    // handle the selected date
+                    var dan = "0"
+                    var mjesec = "0"
+                    if(dayOfMonth<10){
+                        dan+=dayOfMonth.toString()
+                    }
+                    else{
+                        dan = dayOfMonth.toString()
+                    }
+                    if(monthOfYear < 10){
+                        mjesec+=(monthOfYear+1).toString()
+                    }
+                    else{
+                        mjesec = (monthOfYear+1).toString()
+                    }
+
+                    val selectedDate = "$year/$mjesec/$dan"
+                    // use the selected date
+                    var help = TenantsDAO()
+                    help.changeDateOfMovingIn(currentUserMail, selectedDate)
+                }
+
+                val datePickerDialog = DatePickerDialog(this, dateSetListener, year, month, day)
+                datePickerDialog.show()
 
             }
+
             R.id.menu_tenant_contracts -> {
                 val intent = Intent(this,TenantContractManagerActivity::class.java)
                 startActivity(intent)
