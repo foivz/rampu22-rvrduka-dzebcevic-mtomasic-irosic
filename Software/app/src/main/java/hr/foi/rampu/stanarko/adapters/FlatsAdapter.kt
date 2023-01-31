@@ -16,7 +16,7 @@ import hr.foi.rampu.stanarko.helpers.MockDataLoader
 import kotlinx.coroutines.runBlocking
 
 
-class FlatsAdapter(private var flatsList : MutableList<Flat>) : RecyclerView.Adapter<FlatsAdapter.FlatViewHolder>() {
+class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adapter<FlatsAdapter.FlatViewHolder>() {
     inner class FlatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val flatId: TextView
         private val flatAdress: TextView
@@ -63,7 +63,6 @@ class FlatsAdapter(private var flatsList : MutableList<Flat>) : RecyclerView.Ada
             }
 
             delete.setOnClickListener{
-                lateinit var recyclerView: RecyclerView
 
                 var delete = FlatsDAO()
                 delete.removeFlat("address", flat.address, flat.id)
@@ -78,6 +77,10 @@ class FlatsAdapter(private var flatsList : MutableList<Flat>) : RecyclerView.Ada
             }
         }
 
+    }
+
+    fun refresh(){
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlatViewHolder {

@@ -1,5 +1,6 @@
 package hr.foi.rampu.stanarko
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,10 +9,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.rampu.stanarko.adapters.FlatsAdapter
 import hr.foi.rampu.stanarko.database.FlatsDAO
 import hr.foi.rampu.stanarko.database.OwnersDAO
 import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.entities.Owner
+import hr.foi.rampu.stanarko.helpers.MockDataLoader
+import kotlinx.coroutines.runBlocking
 
 class AddFlatActivity : AppCompatActivity() {
 
@@ -73,6 +77,14 @@ class AddFlatActivity : AppCompatActivity() {
                 Log.d("DADA", "NULL JE")
             }
 
+            var help = FlatsDAO()
+            help.getAllFlats().addOnSuccessListener { snapshot ->
+                var a =  snapshot.toObjects(Flat::class.java)
+                var b =FlatsAdapter(a)
+                b.refresh()
+                val intent = Intent(this, MainActivity::class.java);
+                startActivity(intent)
+            }
 
         }
 
