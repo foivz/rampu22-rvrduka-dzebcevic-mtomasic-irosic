@@ -24,27 +24,27 @@ class AddFlatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_flat)
-        val dugme = findViewById<Button>(R.id.btnAddFlat)
+        val myButton = findViewById<Button>(R.id.btnAddFlat)
         Load()
-        dugme.setOnClickListener{
+        myButton.setOnClickListener{
             AddFunction()
         }
     }
 
     fun Load(){
-        var cmbOkupiran = findViewById<Spinner>(R.id.spinnerOccupied)
+        var spinnerChoices = findViewById<Spinner>(R.id.spinnerOccupied)
 
-        val izbori = arrayOf("Yes", "No")
-        val spinnerAdapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, izbori)
+        val choices = arrayOf("Yes", "No")
+        val spinnerAdapter2 = ArrayAdapter(this, android.R.layout.simple_spinner_item, choices)
         spinnerAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        cmbOkupiran.adapter = spinnerAdapter2
+        spinnerChoices.adapter = spinnerAdapter2
     }
 
     fun AddFunction() {
 
-        val adresa = findViewById<EditText>(R.id.etAddress).text.toString()
-        val grad = findViewById<EditText>(R.id.etCity).text.toString()
-        val posta = findViewById<EditText>(R.id.etPostalCode).text.toString().toInt()
+        val addressValue = findViewById<EditText>(R.id.etAddress).text.toString()
+        val city = findViewById<EditText>(R.id.etCity).text.toString()
+        val postalNumber = findViewById<EditText>(R.id.etPostalCode).text.toString().toInt()
         var cmbOkupiran = findViewById<Spinner>(R.id.spinnerOccupied)
         val amount = findViewById<EditText>(R.id.etAmount).text.toString().toDouble()
 
@@ -59,17 +59,17 @@ class AddFlatActivity : AppCompatActivity() {
             }
 
 
-            var prijavljen = FirebaseAuth.getInstance().currentUser?.email
-            if (prijavljen != null) {
+            var loggedEmail = FirebaseAuth.getInstance().currentUser?.email
+            if (loggedEmail != null) {
 
                 var help = OwnersDAO()
 
-                help.getOwnerByEmail(prijavljen).addOnSuccessListener { snapshot ->
+                help.getOwnerByEmail(loggedEmail).addOnSuccessListener { snapshot ->
 
-                    var trenutnoPrijavljeni = snapshot.toObjects(Owner::class.java)[0]
-                    val novi = Flat(1,adresa,grad,trenutnoPrijavljeni,flatOccupied, amount, posta)
+                    var currentSigned = snapshot.toObjects(Owner::class.java)[0]
+                    val flatToAdd = Flat(1,addressValue,city,currentSigned,flatOccupied, amount, postalNumber)
                     val dodavanje = FlatsDAO()
-                    dodavanje.AddFlat(novi)
+                    dodavanje.AddFlat(flatToAdd)
 
                 }
 

@@ -76,11 +76,13 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
                     .setTitle(flatId.context.getString(R.string.add_tenant))
 
                     .setPositiveButton("Add new tenant"){_,_ ->
-                        var b = newTenantDialog.findViewById<EditText>(R.id.et_tenant_mail)
-                        var help = TenantsDAO()
-                        help.changeFlatOfTenant(b.text.toString(),flat)
+                        var emailAddress = newTenantDialog.findViewById<EditText>(R.id.et_tenant_mail)
+                        var helperVariable = TenantsDAO()
+                        helperVariable.changeFlatOfTenant(emailAddress.text.toString(),flat)
                     }
                     .show()
+                notifyDataSetChanged()
+
             }
 
             delete.setOnClickListener{
@@ -89,21 +91,16 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
                 delete.removeFlat("address", flat.address, flat.id){result ->
                     if(result == 1){
                         val indexToRemove = flatsList.indexOfFirst { it.address == flat.address }
-
                         flatsList.removeAt(indexToRemove)
-
                         notifyDataSetChanged()
-
                     }
                     else{
                         Log.d("GRESKA", "GRESKA")
                     }
                 }
                 notifyDataSetChanged()
-
             }
         }
-
     }
 
     fun refresh(){
