@@ -2,8 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/menu_tenant_main_activity"
+            android:title="Tenant activity"/>
+        <item
             android:id="@+id/menu_tenant_contracts"
             android:title="@string/menu_contracts"/>
+        <item
+            android:id="@+id/menu_tenant_moving_out"
+            android:title="@string/menu_move_out"/>
         <item
             android:id="@+id/menu_log_out_tenant"
             android:title="@string/menu_log_out"

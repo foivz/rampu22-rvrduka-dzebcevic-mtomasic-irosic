@@ -58,4 +58,8 @@
     <string name="generate_new_contract_dialog">Generate new contract</string>
     <string name="contract_from_start_date">From</string>
     <string name="contract_to_end_date">to</string>
+    <string name="menu_move_out">Move out</string>
+    <string name="moving_out_button_save_date">Save date</string>
+    <string name="date_of_moving_out">Date of moving out:</string>
+    <string name="moving_out_hint">Moving out</string>
 </resources>

@@ -55,7 +55,8 @@ class Registracija : AppCompatActivity() {
                         mail = mail,
                         password = password,
                         flat = null,
-                        dateOfMovingIn = null
+                        dateOfMovingIn = null,
+                        dateOfMovingOut = null
                     )
                     TenantsDAO().createTenant(tenant,this)
                     val userId = FirebaseAuth.getInstance().currentUser?.uid

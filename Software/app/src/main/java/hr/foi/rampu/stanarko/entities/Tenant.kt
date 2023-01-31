@@ -1,5 +1,7 @@
 package hr.foi.rampu.stanarko.entities
 
+import java.util.Date
+
 class Tenant(
     name: String,
     surname: String,
@@ -8,8 +10,8 @@ class Tenant(
     password: String,
     val flat: Flat?,
     val dateOfMovingIn: String?,
-    val dateOfMovingOut: String?,
+    val dateOfMovingOut: Date?,
     role: Role = Role.TENANT
 ) : Person( name, surname, phoneNumber, mail, password, role){
-    constructor() : this( "", "", "", "", "", null, "","", Role.TENANT)
+    constructor() : this( "", "", "", "", "", null, "",null, Role.TENANT)
 }

@@ -13,7 +13,9 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
+import hr.foi.rampu.stanarko.TenantActivity
 import hr.foi.rampu.stanarko.TenantContractManagerActivity
+import hr.foi.rampu.stanarko.TenantMovingOutActivity
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var drawerLayout: DrawerLayout
@@ -51,6 +53,14 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
             }
             R.id.menu_tenant_contracts -> {
                 val intent = Intent(this,TenantContractManagerActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.menu_tenant_main_activity -> {
+                val intent = Intent(this,TenantActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.menu_tenant_moving_out ->{
+                val intent = Intent(this,TenantMovingOutActivity::class.java)
                 startActivity(intent)
             }
         }
