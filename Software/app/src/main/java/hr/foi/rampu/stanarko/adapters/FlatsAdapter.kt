@@ -37,13 +37,13 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
         fun bind(flat: Flat) {
             flatId.text = flat.id.toString()
             flatAdress.text = flat.address
+            flatOccupied.text = when(flat.occupied) {
+                false -> "Free"
+                true -> "Occupied"
+            }
             val firebaseTenants = runBlocking { MockDataLoader.getFirebaseTenants(flat.id) }
             if(firebaseTenants.isEmpty()){
                 expand.visibility = View.GONE
-                flatOccupied.text = tenants.context.getString(R.string.flat_free)
-            }
-            else{
-                flatOccupied.text = tenants.context.getString(R.string.flat_occupied)
             }
             tenants.adapter = TenantsAdapter(firebaseTenants)
             tenants.layoutManager = LinearLayoutManager(tenants.context)
@@ -66,17 +66,25 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
             delete.setOnClickListener{
 
                 var delete = FlatsDAO()
-                delete.removeFlat("address", flat.address, flat.id)
+                delete.removeFlat("address", flat.address, flat.id){result ->
+                    if(result == 1){
+                        val indexToRemove = flatsList.indexOfFirst { it.address == flat.address }
 
-                val indexToRemove = flatsList.indexOfFirst { it.address == flat.address }
+                        flatsList.removeAt(indexToRemove)
 
-                flatsList.removeAt(indexToRemove)
+                        notifyDataSetChanged()
 
+                    }
+                    else{
+                        Log.d("GRESKA", "GRESKA")
+                    }
+                }
                 notifyDataSetChanged()
 
 
             }
         }
+
     }
 
     fun refresh(){

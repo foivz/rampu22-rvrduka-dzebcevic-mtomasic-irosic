@@ -1,26 +1,31 @@
 package hr.foi.rampu.stanarko.NavigationDrawer
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
-import hr.foi.rampu.stanarko.R
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.ChatActivity
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
-import hr.foi.rampu.stanarko.TenantContractManagerActivity
+import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.RentManagerActivity
+import hr.foi.rampu.stanarko.TenantContractManagerActivity
 import hr.foi.rampu.stanarko.database.ChannelsDAO
 import hr.foi.rampu.stanarko.database.OwnersDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.*
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     var currentUser = FirebaseAuth.getInstance().currentUser
@@ -84,6 +89,21 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                 }else{
                     Toast.makeText(this,"You have to wait to be added in flat to be able to talk your landlord",Toast.LENGTH_LONG).show()
                 }
+            }
+            R.id.menu_tenant_dateOfMove ->{
+
+                val c = Calendar.getInstance()
+                val year = c.get(Calendar.YEAR)
+                val month = c.get(Calendar.MONTH)
+                val day = c.get(Calendar.DAY_OF_MONTH)
+
+                val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    val selectedDate = "$dayOfMonth/${monthOfYear + 1}/$year"
+                        var help = TenantsDAO()
+                        help.changeDateOfMovingIn(currentUserMail, selectedDate)
+                }, year, month, day)
+                dpd.show()
+
             }
             R.id.menu_tenant_contracts -> {
                 val intent = Intent(this,TenantContractManagerActivity::class.java)

@@ -71,4 +71,5 @@
     <string name="enter_message">Enter message</string>
     <string name="send_button">Send button</string>
     <string name="tenant">Tenant</string>
+    <string name="add_moving_in_date">Add moving in date</string>
 </resources>

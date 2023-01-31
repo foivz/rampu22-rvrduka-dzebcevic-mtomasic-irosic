@@ -80,8 +80,8 @@ class AddFlatActivity : AppCompatActivity() {
             var help = FlatsDAO()
             help.getAllFlats().addOnSuccessListener { snapshot ->
                 var a =  snapshot.toObjects(Flat::class.java)
-                var b =FlatsAdapter(a)
-                b.refresh()
+                var b = FlatsAdapter(a)
+
                 val intent = Intent(this, MainActivity::class.java);
                 startActivity(intent)
             }

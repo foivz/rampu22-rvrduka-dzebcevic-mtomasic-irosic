@@ -28,8 +28,10 @@ class FlatsDAO {
         db.collection("flats").add(referencedFlat)
     }
 
-    fun removeFlat(attribute: String, value: Any, attribute2 : Int) {
+    fun removeFlat(attribute: String, value: Any, attribute2 : Int , callback: (Int) -> Unit){
         val db = FirebaseFirestore.getInstance()
+        var uspjeh = 0
+
 
         val referenceToDatabase = db.collection("flats").whereEqualTo(attribute, value)
         referenceToDatabase.addSnapshotListener{snapshot, e->
@@ -47,6 +49,11 @@ class FlatsDAO {
                             var allTenants = snapshot.toObjects(Tenant::class.java)
                             if(allTenants.isEmpty()){
                                 db.collection("flats").document(it.id).delete()
+                                callback(1)
+                            }
+                            else{
+                                callback(0)
+
                             }
 
                         }
@@ -55,6 +62,12 @@ class FlatsDAO {
                 }
             }
         }
+
     }
+
+    private fun callback(i: Int): Int {
+        return i;
+    }
+
 
 }

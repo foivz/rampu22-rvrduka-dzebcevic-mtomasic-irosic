@@ -1,11 +1,14 @@
 package hr.foi.rampu.stanarko.database
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import hr.foi.rampu.stanarko.entities.Tenant
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.tasks.await
 
 class TenantsDAO {
@@ -51,6 +54,29 @@ class TenantsDAO {
         return db.collection("tenants")
             .whereNotEqualTo("flat", null)
             .get()
+    }
+
+    fun changeDateOfMovingIn(email: String, selectedDate: String){
+        val db = FirebaseFirestore.getInstance()
+
+        val referenceToDatabase = db.collection("tenants").whereEqualTo("mail", email)
+        referenceToDatabase.addSnapshotListener{snapshot, e->
+            if(e != null){
+                Log.d("GRESKA", e.message.toString())
+            }
+            if(snapshot != null){
+                val documents = snapshot.documents
+                documents.forEach{
+                    val helpVariable = it.toObject(Tenant::class.java)
+                    if (helpVariable != null) {
+                        db.collection("tenants").document(it.id).update("dateOfMovingIn", selectedDate )
+                    }
+
+                }
+            }
+        }
+
+
     }
 
     suspend fun getUncontactedTenants(currentUserMail: String): MutableList<Tenant> {
