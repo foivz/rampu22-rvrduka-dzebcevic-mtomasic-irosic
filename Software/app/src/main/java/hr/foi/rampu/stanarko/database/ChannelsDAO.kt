@@ -56,13 +56,13 @@ class ChannelsDAO {
     }
 
     suspend fun isThereChannelWithOwner(mail: String?) : Boolean{
-        var tenants = db.collection("channels")
+        val tenants = db.collection("channels")
             .whereArrayContains("participants", mail.toString())
             .get().await()
         return tenants.size() > 0
     }
 
-    suspend fun createNewChannel(tenantMail: String?){
+    suspend fun createNewChannel(tenantMail: String?) : Boolean{
         if(!isThereChannelWithOwner(tenantMail)){
             val landlordMail = ownersDAO.getOwner(tenantMail.toString())?.mail
             if(landlordMail != null && landlordMail != ""){
@@ -75,8 +75,10 @@ class ChannelsDAO {
                 val channelID = runBlocking { getChannelID(tenantMail) }
                 runBlocking { updateChannelID(channelID) }
                 runBlocking { addNewMessage(channelID) }
+                return true
             }
         }
+        return false
     }
 
     suspend fun getLatestCreatedChannel() : Channel?{

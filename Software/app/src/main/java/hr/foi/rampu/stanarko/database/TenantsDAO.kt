@@ -1,14 +1,10 @@
 package hr.foi.rampu.stanarko.database
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.Task
-import com.google.common.util.concurrent.ListenableFutureTask
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.model.mutation.Precondition.exists
 import hr.foi.rampu.stanarko.entities.Tenant
 import kotlinx.coroutines.tasks.await
 
@@ -17,7 +13,7 @@ class TenantsDAO {
     private val tenantsRef = db.collection("tenants")
 
     suspend fun isUserTenant(userMail: String) : Boolean{
-        var tenant = db.collection("tenants")
+        val tenant = db.collection("tenants")
             .whereEqualTo("mail", userMail)
             .get()
             .await()
@@ -25,7 +21,7 @@ class TenantsDAO {
     }
 
     suspend fun isUserInFlat(userMail: String) : Boolean{
-        var tenant = db.collection("tenants")
+        val tenant = db.collection("tenants")
             .whereEqualTo("mail", userMail)
             .whereEqualTo("flat", null)
             .get()
@@ -34,7 +30,7 @@ class TenantsDAO {
     }
 
     suspend fun getTenant(userMail: String) : Tenant? {
-        var tenant = db.collection("tenants")
+        val tenant = db.collection("tenants")
             .whereEqualTo("mail", userMail)
             .get()
             .await()
@@ -63,7 +59,15 @@ class TenantsDAO {
             .get()
             .await()
             .toObjects(Tenant::class.java)
-        return tenants
+
+        val filteredTenants = ArrayList<Tenant>()
+        for (tenant in tenants){
+            val result = db.collection("channels").whereArrayContains("participants", tenant.mail).get().await()
+            if(result.size()<=0){
+                filteredTenants.add(tenant)
+            }
+        }
+        return filteredTenants
     }
 
     fun createTenant(tenant: Tenant, context: Context){

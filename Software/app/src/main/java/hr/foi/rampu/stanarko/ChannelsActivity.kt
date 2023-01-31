@@ -1,35 +1,24 @@
 package hr.foi.rampu.stanarko
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.rampu.stanarko.NavigationDrawer.OwnerDrawerActivity
 import hr.foi.rampu.stanarko.adapters.ChannelAdapter
-import hr.foi.rampu.stanarko.adapters.ChatAdapter
 import hr.foi.rampu.stanarko.database.ChannelsDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityChannelsBinding
-import hr.foi.rampu.stanarko.databinding.ActivityChatBinding
 import hr.foi.rampu.stanarko.entities.Channel
-import hr.foi.rampu.stanarko.entities.Chat
 import hr.foi.rampu.stanarko.entities.Tenant
 import kotlinx.coroutines.runBlocking
 
@@ -77,17 +66,25 @@ class ChannelsActivity : OwnerDrawerActivity() {
                 .setTitle("Create conversation")
                 .setNeutralButton("Start conversation") { _, _ ->
                     removeAllViewsFromParent(view)
-                    var tenantMail = (spinner.selectedItem as Tenant).mail
-                    runBlocking { channelsDAO.createNewChannel(tenantMail) }
-                    var channel = runBlocking { channelsDAO.getLatestCreatedChannel() }
-                    if (channel != null) {
-                        Log.w("CHANNEL", channel.id)
+                    if(spinner.selectedItem != null){
+                        val tenantMail = (spinner.selectedItem as Tenant).mail
+                        val isCreated = runBlocking { channelsDAO.createNewChannel(tenantMail) }
+                        if(isCreated){
+                            val channel = runBlocking { channelsDAO.getLatestCreatedChannel() }
+                            if (channel != null) {
+                                Log.w("CHANNEL", channel.id)
+                            }
+                            val intent = Intent(this, ChatActivity::class.java)
+                            intent.putExtra("channel", channel?.id)
+                            intent.putExtra("chatPartner", channel?.let { ch -> getChatPartner(ch) })
+                            startActivity(intent)
+                            finish()
+                        }else{
+                            Toast.makeText(this,"Failed to create new conversation!", Toast.LENGTH_LONG).show()
+                        }
+                    }else{
+                        Toast.makeText(this,"You have to choose person to talk to!", Toast.LENGTH_LONG).show()
                     }
-                    val intent = Intent(this, ChatActivity::class.java)
-                    intent.putExtra("channel", channel?.id)
-                    intent.putExtra("chatPartner", channel?.let { ch -> getChatPartner(ch) })
-                    startActivity(intent)
-                    finish()
                 }
                 .setNegativeButton("Cancel") { dialog, _ ->
                     dialog.cancel()
