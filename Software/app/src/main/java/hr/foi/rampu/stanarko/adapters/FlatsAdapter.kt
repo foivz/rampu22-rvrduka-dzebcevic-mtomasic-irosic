@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.entities.Flat
-import hr.foi.rampu.stanarko.helpers.MockDataLoader
+import hr.foi.rampu.stanarko.helpers.DataLoader
 import kotlinx.coroutines.runBlocking
 
 
@@ -35,7 +35,7 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
                 false -> tenants.context.getString(R.string.flat_free)
                 true -> tenants.context.getString(R.string.flat_occupied)
             }
-            val firebaseTenants = runBlocking { MockDataLoader.getFirebaseTenants(flat.id) }
+            val firebaseTenants = runBlocking { DataLoader.getFirebaseTenants(flat.id) }
             if(firebaseTenants.isEmpty()){
                 expand.visibility = View.GONE
             }

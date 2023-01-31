@@ -7,7 +7,7 @@ import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.NavigationDrawer.OwnerDrawerActivity
 import hr.foi.rampu.stanarko.adapters.FlatsAdapter
 import hr.foi.rampu.stanarko.databinding.ActivityMainBinding
-import hr.foi.rampu.stanarko.helpers.MockDataLoader
+import hr.foi.rampu.stanarko.helpers.DataLoader
 import kotlinx.coroutines.runBlocking
 
 
@@ -23,7 +23,7 @@ class MainActivity : OwnerDrawerActivity() {
 
         val mail = FirebaseAuth.getInstance().currentUser?.email
         recyclerView = findViewById(R.id.rv_flat_list)
-        recyclerView.adapter = runBlocking { FlatsAdapter(MockDataLoader.getFirebaseFlatsByOwner(mail!!)) }
+        recyclerView.adapter = runBlocking { FlatsAdapter(DataLoader.getFirebaseFlatsByOwner(mail!!)) }
         recyclerView.layoutManager = LinearLayoutManager(this)
 
     }
