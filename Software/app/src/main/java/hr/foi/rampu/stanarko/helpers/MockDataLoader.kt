@@ -31,4 +31,9 @@ object MockDataLoader {
         tenants.addAll(result.toObjects(Tenant::class.java))
         return tenants
     }
+
+    suspend fun getTenantByMail(userMail : String) : Tenant {
+        val tenantsDAO = TenantsDAO()
+        return tenantsDAO.getTenant(userMail)!!
+    }
 }
