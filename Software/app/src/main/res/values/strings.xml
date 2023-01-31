@@ -77,4 +77,6 @@
     <string name="not_in_flat">Currently not in a flat</string>
     <string name="flat_from">You are in flat owned by</string>
     <string name="report_malfunction">Report a\n malfunction</string>
+    <string name="malfunction_description">Malfunction description</string>
+    <string name="describe_the_malfunction">Describe the malfunction</string>
 </resources>
