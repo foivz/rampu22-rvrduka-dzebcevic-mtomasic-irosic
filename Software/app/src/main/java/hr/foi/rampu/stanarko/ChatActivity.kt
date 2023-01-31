@@ -37,11 +37,9 @@ class ChatActivity : TenantDrawerActivity() {
         db = FirebaseFirestore.getInstance()
         val channelId = intent.getStringExtra("channel")
         val currentUserMail = currentUser?.email.toString()
-        val chatPartner = intent.getStringExtra("chatPartner")
 
-        if (chatPartner != null) {
-            allocatedActivityTitle(chatPartner)
-        }
+
+        allocatedActivityTitle("Owner")
 
         if(channelId!=null){
             query = channelsDAO.getMessageQuery(channelId);

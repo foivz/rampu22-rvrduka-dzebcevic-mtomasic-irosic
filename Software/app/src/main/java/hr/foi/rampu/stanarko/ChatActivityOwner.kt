@@ -36,8 +36,11 @@ import java.util.*
         db = FirebaseFirestore.getInstance()
         val channelId = intent.getStringExtra("channel")
         val currentUserMail = currentUser?.email.toString()
+        val chatPartner = intent.getStringExtra("chatPartner")
 
-        allocateActivityTitle("Owner")
+        if (chatPartner != null) {
+            allocateActivityTitle(chatPartner)
+        }
 
         if(channelId!=null){
             query = channelsDAO.getMessageQuery(channelId)
