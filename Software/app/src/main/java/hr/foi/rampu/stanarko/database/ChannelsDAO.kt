@@ -1,6 +1,6 @@
 package hr.foi.rampu.stanarko.database
 
-import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -12,6 +12,8 @@ import java.util.*
 
 class ChannelsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    var currentUser = FirebaseAuth.getInstance().currentUser
+    private val currentUserMail = currentUser?.email.toString()
     private val ownersDAO = OwnersDAO()
     private val channelRef = db.collection("channels")
 
@@ -118,5 +120,15 @@ class ChannelsDAO {
             }
         }
         return list
+    }
+
+    fun getChatPartner(channel: Channel): String{
+        val participants = runBlocking { participantsNameSurname(channel) }
+
+        return if(channel.participants[0] == currentUserMail){
+            participants[1]
+        }else{
+            participants[0]
+        }
     }
 }

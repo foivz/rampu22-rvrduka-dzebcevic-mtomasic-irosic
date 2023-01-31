@@ -1,6 +1,5 @@
 package hr.foi.rampu.stanarko
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.viewpager2.widget.ViewPager2
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
@@ -10,7 +9,6 @@ import hr.foi.rampu.stanarko.adapters.RentManagerAdapter
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityRentManagerBinding
 import hr.foi.rampu.stanarko.helpers.HelperClass
-import kotlinx.coroutines.runBlocking
 
 class RentManagerActivity : TenantDrawerActivity() {
     private val currentUserMail = currentUser?.email.toString()
@@ -49,7 +47,7 @@ class RentManagerActivity : TenantDrawerActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        helperClass.navigateToNextScreen(this, currentUserMail)
+        helperClass.navigateHomeScreen(this, currentUserMail)
         finish()
     }
 }

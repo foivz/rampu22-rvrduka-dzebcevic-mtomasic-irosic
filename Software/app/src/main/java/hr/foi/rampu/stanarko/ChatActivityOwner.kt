@@ -1,7 +1,5 @@
 package hr.foi.rampu.stanarko
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
@@ -10,20 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import hr.foi.rampu.stanarko.NavigationDrawer.OwnerDrawerActivity
-import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.adapters.ChatAdapter
 import hr.foi.rampu.stanarko.database.ChannelsDAO
-import hr.foi.rampu.stanarko.database.OwnersDAO
-import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityChatBinding
 import hr.foi.rampu.stanarko.entities.Chat
+import hr.foi.rampu.stanarko.helpers.HelperClass
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
     class ChatActivityOwner : OwnerDrawerActivity() {
     private val currentUserMail = currentUser?.email.toString()
-    private val tenantsDAO = TenantsDAO()
     private val channelsDAO = ChannelsDAO()
+    private val helperClass = HelperClass()
 
     private lateinit var binding: ActivityChatBinding
 
@@ -44,7 +40,7 @@ import java.util.*
         allocateActivityTitle("Owner")
 
         if(channelId!=null){
-            query = channelsDAO.getMessageQuery(channelId);
+            query = channelsDAO.getMessageQuery(channelId)
         }
         recyclerView = findViewById(R.id.rv_chats)
         val layoutManager = LinearLayoutManager(this)
@@ -77,13 +73,7 @@ import java.util.*
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val isTenant = runBlocking { tenantsDAO.isUserTenant(currentUserMail) }
-        val intent: Intent = if(isTenant){
-            Intent(this, TenantActivity::class.java)
-        }else{
-            Intent(this, ChannelsActivity::class.java)
-        }
-        startActivity(intent)
+        helperClass.navigateToNextScreen(this, currentUserMail, ChannelsActivity::class.java)
         finish()
     }
 }

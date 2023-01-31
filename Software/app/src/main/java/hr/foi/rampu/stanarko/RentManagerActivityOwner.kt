@@ -1,6 +1,5 @@
 package hr.foi.rampu.stanarko
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -12,12 +11,12 @@ import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityRentManagerOwnerBinding
 import hr.foi.rampu.stanarko.fragments.PaidRentFragment
 import hr.foi.rampu.stanarko.fragments.UnpaidRentFragment
-import kotlinx.coroutines.runBlocking
+import hr.foi.rampu.stanarko.helpers.HelperClass
 
 class RentManagerActivityOwner : OwnerDrawerActivity() {
     private val currentUserMail = currentUser?.email.toString()
-    private val tenantsDAO = TenantsDAO()
     private var rentsDAO = RentsDAO()
+    private val helperClass = HelperClass()
 
     private lateinit var binding: ActivityRentManagerOwnerBinding
 
@@ -58,13 +57,7 @@ class RentManagerActivityOwner : OwnerDrawerActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val isTenant = runBlocking { tenantsDAO.isUserTenant(currentUserMail) }
-        val intent: Intent = if(isTenant){
-            Intent(this, TenantActivity::class.java)
-        }else{
-            Intent(this, MainActivity::class.java)
-        }
-        startActivity(intent)
+        helperClass.navigateHomeScreen(this, currentUserMail)
         finish()
     }
 }

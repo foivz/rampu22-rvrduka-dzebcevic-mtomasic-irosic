@@ -1,6 +1,5 @@
 package hr.foi.rampu.stanarko
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
@@ -11,18 +10,16 @@ import com.google.firebase.firestore.Query
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.adapters.ChatAdapter
 import hr.foi.rampu.stanarko.database.ChannelsDAO
-import hr.foi.rampu.stanarko.database.OwnersDAO
-import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityChatBinding
 import hr.foi.rampu.stanarko.entities.Chat
+import hr.foi.rampu.stanarko.helpers.HelperClass
 import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class ChatActivity : TenantDrawerActivity() {
     private val currentUserMail = currentUser?.email.toString()
-    private val tenantsDAO = TenantsDAO()
     private val channelsDAO = ChannelsDAO()
-    private val ownersDAO = OwnersDAO()
+    private val helperClass = HelperClass()
 
     private lateinit var binding: ActivityChatBinding
 
@@ -81,13 +78,7 @@ class ChatActivity : TenantDrawerActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val isTenant = runBlocking { tenantsDAO.isUserTenant(currentUserMail) }
-        val intent: Intent = if(isTenant){
-            Intent(this, TenantActivity::class.java)
-        }else{
-            Intent(this, ChannelsActivity::class.java)
-        }
-        startActivity(intent)
+        helperClass.navigateToNextScreen(this, currentUserMail, ChannelsActivity::class.java)
         finish()
     }
 }
