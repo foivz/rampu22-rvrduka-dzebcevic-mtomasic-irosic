@@ -71,5 +71,6 @@
     <string name="enter_message">Enter message</string>
     <string name="send_button">Send button</string>
     <string name="tenant">Tenant</string>
-    <string name="add_tenant">add_tenant</string>
+    <string name="add_tenant">Add tenant</string>
+    <string name="add_new_tenant">Add new tenant</string>
 </resources>

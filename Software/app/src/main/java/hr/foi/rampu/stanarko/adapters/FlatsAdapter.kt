@@ -1,13 +1,12 @@
 package hr.foi.rampu.stanarko.adapters
 
-import android.content.Intent
+import android.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import hr.foi.rampu.stanarko.R
@@ -25,6 +24,7 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
         private var tenants: RecyclerView
         private val expand: ImageButton
         private val delete: ImageButton
+        private val add_tenant: ImageButton
 
         init {
             flatId = view.findViewById(R.id.tv_flat_id)
@@ -33,6 +33,7 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
             tenants = view.findViewById(R.id.rv_tenant_list)
             expand = view.findViewById(R.id.ib_expand)
             delete = view.findViewById(R.id.ib_delete)
+            add_tenant = view.findViewById(R.id.ib_add_tenant)
         }
         fun bind(flat: Flat) {
             flatId.text = flat.id.toString()
@@ -61,6 +62,20 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
                     tenants.visibility = View.VISIBLE
                     expand.setImageResource(R.drawable.ic_baseline_expand_less_24)
                 }
+            }
+
+            add_tenant.setOnClickListener() {
+                val newTenantDialog = LayoutInflater
+                    .from(flatId.context)
+                    .inflate(R.layout.add_tenant_dialog, null)
+
+                AlertDialog.Builder(flatId.context)
+                    .setView(newTenantDialog)
+                    .setTitle(flatId.context.getString(R.string.add_tenant))
+                    .setPositiveButton(flatId.context.getString(R.string.add_new_tenant)){
+                        _,_ ->
+                    }
+                    .show()
             }
 
             delete.setOnClickListener{
