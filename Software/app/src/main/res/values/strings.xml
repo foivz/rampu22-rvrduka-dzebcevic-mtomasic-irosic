@@ -62,4 +62,5 @@
     <string name="moving_out_button_save_date">Save date</string>
     <string name="date_of_moving_out">Date of moving out:</string>
     <string name="moving_out_hint">Moving out</string>
+    <string name="date_of_moving_out_doesnt_exist_message">No date of moving out</string>
 </resources>

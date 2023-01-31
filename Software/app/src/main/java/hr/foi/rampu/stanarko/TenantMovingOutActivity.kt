@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.databinding.ActivityTenantMovingOutBinding
+import hr.foi.rampu.stanarko.entities.Tenant
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,13 +31,32 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
 
         btnSaveDate = findViewById(R.id.btn_save_moving_out)
         tvMovingDate = findViewById(R.id.tv_moving_out)
-        dateFormat = SimpleDateFormat("dd.MM.yyyy")
-        var userMail = FirebaseAuth.getInstance().currentUser!!.email
+        dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
+        val userMail = FirebaseAuth.getInstance().currentUser!!.email
 
         saveDateToDataBase(userMail)
-
+        loadDataToTextView(userMail)
     }
 
+    private fun loadDataToTextView(userMail: String?) {
+        FirebaseFirestore.getInstance().collection("tenants").whereEqualTo("mail",userMail).get()
+            .addOnSuccessListener {
+                if(!it.isEmpty){
+                    for(data in it.documents){
+                        val contract: Tenant? =data.toObject(Tenant::class.java)
+                        if(contract!!.dateOfMovingOut!=null){
+                            Log.e("------------------------------","posotji date of moving out i ovo je format koji hocu " + dateFormat)
+                            tvMovingDate.text = dateFormat.format(contract.dateOfMovingOut!!)
+                        } else {
+                            tvMovingDate.text = getString(R.string.date_of_moving_out_doesnt_exist_message)
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener{ e ->
+                Log.e("Error message: ","Couldn't retrieve user")
+            }
+    }
     private fun saveDateToDataBase(userMail: String?) {
         var selectedDate :Date
         val cvMovingOut = findViewById<CalendarView>(R.id.cv_tenant_moving_out)
