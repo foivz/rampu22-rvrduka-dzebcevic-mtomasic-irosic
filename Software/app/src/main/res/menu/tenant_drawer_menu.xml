@@ -11,6 +11,17 @@
             android:id="@+id/menu_tenant_moving_out"
             android:title="@string/menu_move_out"/>
         <item
+            android:id="@+id/menu_tenant_dateOfMove"
+            android:title="@string/add_moving_in_date"/>
+        <item
+            android:id="@+id/menu_rents_tenant"
+            android:title="@string/menu_rents"
+            android:icon="@drawable/ic_baseline_payment_24"/>
+        <item
+            android:id="@+id/menu_chat_tenant"
+            android:title="@string/menu_chat_with_owner"
+            android:icon="@drawable/ic_baseline_chat_24"/>
+        <item
             android:id="@+id/menu_log_out_tenant"
             android:title="@string/menu_log_out"
             android:icon="@drawable/ic_baseline_logout_24"/>

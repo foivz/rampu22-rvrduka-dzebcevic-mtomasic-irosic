@@ -1,4 +1,4 @@
-package hr.foi.rampu.teststanarko.adapters
+package hr.foi.rampu.stanarko.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -5,10 +5,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
+import hr.foi.rampu.stanarko.adapters.RentManagerAdapter
 import hr.foi.rampu.stanarko.databinding.ActivityTenantContractManagerBinding
 import hr.foi.rampu.stanarko.fragments.TenantActiveContractsFragment
 import hr.foi.rampu.stanarko.fragments.TenantExpiredContractsFragment
-import hr.foi.rampu.teststanarko.adapters.RentManagerAdapter
 
 class TenantContractManagerActivity : TenantDrawerActivity() {
 

@@ -8,6 +8,17 @@
             android:id="@+id/menu_owner_contracts"
             android:title="@string/menu_contracts"/>
         <item
+            android:id="@+id/menu_add_flat_owner"
+            android:title="@string/add_flat" />
+        <item
+            android:id="@+id/menu_rents_owner"
+            android:title="@string/menu_rents"
+            android:icon="@drawable/ic_baseline_payment_24"/>
+        <item
+            android:id="@+id/menu_chat_owner"
+            android:title="@string/menu_chat_with_tenants"
+            android:icon="@drawable/ic_baseline_chat_24"/>
+        <item
             android:id="@+id/menu_log_out_owner"
             android:title="@string/menu_log_out"
             android:icon="@drawable/ic_baseline_logout_24"/>

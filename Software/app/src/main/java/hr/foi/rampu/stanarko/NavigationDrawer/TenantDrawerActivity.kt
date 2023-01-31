@@ -1,6 +1,9 @@
 package hr.foi.rampu.stanarko.NavigationDrawer
 
+import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.util.Log
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
@@ -8,13 +11,22 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.drawerlayout.widget.DrawerLayout
-import hr.foi.rampu.stanarko.R
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.rampu.stanarko.*
 import com.google.firebase.firestore.FieldValue
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
+import hr.foi.rampu.stanarko.database.ChannelsDAO
+import hr.foi.rampu.stanarko.database.OwnersDAO
+import hr.foi.rampu.stanarko.database.TenantsDAO
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.util.*
 import hr.foi.rampu.stanarko.TenantActivity
 import hr.foi.rampu.stanarko.TenantContractManagerActivity
 import hr.foi.rampu.stanarko.TenantMovingOutActivity
@@ -25,6 +37,8 @@ import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    var currentUser = FirebaseAuth.getInstance().currentUser
+    private val currentUserMail = currentUser?.email.toString()
     private lateinit var drawerLayout: DrawerLayout
     override fun setContentView(view: View?) {
         drawerLayout = layoutInflater.inflate(R.layout.activity_tenant_drawer, null) as DrawerLayout
@@ -58,6 +72,72 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                     }
                 }
             }
+            R.id.menu_rents_tenant -> {
+                val intent = Intent(this, RentManagerActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("mail", currentUser?.email)
+                startActivity(intent)
+            }
+            R.id.menu_chat_tenant -> {
+                val channelsDAO = ChannelsDAO()
+                val tenantsDAO = TenantsDAO()
+                val ownersDAO = OwnersDAO()
+
+                var isUserInFlat = runBlocking { tenantsDAO.isUserInFlat(currentUserMail) }
+                if(isUserInFlat){
+                    val isThereAChannelWithOwner = runBlocking { channelsDAO.isThereChannelWithOwner(currentUserMail) }
+                    if(!isThereAChannelWithOwner){
+                        runBlocking { channelsDAO.createNewChannel(currentUserMail) }
+                    }
+
+                    val channelID = runBlocking {channelsDAO.getChannelID(currentUserMail)}
+                    val intent = Intent(this, ChatActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    intent.putExtra("channel", channelID)
+                    startActivity(intent)
+
+                }else{
+                    Toast.makeText(this,"You have to wait to be added in flat to be able to talk your landlord",Toast.LENGTH_LONG).show()
+                }
+            }
+            R.id.menu_tenant_dateOfMove ->{
+
+
+                val c = Calendar.getInstance()
+                var year = c.get(Calendar.YEAR)
+                var month = c.get(Calendar.MONTH)
+                var day = c.get(Calendar.DAY_OF_MONTH)
+                var selectedDate = ""
+
+
+                val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                    // handle the selected date
+                    var dan = "0"
+                    var mjesec = "0"
+                    if(dayOfMonth<10){
+                        dan+=dayOfMonth.toString()
+                    }
+                    else{
+                        dan = dayOfMonth.toString()
+                    }
+                    if(monthOfYear < 10){
+                        mjesec+=(monthOfYear+1).toString()
+                    }
+                    else{
+                        mjesec = (monthOfYear+1).toString()
+                    }
+
+                    val selectedDate = "$year/$mjesec/$dan"
+                    // use the selected date
+                    var help = TenantsDAO()
+                    help.changeDateOfMovingIn(currentUserMail, selectedDate)
+                }
+
+                val datePickerDialog = DatePickerDialog(this, dateSetListener, year, month, day)
+                datePickerDialog.show()
+
+            }
+
             R.id.menu_tenant_contracts -> {
                 val intent = Intent(this,TenantContractManagerActivity::class.java)
                 startActivity(intent)
@@ -69,6 +149,7 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
             R.id.menu_tenant_moving_out ->{
                 movingOutMenuFunction()
             }
+
         }
         return false
     }

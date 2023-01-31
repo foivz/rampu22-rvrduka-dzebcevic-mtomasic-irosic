@@ -14,8 +14,14 @@ import java.util.*
 
 class RentsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private fun getAllRents(): Task<QuerySnapshot> {
+    fun getAllRents(): Task<QuerySnapshot> {
         return db.collection("rents").get()
+    }
+
+    fun getAllRents(paid:Boolean): Task<QuerySnapshot> {
+        return db.collection("rents")
+            .whereEqualTo("rent_paid", paid)
+            .get()
     }
 
     fun getAllRentsByTenantID(tenantID: Int): Task<QuerySnapshot> {
@@ -119,8 +125,8 @@ class RentsDAO {
         rentsRef.add(Rent(rentsSize + 1, tenant, month, year, false))
     }
 
-    suspend fun payRentByDocumentID(attribute: String, value: Any, attribute2: String, value2: Any, attribute3: String, value3: Any) {
-        val rentsRef = db.collection("rents").whereEqualTo(attribute, value).whereEqualTo(attribute2, value2).whereEqualTo(attribute3, value3)
+    suspend fun payRentByDocumentID(value: Any, value2: Any, value3: Any) {
+        val rentsRef = db.collection("rents").whereEqualTo("id", value).whereEqualTo("month_to_be_paid", value2).whereEqualTo("year_to_be_paid", value3)
         rentsRef.addSnapshotListener { snapshot, e ->
             if (e != null) {
                 Log.w("Listen failed", e)
@@ -143,3 +149,4 @@ class RentsDAO {
         documentReference.update("rent_paid", true).await()
     }
 }
+
