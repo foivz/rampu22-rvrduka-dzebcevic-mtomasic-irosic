@@ -1,8 +1,6 @@
 package hr.foi.rampu.stanarko
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -10,8 +8,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
+import hr.foi.rampu.stanarko.database.MalfunctionsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityTenantBinding
+import hr.foi.rampu.stanarko.entities.Tenant
 import hr.foi.rampu.stanarko.helpers.MockDataLoader
+import hr.foi.rampu.stanarko.helpers.NewMalfunctionDialogHelper
 import kotlinx.coroutines.runBlocking
 
 class TenantActivity : TenantDrawerActivity() {
@@ -38,13 +39,13 @@ class TenantActivity : TenantDrawerActivity() {
                 append(user.flat.owner.surname)
                 malfunctionButton.visibility = View.VISIBLE
                 malfunctionButton.setOnClickListener {
-                    showMalfunction()
+                    showMalfunction(user)
                 }
             }
         }
     }
 
-    private fun showMalfunction() {
+    private fun showMalfunction(tenant: Tenant) {
         val newMalfunctionReportView =
             LayoutInflater
                 .from(this)
@@ -54,7 +55,10 @@ class TenantActivity : TenantDrawerActivity() {
             .setView(newMalfunctionReportView)
             .setTitle(getString(R.string.report_a_malfunction))
             .setPositiveButton(getString(R.string.report)) { _,_ ->
-
+                val helper = NewMalfunctionDialogHelper(newMalfunctionReportView)
+                val malfunction = helper.buildMalfunction(tenant)
+                val malfunctionDAO = MalfunctionsDAO()
+                malfunctionDAO.addMalfunction(malfunction, this)
             }
             .show()
     }
