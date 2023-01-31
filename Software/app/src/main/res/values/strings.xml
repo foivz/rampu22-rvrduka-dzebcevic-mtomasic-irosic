@@ -58,4 +58,6 @@
     <string name="generate_new_contract_dialog">Generate new contract</string>
     <string name="contract_from_start_date">From</string>
     <string name="contract_to_end_date">to</string>
+    <string name="add_flat">Add flat</string>
+    <string name="button_for_deleting_flat">Button for deleting flat</string>
 </resources>

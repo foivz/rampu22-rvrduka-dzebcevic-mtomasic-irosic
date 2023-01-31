@@ -8,6 +8,7 @@ data class Flat(
     val occupied: Boolean,
     val amount: Double,
     val postalCode: Int
+
 ){
     constructor() : this(0, "", "", null, false,0.00,0)
 }

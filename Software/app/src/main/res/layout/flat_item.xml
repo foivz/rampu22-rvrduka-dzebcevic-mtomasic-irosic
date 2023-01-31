@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp"
-        android:layout_margin="10dp"
-        >
+        android:layout_margin="10dp">
         <TextView
             android:id="@+id/tv_flat_id"
             android:layout_width="wrap_content"
@@ -30,6 +29,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Occupied" />
+
+        <ImageButton
+            android:contentDescription="@string/button_for_deleting_flat"
+            android:id="@+id/ib_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            app:srcCompat="@drawable/ic_delete_flat_icon" />
         <ImageButton
             android:contentDescription="@string/button_expand"
             android:id="@+id/ib_expand"

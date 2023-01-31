@@ -27,6 +27,20 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".DeleteFlatActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AddFlatActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".NavigationDrawer.TenantDrawerActivity"
             android:exported="false">
             <meta-data
