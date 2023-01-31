@@ -11,4 +11,7 @@ class Tenant(
     role: Role = Role.TENANT
 ) : Person( name, surname, phoneNumber, mail, password, role){
     constructor() : this( "", "", "", "", "", null, "", Role.TENANT)
+    override fun toString(): String {
+        return "$name $surname"
+    }
 }

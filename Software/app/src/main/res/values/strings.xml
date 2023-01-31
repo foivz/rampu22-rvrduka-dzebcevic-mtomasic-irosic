@@ -19,12 +19,12 @@
     <string name="flat_occupied">Occupied</string>
     <string name="racuni">Računi</string>
     <string name="placeholder_text">Placeholder text</string>
-    <string name="rent_title">Detalji računa</string>
-    <string name="rent_main_title">Detalji računa</string>
+    <string name="rent_title">Rent bill title:</string>
+    <string name="rent_main_title">Rent bill details:</string>
     <string name="label_rent_tenant">Ime stanara:</string>
-    <string name="label_rent_month">Mjesec plaćanja:</string>
-    <string name="label_rent_year">Godina plaćanja:</string>
-    <string name="label_rent_name">Naziv računa:</string>
+    <string name="label_rent_month">Month to be paid:</string>
+    <string name="label_rent_year">Year to be paid:</string>
+    <string name="label_rent_name">Rent name:</string>
     <string name="paid_rent">Paid rent</string>
     <string name="unpaid_rent">Unpaid rent</string>
     <string name="test_money_amount">350 €</string>
@@ -58,4 +58,17 @@
     <string name="generate_new_contract_dialog">Generate new contract</string>
     <string name="contract_from_start_date">From</string>
     <string name="contract_to_end_date">to</string>
+    <string name="add_flat">Add flat</string>
+    <string name="button_for_deleting_flat">Button for deleting flat</string>
+    <string name="menu_rents">Rents</string>
+    <string name="menu_chat_with_owner">Chat with owner</string>
+    <string name="menu_chat_with_tenants">Chat with tenants</string>
+    <string name="message_time_10_30">10:30</string>
+    <string name="chat_user_markic12">markic12</string>
+    <string name="chat_message_good_morning">Good morning!</string>
+    <string name="create_new_conversation_between_owner_and_tenant">Create new conversation between owner and tenant</string>
+    <string name="back_button">Back button</string>
+    <string name="enter_message">Enter message</string>
+    <string name="send_button">Send button</string>
+    <string name="tenant">Tenant</string>
 </resources>
