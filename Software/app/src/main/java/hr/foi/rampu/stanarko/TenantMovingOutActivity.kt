@@ -19,7 +19,9 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
     private  lateinit var binding: ActivityTenantMovingOutBinding
     private lateinit var btnSaveDate: Button
     private lateinit var tvMovingDate: TextView
+    private lateinit var cvMovingOut: CalendarView
     private lateinit var dateFormat: SimpleDateFormat
+    private var db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +29,9 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
         setContentView(binding.root)
         allocatedActivityTitle("Moving out")
 
-
-
         btnSaveDate = findViewById(R.id.btn_save_moving_out)
         tvMovingDate = findViewById(R.id.tv_moving_out)
+        cvMovingOut = findViewById(R.id.cv_tenant_moving_out)
         dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
         val userMail = FirebaseAuth.getInstance().currentUser!!.email
 
@@ -39,7 +40,7 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
     }
 
     private fun loadDataToTextView(userMail: String?) {
-        FirebaseFirestore.getInstance().collection("tenants").whereEqualTo("mail",userMail).get()
+        db.collection("tenants").whereEqualTo("mail",userMail).get()
             .addOnSuccessListener {
                 if(!it.isEmpty){
                     for(data in it.documents){
@@ -59,7 +60,6 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
     }
     private fun saveDateToDataBase(userMail: String?) {
         var selectedDate :Date
-        val cvMovingOut = findViewById<CalendarView>(R.id.cv_tenant_moving_out)
 
         selectedDate = Calendar.getInstance().time
         cvMovingOut.setOnDateChangeListener { _, year, month, dayOfMonth ->

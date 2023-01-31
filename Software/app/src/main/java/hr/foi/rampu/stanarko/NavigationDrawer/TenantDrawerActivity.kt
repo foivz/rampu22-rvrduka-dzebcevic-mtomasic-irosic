@@ -12,10 +12,12 @@ import hr.foi.rampu.stanarko.R
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
 import hr.foi.rampu.stanarko.TenantActivity
 import hr.foi.rampu.stanarko.TenantContractManagerActivity
 import hr.foi.rampu.stanarko.TenantMovingOutActivity
+import hr.foi.rampu.stanarko.entities.Tenant
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var drawerLayout: DrawerLayout
@@ -60,8 +62,19 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                 startActivity(intent)
             }
             R.id.menu_tenant_moving_out ->{
-                val intent = Intent(this,TenantMovingOutActivity::class.java)
-                startActivity(intent)
+                val userMail = FirebaseAuth.getInstance().currentUser!!.email
+                FirebaseFirestore.getInstance().collection("tenants").whereEqualTo("mail",userMail).get()
+                    .addOnSuccessListener { documents ->
+                        if(documents.size()>0){
+                            val document = documents.first().toObject(Tenant::class.java)
+                            if (document.flat!=null){
+                                val intent = Intent(this,TenantMovingOutActivity::class.java)
+                                startActivity(intent)
+                            }else{
+                                Toast.makeText(baseContext, "You don't have a flat", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
             }
         }
         return false
