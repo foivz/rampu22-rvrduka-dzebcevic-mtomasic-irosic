@@ -12,12 +12,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.AddFlatActivity
+import hr.foi.rampu.stanarko.ChannelsActivity
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
 import hr.foi.rampu.stanarko.MainActivity
 import hr.foi.rampu.stanarko.OwnerContractManagerActivity
 import hr.foi.rampu.stanarko.R
+import hr.foi.rampu.stanarko.RentManagerActivity
 
 open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    open var currentUser = FirebaseAuth.getInstance().currentUser
     lateinit var drawerLayout: DrawerLayout
     override fun setContentView(view: View?) {
         drawerLayout = layoutInflater.inflate(R.layout.activity_owner_drawer,null) as DrawerLayout
@@ -37,7 +40,6 @@ open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_log_out_owner ->{
-                var currentUser = FirebaseAuth.getInstance().currentUser
                 if(currentUser!=null){
                     FirebaseAuth.getInstance().signOut()
                     currentUser = FirebaseAuth.getInstance().currentUser
@@ -49,6 +51,18 @@ open class OwnerDrawerActivity : AppCompatActivity(), NavigationView.OnNavigatio
                         Toast.makeText(this,getString(R.string.failed_to_log_out_message),Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+            R.id.menu_rents_owner -> {
+                val intent = Intent(this, RentManagerActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("mail", currentUser?.email)
+                startActivity(intent)
+            }
+            R.id.menu_chat_owner -> {
+                val intent = Intent(this, ChannelsActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.putExtra("mail", currentUser?.email)
+                startActivity(intent)
             }
             R.id.menu_owner_contracts ->{
                 val intent = Intent(this,OwnerContractManagerActivity::class.java)

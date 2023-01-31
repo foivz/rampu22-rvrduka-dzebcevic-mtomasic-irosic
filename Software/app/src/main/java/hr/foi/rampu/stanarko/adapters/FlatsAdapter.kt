@@ -77,7 +77,6 @@ class FlatsAdapter(private var flatsList: MutableList<Flat>) : RecyclerView.Adap
 
             }
         }
-
     }
 
     fun refresh(){

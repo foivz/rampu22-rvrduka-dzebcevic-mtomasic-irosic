@@ -72,7 +72,7 @@ class RentsAdapter(
                         .setTitle("Rent details")
                         .setNeutralButton("Pay rent") { _, _ ->
                             val paidRent = rentLists[adapterPosition]
-                            runBlocking {rentsDAO.payRentByDocumentID("id", paidRent.id, "month_to_be_paid", paidRent.month_to_be_paid, "year_to_be_paid", paidRent.year_to_be_paid)}
+                            runBlocking {rentsDAO.payRentByDocumentID(paidRent.id, paidRent.month_to_be_paid, paidRent.year_to_be_paid)}
                             removeRentFromList()
                             onPaidRent?.invoke(paidRent.id, paidRent.month_to_be_paid, paidRent.year_to_be_paid)
                         }
