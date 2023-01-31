@@ -31,13 +31,13 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
         fun bind(flat: Flat) {
             flatId.text = flat.id.toString()
             flatAdress.text = flat.address
-            flatOccupied.text = when(flat.occupied) {
-                false -> tenants.context.getString(R.string.flat_free)
-                true -> tenants.context.getString(R.string.flat_occupied)
-            }
             val firebaseTenants = runBlocking { DataLoader.getFirebaseTenants(flat.id) }
             if(firebaseTenants.isEmpty()){
                 expand.visibility = View.GONE
+                flatOccupied.text = tenants.context.getString(R.string.flat_free)
+            }
+            else{
+                flatOccupied.text = tenants.context.getString(R.string.flat_occupied)
             }
             tenants.adapter = TenantsAdapter(firebaseTenants)
             tenants.layoutManager = LinearLayoutManager(tenants.context)
