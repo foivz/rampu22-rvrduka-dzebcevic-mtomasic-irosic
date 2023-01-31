@@ -13,10 +13,11 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import hr.foi.rampu.stanarko.ChatActivity
+import hr.foi.rampu.stanarko.ChatActivityOwner
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.database.ChannelsDAO
+import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Channel
-import hr.foi.rampu.stanarko.entities.Chat
 import kotlinx.coroutines.runBlocking
 
 class ChannelAdapter(
@@ -33,6 +34,7 @@ class ChannelAdapter(
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val currentUserMail = currentUser?.email.toString()
     private val channelsDAO = ChannelsDAO()
+    private val tenantsDAO = TenantsDAO()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Channel) {
         if (position < itemCount) {
@@ -59,10 +61,18 @@ class ChannelAdapter(
 
             itemView.setOnClickListener {
                 val channel = snapshots.getSnapshot(adapterPosition)
-                val intent = Intent(itemView.context, ChatActivity::class.java)
+                val isTenant = runBlocking { tenantsDAO.isUserTenant(currentUserMail) }
+                Log.w("ISTENANT", isTenant.toString())
+                var intent: Intent = if(isTenant){
+                    Intent(itemView.context, ChatActivity::class.java)
+                }else{
+                    Intent(itemView.context, ChatActivityOwner::class.java)
+                }
+
                 intent.putExtra("channel", channel.id)
                 intent.putExtra("chatPartner",
                     channel.toObject(Channel::class.java)?.let { ch -> getChatPartner(ch) })
+
                 itemView.context.startActivity(intent)
             }
         }

@@ -82,12 +82,12 @@ class ChannelsDAO {
     }
 
     suspend fun getLatestCreatedChannel() : Channel?{
-        val rentsRef = db.collection("channels")
+        val channelRef = db.collection("channels")
             .orderBy("dateCreated", Query.Direction.DESCENDING)
             .limit(1)
             .get()
             .await()
-        val documents = rentsRef.documents
+        val documents = channelRef.documents
         return documents[0].toObject(Channel::class.java)
     }
 

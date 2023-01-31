@@ -74,7 +74,7 @@ class ChannelsActivity : OwnerDrawerActivity() {
                             if (channel != null) {
                                 Log.w("CHANNEL", channel.id)
                             }
-                            val intent = Intent(this, ChatActivity::class.java)
+                            val intent = Intent(this, ChatActivityOwner::class.java)
                             intent.putExtra("channel", channel?.id)
                             intent.putExtra("chatPartner", channel?.let { ch -> getChatPartner(ch) })
                             startActivity(intent)
