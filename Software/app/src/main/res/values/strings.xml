@@ -74,4 +74,6 @@
     <string name="add_moving_in_date">Add moving in date</string>
     <string name="add_tenant">Add tenant</string>
     <string name="add_new_tenant">Add new tenant</string>
+    <string name="not_in_flat">Currently not in a flat</string>
+    <string name="flat_from">You are in flat from</string>
 </resources>
