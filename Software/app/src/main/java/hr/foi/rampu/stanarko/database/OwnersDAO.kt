@@ -6,13 +6,12 @@ import hr.foi.rampu.stanarko.entities.Tenant
 import kotlinx.coroutines.tasks.await
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.QuerySnapshot
-import hr.foi.rampu.stanarko.entities.Flat
 
 class OwnersDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    suspend fun getOwner(tenantMail: String): Owner? {
+    suspend fun getOwner(ownerMail: String): Owner? {
         val ownerRef = db.collection("tenants")
-            .whereEqualTo("mail", tenantMail)
+            .whereEqualTo("mail", ownerMail)
             .get()
             .await()
         val documents = ownerRef.documents

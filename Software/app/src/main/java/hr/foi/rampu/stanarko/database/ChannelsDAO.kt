@@ -131,4 +131,19 @@ class ChannelsDAO {
             participants[0]
         }
     }
+
+    suspend fun getLastChannelMessage(channel: Channel): Chat?{
+        val channel = channelRef.document(channel.id).collection("messages")
+            .whereNotEqualTo("timestamp", null)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .limit(1)
+            .get()
+            .await()
+        val documents = channel.documents
+        return if(documents.size > 0){
+            documents[0].toObject(Chat::class.java)
+        }else{
+            null
+        }
+    }
 }
