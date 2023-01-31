@@ -24,6 +24,14 @@ object MockDataLoader {
         flats.addAll(result.toObjects(Flat::class.java))
         return flats
     }
+    suspend fun getFirebaseFlatsByOwner(mail: String): List<Flat> {
+        val flatsDAO = FlatsDAO()
+        val flats = mutableListOf<Flat>()
+        val result = flatsDAO.getFlatsByOwnerMail(mail).await()
+        flats.addAll(result.toObjects(Flat::class.java))
+        return flats
+    }
+
     suspend fun getFirebaseTenants(id: Int): List<Tenant> {
         val tenantsDAO = TenantsDAO()
         val tenants = mutableListOf<Tenant>()

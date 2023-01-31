@@ -32,8 +32,8 @@ class FlatsAdapter(private val flatsList : List<Flat>) : RecyclerView.Adapter<Fl
             flatId.text = flat.id.toString()
             flatAdress.text = flat.address
             flatOccupied.text = when(flat.occupied) {
-                false -> "Free"
-                true -> "Occupied"
+                false -> tenants.context.getString(R.string.flat_free)
+                true -> tenants.context.getString(R.string.flat_occupied)
             }
             val firebaseTenants = runBlocking { MockDataLoader.getFirebaseTenants(flat.id) }
             if(firebaseTenants.isEmpty()){
