@@ -59,7 +59,6 @@ class TenantsDAO {
 
     fun changeDateOfMovingIn(email: String, selectedDate: String){
         val db = FirebaseFirestore.getInstance()
-        Log.d("DADA", selectedDate)
 
         var dateUpdated = false
         val referenceToDatabase = db.collection("tenants").whereEqualTo("mail", email)
@@ -72,7 +71,6 @@ class TenantsDAO {
                 documents.forEach{
                     val helpVariable = it.toObject(Tenant::class.java)
                     if (helpVariable != null) {
-                        Log.d("DADA", selectedDate+"2222")
                         db.collection("tenants").document(it.id).update("dateOfMovingIn", selectedDate )
                         dateUpdated = true
                     }
@@ -84,18 +82,20 @@ class TenantsDAO {
     fun changeFlatOfTenant(value: String,value2: Flat){
 
         val db = FirebaseFirestore.getInstance()
+        var flatUpdated = false
 
         val referenceToDatabase = db.collection("tenants").whereEqualTo("mail", value)
         referenceToDatabase.addSnapshotListener{snapshot, e->
             if(e != null){
                 Log.d("GRESKA", e.message.toString())
             }
-            if(snapshot != null){
+            if(snapshot != null && !flatUpdated){
                 val documents = snapshot.documents
                 documents.forEach{
                     val helpVariable = it.toObject(Tenant::class.java)
                     if (helpVariable != null) {
                         db.collection("tenants").document(it.id).update("flat", value2 )
+                        flatUpdated = true
                     }
                 }
             }
