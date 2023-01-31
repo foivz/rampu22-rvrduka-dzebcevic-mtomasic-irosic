@@ -19,6 +19,7 @@ class FlatsDAO {
         return db.collection("flats").get()
     }
 
+
     fun getFlatsByOwnerMail(mail: String): Task<QuerySnapshot> {
         return db.collection("flats")
             .whereEqualTo("owner.mail", mail)

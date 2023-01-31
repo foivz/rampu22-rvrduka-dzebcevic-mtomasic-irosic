@@ -31,4 +31,12 @@ object MockDataLoader {
         tenants.addAll(result.toObjects(Tenant::class.java))
         return tenants
     }
+
+    suspend fun getFirebaseTenantsByAdress(adresa: String): List<Tenant> {
+        val tenantsDAO = TenantsDAO()
+        val tenants = mutableListOf<Tenant>()
+        val result = tenantsDAO.getTenantsByFlatAddress(adresa).await()
+        tenants.addAll(result.toObjects(Tenant::class.java))
+        return tenants
+    }
 }

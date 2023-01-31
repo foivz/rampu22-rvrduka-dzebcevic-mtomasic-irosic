@@ -48,7 +48,7 @@ class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Ada
                 false -> "Free"
                 true -> "Occupied"
             }
-            val firebaseTenants = runBlocking { MockDataLoader.getFirebaseTenants(flat.id) }
+            val firebaseTenants = runBlocking { MockDataLoader.getFirebaseTenantsByAdress(flat.address) }
             if(firebaseTenants.isEmpty()){
                 expand.visibility = View.GONE
             }
@@ -57,6 +57,7 @@ class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Ada
             tenants.visibility = View.GONE
 
             expand.setOnClickListener {
+
                 // If the CardView is already expanded, set its visibility
                 // to gone and change the expand less icon to expand more.
                 if (tenants.visibility == View.VISIBLE) {
@@ -70,7 +71,7 @@ class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Ada
                 }
             }
 
-            add_tenant.setOnClickListener() {
+            add_tenant.setOnClickListener {
                 val newTenantDialog = LayoutInflater
                     .from(flatId.context)
                     .inflate(R.layout.add_tenant_dialog, null)
@@ -82,7 +83,7 @@ class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Ada
                         var emailAddress = newTenantDialog.findViewById<EditText>(R.id.et_tenant_mail)
                         var helperVariable = TenantsDAO()
                         helperVariable.changeFlatOfTenant(emailAddress.text.toString(), flat)
-
+                        notifyDataSetChanged()
                     }
                     .show()
 
