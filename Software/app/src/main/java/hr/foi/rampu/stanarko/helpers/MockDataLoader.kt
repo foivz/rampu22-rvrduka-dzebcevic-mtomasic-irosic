@@ -6,7 +6,7 @@ import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.entities.Tenant
 import kotlinx.coroutines.tasks.await
 
-object DataLoader {
+object MockDataLoader {
 
     suspend fun getFirebaseFlats(): List<Flat> {
         val flatsDAO = FlatsDAO()
