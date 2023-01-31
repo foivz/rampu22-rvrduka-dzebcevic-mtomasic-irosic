@@ -39,4 +39,9 @@ class TenantsDAO {
             .whereEqualTo("flat.id", flatID)
             .get()
     }
+    fun getTenantsByFlatAddress(flatAddress : String): Task<QuerySnapshot> {
+        return db.collection("tenants")
+            .whereEqualTo("flat.address", flatAddress)
+            .get()
+    }
 }

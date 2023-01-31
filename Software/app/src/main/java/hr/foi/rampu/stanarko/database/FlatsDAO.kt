@@ -37,7 +37,7 @@ class FlatsDAO {
                     val helpVariable = it.toObject(Flat::class.java)
                     if(helpVariable != null){
                         var tenant = TenantsDAO()
-                        tenant.getTenantsByFlatId(attribute2).addOnSuccessListener { snapshot ->
+                        tenant.getTenantsByFlatAddress(value as String).addOnSuccessListener { snapshot ->
                             var allTenants = snapshot.toObjects(Tenant::class.java)
                             if(allTenants.isEmpty()){
                                 db.collection("flats").document(it.id).delete()
