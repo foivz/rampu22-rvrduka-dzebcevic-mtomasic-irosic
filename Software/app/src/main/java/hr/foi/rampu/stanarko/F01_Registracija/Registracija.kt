@@ -53,7 +53,6 @@ class Registracija : AppCompatActivity() {
                         surname = surname,
                         phoneNumber = phoneNumber,
                         mail = mail,
-                        password = password,
                         flat = null,
                         dateOfMovingIn = null,
                         dateOfMovingOut = null

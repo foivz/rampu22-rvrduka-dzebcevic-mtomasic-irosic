@@ -7,21 +7,24 @@ import android.widget.CalendarView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
+import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityTenantMovingOutBinding
 import hr.foi.rampu.stanarko.entities.Tenant
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.Duration.Companion.milliseconds
 
 class TenantMovingOutActivity : TenantDrawerActivity() {
 
     private  lateinit var binding: ActivityTenantMovingOutBinding
     private lateinit var btnSaveDate: Button
     private lateinit var tvMovingDate: TextView
+    private lateinit var tvDaysUntilMovingDate: TextView
     private lateinit var cvMovingOut: CalendarView
     private lateinit var dateFormat: SimpleDateFormat
-    private var db = FirebaseFirestore.getInstance()
+    private var today = Calendar.getInstance().time
+    private var tenant = TenantsDAO()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,7 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
         btnSaveDate = findViewById(R.id.btn_save_moving_out)
         tvMovingDate = findViewById(R.id.tv_moving_out)
         cvMovingOut = findViewById(R.id.cv_tenant_moving_out)
+        tvDaysUntilMovingDate = findViewById(R.id.tv_days_until_moving_out)
         dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
         val userMail = FirebaseAuth.getInstance().currentUser!!.email
 
@@ -40,17 +44,14 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
     }
 
     private fun loadDataToTextView(userMail: String?) {
-        db.collection("tenants").whereEqualTo("mail",userMail).get()
+        tenant.getTenantByMail(userMail!!)
             .addOnSuccessListener {
                 if(!it.isEmpty){
-                    for(data in it.documents){
-                        val contract: Tenant? =data.toObject(Tenant::class.java)
-                        if(contract!!.dateOfMovingOut!=null){
-                            Log.e("------------------------------","posotji date of moving out i ovo je format koji hocu " + dateFormat)
-                            tvMovingDate.text = dateFormat.format(contract.dateOfMovingOut!!)
-                        } else {
-                            tvMovingDate.text = getString(R.string.date_of_moving_out_doesnt_exist_message)
-                        }
+                    val document = it.documents.first().toObject(Tenant::class.java)
+                    if (document!!.dateOfMovingOut!=null){
+                        loadDataToView(document.dateOfMovingOut)
+                    }else{
+                        tvMovingDate.text = getString(R.string.date_of_moving_out_doesnt_exist_message)
                     }
                 }
             }
@@ -58,33 +59,51 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
                 Log.e("Error message: ","Couldn't retrieve user")
             }
     }
-    private fun saveDateToDataBase(userMail: String?) {
-        var selectedDate :Date
 
-        selectedDate = Calendar.getInstance().time
+    private fun saveDateToDataBase(userMail: String?) {
+
+        var selectedDate = Calendar.getInstance().time
         cvMovingOut.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance()
             calendar.set(year, month, dayOfMonth)
             selectedDate = calendar.time
         }
+
+        val calendar = Calendar.getInstance()
+        calendar.time = today
+        calendar.add(Calendar.DATE,30)
+        val future30 = calendar.time
+
         btnSaveDate.setOnClickListener {
-            FirebaseFirestore.getInstance().collection("tenants").whereEqualTo("mail",userMail).get()
-                .addOnSuccessListener { documents ->
-                    if(documents.size()>0){
-                        val document = documents.first()
-                        document.reference.update("dateOfMovingOut",selectedDate)
-                            .addOnSuccessListener {
-                                tvMovingDate.text = dateFormat.format(selectedDate)
-                                Log.e("--------------------------------------","Uspijesno dodan: "+selectedDate)
-                            }
-                            .addOnFailureListener { e->
-                                Toast.makeText(this.baseContext, "Error: "+e.message, Toast.LENGTH_SHORT).show()
-                            }
+            tenant.getTenantByMail(userMail!!)
+                .addOnSuccessListener {
+                    if (selectedDate.after(future30)){
+                        if(!it.isEmpty){
+                            val document = it.documents.first()
+                            document.reference.update("dateOfMovingOut",selectedDate)
+                                .addOnSuccessListener {
+                                    loadDataToView(selectedDate)
+                                    //moveOutFromFlat(userMail)
+                                    Log.e("DATA","Uspijesno dodan datum: "+dateFormat.format(selectedDate))
+                                }
+                                .addOnFailureListener { e->
+                                    Toast.makeText(this.baseContext, "Error: "+e.message, Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                    }else{
+                        Toast.makeText(baseContext, "Chosen date must be 30 days from now", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener { e->
                     Toast.makeText(this.baseContext, "Error: "+e.message, Toast.LENGTH_SHORT).show()
                 }
         }
+    }
+
+
+    private fun loadDataToView(selectedDate: Date?) {
+        tvMovingDate.text = dateFormat.format(selectedDate!!)
+        val difference = selectedDate.time.milliseconds - today.time.milliseconds
+        tvDaysUntilMovingDate.text = difference.inWholeDays.toString()
     }
 }

@@ -7,11 +7,10 @@ class Tenant(
     surname: String,
     phoneNumber: String,
     mail: String,
-    password: String,
     val flat: Flat?,
     val dateOfMovingIn: String?,
     val dateOfMovingOut: Date?,
     role: Role = Role.TENANT
-) : Person( name, surname, phoneNumber, mail, password, role){
-    constructor() : this( "", "", "", "", "", null, "",null, Role.TENANT)
+) : Person( name, surname, phoneNumber, mail, role){
+    constructor() : this( "", "", "", "", null, "", null, Role.TENANT)
 }

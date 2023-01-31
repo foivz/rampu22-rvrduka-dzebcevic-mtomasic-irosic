@@ -5,9 +5,8 @@ class Owner(
     surname: String,
     phoneNumber: String,
     mail: String,
-    password: String,
     role: Role = Role.OWNER
-) : Person( name, surname, phoneNumber, mail, password,role){
+) : Person( name, surname, phoneNumber, mail,role){
 
-    constructor() : this( "", "", "", "", "", Role.OWNER)
+    constructor() : this( "", "", "", "", Role.OWNER)
 }

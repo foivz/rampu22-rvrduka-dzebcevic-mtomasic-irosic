@@ -63,4 +63,7 @@
     <string name="date_of_moving_out">Date of moving out:</string>
     <string name="moving_out_hint">Moving out</string>
     <string name="date_of_moving_out_doesnt_exist_message">No date of moving out</string>
+    <string name="days_left_until_moving_out">Days left until moving out:</string>
+    <string name="days_left_moving_out">Days left</string>
+    <string name="moving_out_day_limit">Chose date that is at least 30 days from now</string>
 </resources>
