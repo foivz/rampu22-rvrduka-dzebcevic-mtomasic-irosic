@@ -9,18 +9,19 @@ import hr.foi.rampu.stanarko.entities.Tenant
 
 class FlatsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val flatsRef = db.collection("flats")
 
     fun getFlatByID(flatID : Int): Task<QuerySnapshot> {
-        return db.collection("flats")
+        return flatsRef
             .whereEqualTo("id", flatID)
             .get()
     }
     fun getAllFlats(): Task<QuerySnapshot> {
-        return db.collection("flats").get()
+        return flatsRef.get()
     }
 
     fun getFlatsByOwnerMail(mail: String): Task<QuerySnapshot> {
-        return db.collection("flats")
+        return flatsRef
             .whereEqualTo("owner.mail", mail)
             .get()
     }

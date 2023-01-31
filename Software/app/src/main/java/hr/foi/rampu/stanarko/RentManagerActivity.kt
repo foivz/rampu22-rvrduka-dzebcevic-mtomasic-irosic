@@ -9,11 +9,13 @@ import hr.foi.rampu.stanarko.fragments.UnpaidRentFragment
 import hr.foi.rampu.stanarko.adapters.RentManagerAdapter
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityRentManagerBinding
+import hr.foi.rampu.stanarko.helpers.HelperClass
 import kotlinx.coroutines.runBlocking
 
 class RentManagerActivity : TenantDrawerActivity() {
     private val currentUserMail = currentUser?.email.toString()
     private val tenantsDAO = TenantsDAO()
+    private val helperClass = HelperClass()
 
     private lateinit var binding: ActivityRentManagerBinding
 
@@ -47,13 +49,7 @@ class RentManagerActivity : TenantDrawerActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val isTenant = runBlocking { tenantsDAO.isUserTenant(currentUserMail) }
-        val intent: Intent = if(isTenant){
-            Intent(this, TenantActivity::class.java)
-        }else{
-            Intent(this, MainActivity::class.java)
-        }
-        startActivity(intent)
+        helperClass.navigateToNextScreen(this, currentUserMail)
         finish()
     }
 }

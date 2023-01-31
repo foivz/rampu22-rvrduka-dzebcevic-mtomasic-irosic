@@ -13,7 +13,7 @@ class TenantsDAO {
     private val tenantsRef = db.collection("tenants")
 
     suspend fun isUserTenant(userMail: String) : Boolean{
-        val tenant = db.collection("tenants")
+        val tenant = tenantsRef
             .whereEqualTo("mail", userMail)
             .get()
             .await()
@@ -21,7 +21,7 @@ class TenantsDAO {
     }
 
     suspend fun isUserInFlat(userMail: String) : Boolean{
-        val tenant = db.collection("tenants")
+        val tenant = tenantsRef
             .whereEqualTo("mail", userMail)
             .whereEqualTo("flat", null)
             .get()
@@ -30,7 +30,7 @@ class TenantsDAO {
     }
 
     suspend fun getTenant(userMail: String) : Tenant? {
-        val tenant = db.collection("tenants")
+        val tenant = tenantsRef
             .whereEqualTo("mail", userMail)
             .get()
             .await()
@@ -44,11 +44,12 @@ class TenantsDAO {
     }
 
     fun getAllTenants(): Task<QuerySnapshot> {
-        return db.collection("tenants").get()
+        return tenantsRef
+            .get()
     }
 
     fun getTenantsWithFlat(): Task<QuerySnapshot> {
-        return db.collection("tenants")
+        return tenantsRef
             .whereNotEqualTo("flat", null)
             .get()
     }
@@ -71,18 +72,18 @@ class TenantsDAO {
     }
 
     fun createTenant(tenant: Tenant, context: Context){
-        db.collection("tenants").add(tenant).addOnFailureListener { e ->
+        tenantsRef.add(tenant).addOnFailureListener { e ->
             Toast.makeText(context,"Error:${e.message}",Toast.LENGTH_SHORT).show()
         }
     }
 
     fun getTenantsByFlatId(flatID : Int): Task<QuerySnapshot> {
-        return db.collection("tenants")
+        return tenantsRef
             .whereEqualTo("flat.id", flatID)
             .get()
     }
     fun getTenantsByFlatAddress(flatAddress : String): Task<QuerySnapshot> {
-        return db.collection("tenants")
+        return tenantsRef
             .whereEqualTo("flat.address", flatAddress)
             .get()
     }
