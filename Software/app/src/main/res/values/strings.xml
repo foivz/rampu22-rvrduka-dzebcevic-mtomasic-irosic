@@ -79,4 +79,6 @@
     <string name="report_malfunction">Report a\n malfunction</string>
     <string name="malfunction_description">Malfunction description</string>
     <string name="describe_the_malfunction">Describe the malfunction</string>
+    <string name="report_a_malfunction">Report a malfunction</string>
+    <string name="report">Report</string>
 </resources>
