@@ -10,6 +10,6 @@ import java.util.*
 class NewMalfunctionDialogHelper(private val view: View) {
     fun buildMalfunction(tenant: Tenant) : Malfunction{
         val description = view.findViewById<EditText>(R.id.et_malfunction_description).text.toString()
-        return Malfunction(description, tenant.flat, Date() )
+        return Malfunction(description, tenant.flat, Date(), false, tenant )
     }
 }
