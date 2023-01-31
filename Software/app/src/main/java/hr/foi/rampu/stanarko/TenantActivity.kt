@@ -12,7 +12,7 @@ import kotlinx.coroutines.runBlocking
 
 class TenantActivity : TenantDrawerActivity() {
 
-    lateinit var status : TextView
+    lateinit var status: TextView
     lateinit var binding: ActivityTenantBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,16 +21,15 @@ class TenantActivity : TenantDrawerActivity() {
         allocatedActivityTitle("TenantActivity")
         val userMail = FirebaseAuth.getInstance().currentUser?.email
         val user = runBlocking { MockDataLoader.getTenantByMail(userMail!!) }
-        if(user.flat != null) {
+        if (user.flat != null) {
             status = findViewById(R.id.tv_belongs_to_flat)
             status.text = buildString {
-        append(getString(R.string.flat_from))
+                append(getString(R.string.flat_from))
                 append(" ")
                 append(user.flat.owner!!.name)
                 append(" ")
                 append(user.flat.owner.surname)
-    }
+            }
         }
-
     }
 }
