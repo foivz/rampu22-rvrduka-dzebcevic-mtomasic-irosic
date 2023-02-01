@@ -57,6 +57,7 @@ class TenantActivity : TenantDrawerActivity() {
 
         AlertDialog.Builder(this)
             .setView(newMalfunctionReportView)
+
             .setTitle(getString(R.string.report_a_malfunction))
             .setPositiveButton(getString(R.string.report)) { _,_ ->
                 val helper = NewMalfunctionDialogHelper(newMalfunctionReportView)
