@@ -96,4 +96,5 @@
     <string name="contract_list_date2_hint">Date2</string>
     <string name="malfunction_notification_title">Malfunction report</string>
     <string name="malfunction_reported">A malfunction is reported</string>
+    <string name="menu_home">Home</string>
 </resources>
