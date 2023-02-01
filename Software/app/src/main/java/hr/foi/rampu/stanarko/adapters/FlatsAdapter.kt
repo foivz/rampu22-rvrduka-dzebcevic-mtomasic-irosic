@@ -51,6 +51,10 @@ class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Ada
             val firebaseTenants = runBlocking { MockDataLoader.getFirebaseTenantsByAdress(flat.address) }
             if(firebaseTenants.isEmpty()){
                 expand.visibility = View.GONE
+                flatOccupied.text = flatAdress.context.getString(R.string.flat_free)
+            }
+            else {
+                flatOccupied.text = flatAdress.context.getString(R.string.flat_occupied)
             }
             tenants.adapter = TenantsAdapter(firebaseTenants)
             tenants.layoutManager = LinearLayoutManager(tenants.context)
