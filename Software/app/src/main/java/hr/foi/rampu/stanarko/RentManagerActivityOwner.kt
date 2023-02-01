@@ -7,7 +7,6 @@ import androidx.viewpager2.widget.ViewPager2
 import hr.foi.rampu.stanarko.NavigationDrawer.OwnerDrawerActivity
 import hr.foi.rampu.stanarko.adapters.RentManagerAdapter
 import hr.foi.rampu.stanarko.database.RentsDAO
-import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityRentManagerOwnerBinding
 import hr.foi.rampu.stanarko.fragments.PaidRentFragment
 import hr.foi.rampu.stanarko.fragments.UnpaidRentFragment
@@ -27,7 +26,7 @@ class RentManagerActivityOwner : OwnerDrawerActivity() {
 
         binding = ActivityRentManagerOwnerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        allocateActivityTitle("Rents")
+        allocateActivityTitle(getString(R.string.rent_main_title))
 
         val rentPagerAdapter = RentManagerAdapter (supportFragmentManager, lifecycle)
         rentPagerAdapter.addFragment(

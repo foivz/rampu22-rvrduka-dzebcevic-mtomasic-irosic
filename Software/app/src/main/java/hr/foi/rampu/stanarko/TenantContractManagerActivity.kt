@@ -20,7 +20,7 @@ class TenantContractManagerActivity : TenantDrawerActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTenantContractManagerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        allocatedActivityTitle("Tenant contracts")
+        allocatedActivityTitle(getString(R.string.tenant_contracts_title))
 
         val contractAdapter = RentManagerAdapter(supportFragmentManager,lifecycle)
         contractAdapter.addFragment(

@@ -42,7 +42,7 @@ class ChannelsActivity : OwnerDrawerActivity() {
         binding = ActivityChannelsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        allocateActivityTitle("Chat to tenants")
+        allocateActivityTitle("Chat with tenants")
 
         db = FirebaseFirestore.getInstance()
         recyclerView = findViewById(R.id.rv_channels)

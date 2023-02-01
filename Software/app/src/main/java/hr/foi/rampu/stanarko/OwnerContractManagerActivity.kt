@@ -20,7 +20,7 @@ class OwnerContractManagerActivity : OwnerDrawerActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityOwnerContractManagerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        allocateActivityTitle("Owner contracts")
+        allocateActivityTitle(getString(R.string.owner_contracts_title))
 
         val contractAdapter = RentManagerAdapter (supportFragmentManager, lifecycle)
         contractAdapter.addFragment(

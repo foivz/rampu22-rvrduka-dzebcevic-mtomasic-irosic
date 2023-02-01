@@ -38,11 +38,10 @@ class ChatActivity : TenantDrawerActivity() {
         val channelId = intent.getStringExtra("channel")
         val currentUserMail = currentUser?.email.toString()
 
-
         allocatedActivityTitle("Owner")
 
         if(channelId!=null){
-            query = channelsDAO.getMessageQuery(channelId);
+            query = channelsDAO.getMessageQuery(channelId)
         }
 
         recyclerView = findViewById(R.id.rv_chats)

@@ -24,7 +24,7 @@ class RentManagerActivity : TenantDrawerActivity() {
 
         binding = ActivityRentManagerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        allocatedActivityTitle("Rents")
+        allocatedActivityTitle(getString(R.string.rents_title))
 
         val rentPagerAdapter = RentManagerAdapter (supportFragmentManager, lifecycle)
         rentPagerAdapter.addFragment(

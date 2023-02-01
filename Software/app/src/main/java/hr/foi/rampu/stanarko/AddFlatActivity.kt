@@ -1,7 +1,6 @@
 package hr.foi.rampu.stanarko
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -9,21 +8,26 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import com.google.firebase.auth.FirebaseAuth
+import hr.foi.rampu.stanarko.NavigationDrawer.OwnerDrawerActivity
 import hr.foi.rampu.stanarko.adapters.FlatsAdapter
 import hr.foi.rampu.stanarko.database.FlatsDAO
 import hr.foi.rampu.stanarko.database.OwnersDAO
+import hr.foi.rampu.stanarko.databinding.ActivityAddFlatBinding
 import hr.foi.rampu.stanarko.entities.Flat
 import hr.foi.rampu.stanarko.entities.Owner
-import hr.foi.rampu.stanarko.helpers.MockDataLoader
-import kotlinx.coroutines.runBlocking
 
-class AddFlatActivity : AppCompatActivity() {
+class AddFlatActivity : OwnerDrawerActivity() {
 
+    lateinit var binding: ActivityAddFlatBinding
     var maxID: Int = 1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_flat)
+
+        binding = ActivityAddFlatBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        allocateActivityTitle(getString(R.string.add_new_flat_title))
+
         val myButton = findViewById<Button>(R.id.btnAddFlat)
         Load()
         myButton.setOnClickListener{
