@@ -11,6 +11,7 @@ import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.database.MalfunctionsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityTenantBinding
 import hr.foi.rampu.stanarko.entities.Tenant
+import hr.foi.rampu.stanarko.helpers.FirebaseNotifications
 import hr.foi.rampu.stanarko.helpers.MockDataLoader
 import hr.foi.rampu.stanarko.helpers.NewMalfunctionDialogHelper
 import kotlinx.coroutines.runBlocking
@@ -59,6 +60,9 @@ class TenantActivity : TenantDrawerActivity() {
                 val malfunction = helper.buildMalfunction(tenant)
                 val malfunctionDAO = MalfunctionsDAO()
                 malfunctionDAO.addMalfunction(malfunction, this)
+                val notification = FirebaseNotifications()
+                notification.sendPushNotification(tenant.flat!!.owner!!.token, getString(R.string.malfunction_notification_title), getString(
+                                    R.string.malfunction_reported))
             }
             .show()
     }

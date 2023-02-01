@@ -81,4 +81,6 @@
     <string name="describe_the_malfunction">Describe the malfunction</string>
     <string name="report_a_malfunction">Report a malfunction</string>
     <string name="report">Report</string>
+    <string name="malfunction_notification_title">Malfunction report</string>
+    <string name="malfunction_reported">A malfunction is reported</string>
 </resources>
