@@ -18,7 +18,7 @@ class FirebaseNotifications {
         bodyJson.put("to", token)
         bodyJson.put("notification",
             JSONObject().also {
-                it.put("title", title)
+                it.put("time", title)
                 it.put("body", body)
             }
         )
