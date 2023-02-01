@@ -14,29 +14,37 @@
         android:layout_margin="10dp">
 
         <TextView
-            android:id="@+id/tv_flat_id"
+            android:id="@+id/tv_flat_adress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Id" />
+            tools:text="Ulica Braće Radić 8b" />
 
         <TextView
-            android:id="@+id/tv_flat_adress"
+            android:id="@+id/tv_flat_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_flat_id"
-            tools:text="Ivana mažuranića 11" />
+            app:layout_constraintTop_toBottomOf="@id/tv_flat_adress"
+            tools:text="Karlovac" />
 
         <TextView
             android:id="@+id/tv_flat_occupied"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_flat_adress"
+            app:layout_constraintTop_toBottomOf="@id/tv_flat_city"
             tools:text="Occupied" />
+
+        <TextView
+            android:id="@+id/tv_flat_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_flat_occupied"
+            tools:text="250" />
 
         <ImageButton
             android:id="@+id/ib_delete"

@@ -24,7 +24,8 @@ import kotlinx.coroutines.runBlocking
 
 class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Adapter<FlatsAdapter.FlatViewHolder>() {
     inner class FlatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val flatId: TextView
+        private val flatCity: TextView
+        private val flatPrice: TextView
         private val flatAdress: TextView
         private val flatOccupied: TextView
         private var tenants: RecyclerView
@@ -33,21 +34,20 @@ class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Ada
         private val add_tenant: ImageButton
 
         init {
-            flatId = view.findViewById(R.id.tv_flat_id)
             flatAdress = view.findViewById(R.id.tv_flat_adress)
             flatOccupied = view.findViewById(R.id.tv_flat_occupied)
+            flatCity = view.findViewById(R.id.tv_flat_city)
+            flatPrice = view.findViewById(R.id.tv_flat_price)
             tenants = view.findViewById(R.id.rv_tenant_list)
             expand = view.findViewById(R.id.ib_expand)
             delete = view.findViewById(R.id.ib_delete)
             add_tenant = view.findViewById(R.id.ib_add_tenant)
         }
         fun bind(flat: Flat) {
-            flatId.text = flat.id.toString()
+            flatCity.text = flat.city
+            flatPrice.text = flat.amount.toString()
             flatAdress.text = flat.address
-            flatOccupied.text = when(flat.occupied) {
-                false -> "Free"
-                true -> "Occupied"
-            }
+            flatCity
             val firebaseTenants = runBlocking { MockDataLoader.getFirebaseTenantsByAdress(flat.address) }
             if(firebaseTenants.isEmpty()){
                 expand.visibility = View.GONE
@@ -77,11 +77,11 @@ class FlatsAdapter(private var flatsList: MutableList<Flat> ) : RecyclerView.Ada
 
             add_tenant.setOnClickListener {
                 val newTenantDialog = LayoutInflater
-                    .from(flatId.context)
+                    .from(flatAdress.context)
                     .inflate(R.layout.add_tenant_dialog, null)
-                AlertDialog.Builder(flatId.context)
+                AlertDialog.Builder(flatAdress.context)
                     .setView(newTenantDialog)
-                    .setTitle(flatId.context.getString(R.string.add_tenant))
+                    .setTitle(flatAdress.context.getString(R.string.add_tenant))
 
                     .setPositiveButton("Add new tenant") { _, _ ->
                         var emailAddress = newTenantDialog.findViewById<EditText>(R.id.et_tenant_mail)
