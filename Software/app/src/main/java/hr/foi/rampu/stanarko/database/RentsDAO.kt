@@ -80,7 +80,9 @@ class RentsDAO {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val tenant = document.toObject(Tenant::class.java)
-                    runBlocking { checkForMissingRents(tenant) }
+                    if(tenant.dateOfMovingIn != null){
+                        runBlocking { checkForMissingRents(tenant) }
+                    }
                 }
             }
     }

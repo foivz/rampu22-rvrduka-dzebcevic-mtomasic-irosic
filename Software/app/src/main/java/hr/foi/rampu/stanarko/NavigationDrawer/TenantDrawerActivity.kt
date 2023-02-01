@@ -1,9 +1,7 @@
 package hr.foi.rampu.stanarko.NavigationDrawer
 
 import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.content.Intent
-import android.util.Log
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
@@ -11,7 +9,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -22,18 +19,12 @@ import hr.foi.rampu.stanarko.F02_Prijava.Prijava
 import hr.foi.rampu.stanarko.database.ChannelsDAO
 import hr.foi.rampu.stanarko.database.OwnersDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.util.*
 import hr.foi.rampu.stanarko.TenantActivity
 import hr.foi.rampu.stanarko.TenantContractManagerActivity
 import hr.foi.rampu.stanarko.TenantMovingOutActivity
 import hr.foi.rampu.stanarko.database.RentsDAO
-import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Tenant
-import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.database.MalfunctionsDAO
@@ -17,7 +16,6 @@ import hr.foi.rampu.stanarko.entities.Tenant
 import hr.foi.rampu.stanarko.helpers.MockDataLoader
 import hr.foi.rampu.stanarko.helpers.NewMalfunctionDialogHelper
 import kotlinx.coroutines.runBlocking
-import hr.foi.rampu.stanarko.entities.Tenant
 import java.util.Calendar
 
 class TenantActivity : TenantDrawerActivity() {

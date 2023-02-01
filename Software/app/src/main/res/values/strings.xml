@@ -89,4 +89,9 @@
     <string name="days_left_until_moving_out">Days left until moving out:</string>
     <string name="days_left_moving_out">Days left</string>
     <string name="moving_out_day_limit">Chose date that is at least 30 days from now</string>
+    <string name="unable_to_generate_contract_message">Can only create contract with valid user</string>
+    <string name="contract_list_tenant_hint">Tenant</string>
+    <string name="contract_list_description_hint">Description</string>
+    <string name="contract_list_date1_hint">Date1</string>
+    <string name="contract_list_date2_hint">Date2</string>
 </resources>
