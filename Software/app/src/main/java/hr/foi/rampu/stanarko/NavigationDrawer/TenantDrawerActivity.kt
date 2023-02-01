@@ -1,34 +1,36 @@
 package hr.foi.rampu.stanarko.NavigationDrawer
 
 import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import hr.foi.rampu.stanarko.*
+import com.google.firebase.firestore.FieldValue
 import hr.foi.rampu.stanarko.F02_Prijava.Prijava
 import hr.foi.rampu.stanarko.database.ChannelsDAO
 import hr.foi.rampu.stanarko.database.OwnersDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.util.*
+import hr.foi.rampu.stanarko.TenantActivity
+import hr.foi.rampu.stanarko.TenantContractManagerActivity
+import hr.foi.rampu.stanarko.TenantMovingOutActivity
+import hr.foi.rampu.stanarko.database.RentsDAO
+import hr.foi.rampu.stanarko.entities.Tenant
+import java.util.Calendar
 
 open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     var currentUser = FirebaseAuth.getInstance().currentUser
     private val currentUserMail = currentUser?.email.toString()
-    lateinit var drawerLayout: DrawerLayout
+    private lateinit var drawerLayout: DrawerLayout
     override fun setContentView(view: View?) {
         drawerLayout = layoutInflater.inflate(R.layout.activity_tenant_drawer, null) as DrawerLayout
         val container: FrameLayout = drawerLayout.findViewById(R.id.activity_container)
@@ -48,6 +50,7 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_log_out_tenant -> {
+                var currentUser = FirebaseAuth.getInstance().currentUser
                 if(currentUser!=null){
                     FirebaseAuth.getInstance().signOut()
                     currentUser = FirebaseAuth.getInstance().currentUser
@@ -130,11 +133,60 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                 val intent = Intent(this,TenantContractManagerActivity::class.java)
                 startActivity(intent)
             }
+            R.id.menu_tenant_main_activity -> {
+                val intent = Intent(this,TenantActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.menu_tenant_moving_out ->{
+                movingOutMenuFunction()
+            }
 
         }
         return false
     }
 
+    private fun movingOutMenuFunction() {
+        val today = Calendar.getInstance().time
+        val userMail = FirebaseAuth.getInstance().currentUser?.email
+        val tenant = TenantsDAO()
+
+        if (userMail != null) {
+            tenant.getTenantByMail(userMail).addOnSuccessListener {
+                if (!it.isEmpty){
+                    val document = it.documents.first().toObject(Tenant::class.java)
+                    if (document!!.flat!=null){
+                        if (document.dateOfMovingOut!=null){
+                            val rents = runBlocking { RentsDAO().getAllRentsByTenantMail(userMail,paid = false) }
+                            if (!rents!!.isEmpty){
+                                redirectToTenantMovingOut()
+                                Toast.makeText(baseContext, "You need to pay off all your rents first", Toast.LENGTH_SHORT).show()
+                            } else if (document.dateOfMovingOut.before(today)){
+                                val data = it.documents.first()
+                                data.reference.update("flat",FieldValue.delete())
+                                data.reference.update("flat",null)
+                                data.reference.update("dateOfMovingOut",null)
+                            }else{
+                                redirectToTenantMovingOut()
+                            }
+                        }else{
+                            redirectToTenantMovingOut()
+                        }
+                    }else{
+                        Toast.makeText(baseContext, "You don't have a flat", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+            }
+                .addOnFailureListener {
+                    Log.e("DATA","Neuspijesno dohvacanje tenanta")
+                }
+        }
+    }
+
+    private fun redirectToTenantMovingOut(){
+        val intent = Intent(this,TenantMovingOutActivity::class.java)
+        startActivity(intent)
+    }
     protected fun allocatedActivityTitle(title: String){
         supportActionBar?.let { it.title = title }
     }

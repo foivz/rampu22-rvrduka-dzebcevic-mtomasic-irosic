@@ -3,8 +3,6 @@ package hr.foi.rampu.stanarko.helpers
 import hr.foi.rampu.stanarko.database.FlatsDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Flat
-import hr.foi.rampu.stanarko.entities.Owner
-import hr.foi.rampu.stanarko.entities.Rent
 import hr.foi.rampu.stanarko.entities.Tenant
 import kotlinx.coroutines.tasks.await
 

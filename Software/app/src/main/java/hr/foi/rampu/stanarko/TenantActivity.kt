@@ -7,14 +7,17 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.database.MalfunctionsDAO
+import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityTenantBinding
 import hr.foi.rampu.stanarko.entities.Tenant
 import hr.foi.rampu.stanarko.helpers.FirebaseNotifications
 import hr.foi.rampu.stanarko.helpers.MockDataLoader
 import hr.foi.rampu.stanarko.helpers.NewMalfunctionDialogHelper
 import kotlinx.coroutines.runBlocking
+import java.util.Calendar
 
 class TenantActivity : TenantDrawerActivity() {
 
@@ -65,5 +68,28 @@ class TenantActivity : TenantDrawerActivity() {
                                     R.string.malfunction_reported))
             }
             .show()
+
+        dayOfMovingOutCheck()
+
+    }
+
+    private fun dayOfMovingOutCheck() {
+        val tenant = TenantsDAO()
+        val userMail = FirebaseAuth.getInstance().currentUser!!.email
+        val today = Calendar.getInstance().time
+
+        tenant.getTenantByMail(userMail!!).addOnSuccessListener {
+            if (!it.isEmpty){
+                val document = it.documents.first().toObject(Tenant::class.java)
+                if(document!!.dateOfMovingOut!=null){
+                    if (document.dateOfMovingOut!!.before(today)){
+                        val data = it.documents.first()
+                        data.reference.update("flat", FieldValue.delete())
+                        data.reference.update("flat",null)
+                        data.reference.update("dateOfMovingOut",null)
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="3dp"
+    android:elevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,13 +18,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:hint="Tenant" />
+            android:hint="@string/contract_list_tenant_hint" />
 
         <TextView
             android:id="@+id/contract_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Opis" />
+            android:hint="@string/contract_list_description_hint" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +44,7 @@
                 android:id="@+id/contract_start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Datum1"
+                android:hint="@string/contract_list_date1_hint"
                 android:layout_marginEnd="10dp"/>
 
             <TextView
@@ -53,7 +56,7 @@
                 android:id="@+id/contract_end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Datum2" />
+                android:hint="@string/contract_list_date2_hint" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

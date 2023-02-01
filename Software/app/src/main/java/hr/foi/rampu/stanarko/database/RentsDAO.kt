@@ -30,11 +30,13 @@ class RentsDAO {
             .get()
     }
 
-    fun getAllRentsByTenantID(tenantID: Int, paid:Boolean): Task<QuerySnapshot> {
+    suspend fun getAllRentsByTenantMail(tenantMail: String, paid:Boolean): QuerySnapshot? {
+        Log.e("DATA","Mail: "+tenantMail)
+        Log.e("DATA","Paid: "+paid)
         return db.collection("rents")
-            .whereEqualTo("tenant.id", tenantID)
+            .whereEqualTo("tenant.mail", tenantMail)
             .whereEqualTo("rent_paid", paid)
-            .get()
+            .get().await()
     }
 
     fun getAllRentsByMail(mail: String, paid:Boolean): Task<QuerySnapshot> {
@@ -78,7 +80,9 @@ class RentsDAO {
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val tenant = document.toObject(Tenant::class.java)
-                    runBlocking { checkForMissingRents(tenant) }
+                    if(tenant.dateOfMovingIn != null){
+                        runBlocking { checkForMissingRents(tenant) }
+                    }
                 }
             }
     }
