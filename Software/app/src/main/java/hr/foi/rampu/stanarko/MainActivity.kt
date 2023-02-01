@@ -19,7 +19,7 @@ class MainActivity : OwnerDrawerActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        allocateActivityTitle("MainActivity")
+        allocateActivityTitle(getString(R.string.menu_home))
 
         val mail = FirebaseAuth.getInstance().currentUser?.email
         recyclerView = findViewById(R.id.rv_flat_list)

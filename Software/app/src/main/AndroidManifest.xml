@@ -14,6 +14,13 @@
         android:theme="@style/Theme.Stanarko"
         tools:targetApi="31">
         <activity
+            android:name=".RentManagerActivityOwner"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ChatActivityOwner"
             android:exported="false">
             <meta-data

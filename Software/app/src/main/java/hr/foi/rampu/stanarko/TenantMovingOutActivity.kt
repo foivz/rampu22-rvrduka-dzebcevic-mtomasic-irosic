@@ -30,7 +30,7 @@ class TenantMovingOutActivity : TenantDrawerActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTenantMovingOutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        allocatedActivityTitle("Moving out")
+        allocatedActivityTitle(getString(R.string.moving_out_title))
 
         btnSaveDate = findViewById(R.id.btn_save_moving_out)
         tvMovingDate = findViewById(R.id.tv_moving_out)

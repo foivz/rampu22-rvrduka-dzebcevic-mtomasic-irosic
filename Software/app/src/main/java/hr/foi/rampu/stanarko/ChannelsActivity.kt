@@ -20,6 +20,7 @@ import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityChannelsBinding
 import hr.foi.rampu.stanarko.entities.Channel
 import hr.foi.rampu.stanarko.entities.Tenant
+import hr.foi.rampu.stanarko.helpers.HelperClass
 import kotlinx.coroutines.runBlocking
 
 class ChannelsActivity : OwnerDrawerActivity() {
@@ -27,6 +28,7 @@ class ChannelsActivity : OwnerDrawerActivity() {
     private val currentUserMail = currentUser?.email.toString()
     private val tenantsDAO = TenantsDAO()
     private val channelsDAO = ChannelsDAO()
+    private val helperClass = HelperClass()
 
     private lateinit var binding: ActivityChannelsBinding
 
@@ -40,7 +42,7 @@ class ChannelsActivity : OwnerDrawerActivity() {
         binding = ActivityChannelsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        allocateActivityTitle("All tenants")
+        allocateActivityTitle("Chat with tenants")
 
         db = FirebaseFirestore.getInstance()
         recyclerView = findViewById(R.id.rv_channels)
@@ -76,7 +78,7 @@ class ChannelsActivity : OwnerDrawerActivity() {
                             }
                             val intent = Intent(this, ChatActivityOwner::class.java)
                             intent.putExtra("channel", channel?.id)
-                            intent.putExtra("chatPartner", channel?.let { ch -> getChatPartner(ch) })
+                            intent.putExtra("chatPartner", channel?.let { ch -> channelsDAO.getChatPartner(ch) })
                             startActivity(intent)
                             finish()
                         }else{
@@ -95,16 +97,6 @@ class ChannelsActivity : OwnerDrawerActivity() {
                 .show()
         }
 
-    }
-
-    private fun getChatPartner(channel: Channel): String{
-        val participants = runBlocking { channelsDAO.participantsNameSurname(channel) }
-
-        return if(channel.participants[0] == currentUserMail){
-            participants[1]
-        }else{
-            participants[0]
-        }
     }
 
     private fun removeAllViewsFromParent(view: View?) {
@@ -130,13 +122,7 @@ class ChannelsActivity : OwnerDrawerActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val isTenant = runBlocking { tenantsDAO.isUserTenant(currentUserMail) }
-        val intent: Intent = if(isTenant){
-            Intent(this, TenantActivity::class.java)
-        }else{
-            Intent(this, MainActivity::class.java)
-        }
-        startActivity(intent)
+        helperClass.navigateHomeScreen(this, currentUserMail)
         finish()
     }
 }

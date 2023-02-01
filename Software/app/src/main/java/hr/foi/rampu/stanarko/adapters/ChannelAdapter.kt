@@ -2,7 +2,7 @@ package hr.foi.rampu.stanarko.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,8 @@ import hr.foi.rampu.stanarko.database.ChannelsDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.entities.Channel
 import kotlinx.coroutines.runBlocking
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ChannelAdapter(
     query: Query,
@@ -35,6 +37,8 @@ class ChannelAdapter(
     private val currentUserMail = currentUser?.email.toString()
     private val channelsDAO = ChannelsDAO()
     private val tenantsDAO = TenantsDAO()
+
+    val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: Channel) {
         if (position < itemCount) {
@@ -55,15 +59,18 @@ class ChannelAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val textViewChannelName : TextView
+        private val textViewLastMessage : TextView
+        private val textViewTimeOfLastMessage : TextView
 
         init {
+            textViewTimeOfLastMessage = itemView.findViewById(R.id.textViewTimeOfLastMessage)
             textViewChannelName = itemView.findViewById(R.id.textViewChannelName)
+            textViewLastMessage = itemView.findViewById(R.id.textViewLastMessage)
 
             itemView.setOnClickListener {
                 val channel = snapshots.getSnapshot(adapterPosition)
                 val isTenant = runBlocking { tenantsDAO.isUserTenant(currentUserMail) }
-                Log.w("ISTENANT", isTenant.toString())
-                var intent: Intent = if(isTenant){
+                val intent: Intent = if(isTenant){
                     Intent(itemView.context, ChatActivity::class.java)
                 }else{
                     Intent(itemView.context, ChatActivityOwner::class.java)
@@ -71,23 +78,39 @@ class ChannelAdapter(
 
                 intent.putExtra("channel", channel.id)
                 intent.putExtra("chatPartner",
-                    channel.toObject(Channel::class.java)?.let { ch -> getChatPartner(ch) })
+                    channel.toObject(Channel::class.java)?.let { ch -> channelsDAO.getChatPartner(ch) })
 
                 itemView.context.startActivity(intent)
             }
         }
 
         fun bind(channel: Channel) {
-            textViewChannelName.text = getChatPartner(channel)
-        }
-
-        private fun getChatPartner(channel: Channel): String{
-            val participants = runBlocking { channelsDAO.participantsNameSurname(channel) }
-
-            return if(channel.participants[0] == currentUserMail){
-                participants[1]
+            val lastMessage = runBlocking{channelsDAO.getLastChannelMessage(channel)}
+            if(lastMessage?.timestamp != null){
+                val timestamp = dateFormat.format(lastMessage?.timestamp)
+                textViewTimeOfLastMessage.text = timestamp.toString()
+                textViewTimeOfLastMessage.visibility = View.VISIBLE
             }else{
-                participants[0]
+                textViewTimeOfLastMessage.text = ""
+                textViewTimeOfLastMessage.visibility = View.INVISIBLE
+                textViewTimeOfLastMessage.height = 0
+            }
+
+            textViewChannelName.text = channelsDAO.getChatPartner(channel)
+
+            if(lastMessage?.message != null){
+                textViewLastMessage.text = lastMessage?.message
+                textViewLastMessage.visibility = View.VISIBLE
+            }else{
+                textViewLastMessage.text = ""
+                textViewLastMessage.visibility = View.INVISIBLE
+                textViewLastMessage.height = 0
+            }
+
+            if(lastMessage?.username != currentUserMail){
+                textViewLastMessage.typeface = Typeface.defaultFromStyle(Typeface.BOLD_ITALIC)
+            }else{
+                textViewLastMessage.typeface = Typeface.defaultFromStyle(Typeface.ITALIC)
             }
         }
     }

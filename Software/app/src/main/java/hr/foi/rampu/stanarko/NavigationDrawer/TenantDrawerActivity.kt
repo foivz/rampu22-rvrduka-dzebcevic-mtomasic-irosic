@@ -85,6 +85,7 @@ open class TenantDrawerActivity : AppCompatActivity(), NavigationView.OnNavigati
                     val intent = Intent(this, ChatActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("channel", channelID)
+
                     startActivity(intent)
 
                 }else{

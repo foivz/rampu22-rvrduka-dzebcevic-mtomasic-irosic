@@ -11,9 +11,9 @@ import hr.foi.rampu.stanarko.entities.Rent
 
 class OwnersDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    suspend fun getOwner(tenantMail: String): Owner? {
+    suspend fun getOwner(ownerMail: String): Owner? {
         val ownerRef = db.collection("tenants")
-            .whereEqualTo("mail", tenantMail)
+            .whereEqualTo("mail", ownerMail)
             .get()
             .await()
         val documents = ownerRef.documents

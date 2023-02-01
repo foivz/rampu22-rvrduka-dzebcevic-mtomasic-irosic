@@ -1,6 +1,6 @@
 package hr.foi.rampu.stanarko.database
 
-import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -12,51 +12,55 @@ import java.util.*
 
 class ChannelsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    var currentUser = FirebaseAuth.getInstance().currentUser
+    private val currentUserMail = currentUser?.email.toString()
     private val ownersDAO = OwnersDAO()
+    private val channelRef = db.collection("channels")
+
     suspend fun getChannel(id: String?) : Channel? {
-        val rentsRef = db.collection("channels")
+        val channel = channelRef
             .whereArrayContains("id", id.toString())
             .get().await()
-        val documents = rentsRef.documents
+        val documents = channel.documents
         return documents[0].toObject(Channel::class.java)
     }
 
     fun getMessageQuery(channelId: String): Query {
-        return db.collection("channels").document(channelId).collection("messages")
+        return channelRef.document(channelId).collection("messages")
             .whereNotEqualTo("timestamp", "")
             .orderBy("timestamp")
     }
 
     suspend fun getChannelID(mail: String?) : String {
-        val channelRef = db.collection("channels")
+        val channel = channelRef
             .whereArrayContains("participants", mail.toString())
             .get()
             .await()
-        val documents = channelRef.documents
+        val documents = channel.documents
         return documents[0].id
     }
 
-    suspend fun updateChannelID(channelID: String){
-        db.collection("channels").document(channelID).update("id", channelID).await()
-        db.collection("channels").document(channelID).update("messages", FieldValue.delete()).await()
+    private suspend fun updateChannelID(channelID: String){
+        channelRef.document(channelID).update("id", channelID).await()
+        channelRef.document(channelID).update("messages", FieldValue.delete()).await()
     }
 
-    suspend fun addNewMessage(channelID: String){
+    private suspend fun addNewMessage(channelID: String){
         val emptyMessage = hashMapOf<String, Any>()
-        db.collection("channels")
+        channelRef
             .document(channelID).collection("messages")
             .add(emptyMessage).await()
     }
 
     suspend fun addNewMessage(channelID: String, message: Chat){
-        db.collection("channels")
+        channelRef
             .document(channelID)
             .collection("messages")
             .add(message).await()
     }
 
     suspend fun isThereChannelWithOwner(mail: String?) : Boolean{
-        val tenants = db.collection("channels")
+        val tenants = channelRef
             .whereArrayContains("participants", mail.toString())
             .get().await()
         return tenants.size() > 0
@@ -68,9 +72,9 @@ class ChannelsDAO {
             if(landlordMail != null && landlordMail != ""){
                 val participants = listOf(landlordMail, tenantMail.toString())
                 val db = FirebaseFirestore.getInstance()
-                val channelsRef = db.collection("channels")
+                val channel = channelRef
                 val newChannel = Channel("", participants, Date(), emptyList())
-                channelsRef.add(newChannel)
+                channel.add(newChannel)
 
                 val channelID = runBlocking { getChannelID(tenantMail) }
                 runBlocking { updateChannelID(channelID) }
@@ -82,12 +86,12 @@ class ChannelsDAO {
     }
 
     suspend fun getLatestCreatedChannel() : Channel?{
-        val channelRef = db.collection("channels")
+        val channel = channelRef
             .orderBy("dateCreated", Query.Direction.DESCENDING)
             .limit(1)
             .get()
             .await()
-        val documents = channelRef.documents
+        val documents = channel.documents
         return documents[0].toObject(Channel::class.java)
     }
 
@@ -107,17 +111,39 @@ class ChannelsDAO {
         val tenantsDAO = TenantsDAO()
         val ownersDAO = OwnersDAO()
         for (participant in participants){
-            Log.w("PARTICIPANT", participant)
             if(tenantsDAO.isUserTenant(participant)){
                 val tenant = runBlocking {tenantsDAO.getTenant(participant)}
-                Log.w("TENANT", "${tenant?.name} ${tenant?.surname}")
                 list.add("${tenant?.name} ${tenant?.surname}")
             }else{
                 val owner = runBlocking {ownersDAO.getOwnerInfo(participant)}
-                Log.w("OWNER", "${owner?.name} ${owner?.surname}")
                 list.add("${owner?.name} ${owner?.surname}")
             }
         }
         return list
+    }
+
+    fun getChatPartner(channel: Channel): String{
+        val participants = runBlocking { participantsNameSurname(channel) }
+
+        return if(channel.participants[0] == currentUserMail){
+            participants[1]
+        }else{
+            participants[0]
+        }
+    }
+
+    suspend fun getLastChannelMessage(channel: Channel): Chat?{
+        val channel = channelRef.document(channel.id).collection("messages")
+            .whereNotEqualTo("timestamp", null)
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .limit(1)
+            .get()
+            .await()
+        val documents = channel.documents
+        return if(documents.size > 0){
+            documents[0].toObject(Chat::class.java)
+        }else{
+            null
+        }
     }
 }

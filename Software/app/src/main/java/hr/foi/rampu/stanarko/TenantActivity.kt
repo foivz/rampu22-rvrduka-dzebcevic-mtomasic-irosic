@@ -28,7 +28,7 @@ class TenantActivity : TenantDrawerActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTenantBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        allocatedActivityTitle("TenantActivity")
+        allocatedActivityTitle(getString(R.string.menu_home))
         val userMail = FirebaseAuth.getInstance().currentUser?.email
         val user = runBlocking { MockDataLoader.getTenantByMail(userMail!!) }
         malfunctionButton = findViewById(R.id.btn_malfunction)

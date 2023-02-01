@@ -14,63 +14,48 @@ import java.util.*
 
 class RentsDAO {
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-    fun getAllRents(): Task<QuerySnapshot> {
-        return db.collection("rents").get()
+    private val rentsRef = db.collection("rents")
+
+    private fun getAllRents(): Task<QuerySnapshot> {
+        return rentsRef.get()
     }
 
     fun getAllRents(paid:Boolean): Task<QuerySnapshot> {
-        return db.collection("rents")
+        return rentsRef
             .whereEqualTo("rent_paid", paid)
             .get()
     }
 
     fun getAllRentsByTenantID(tenantID: Int): Task<QuerySnapshot> {
-        return db.collection("rents")
+        return rentsRef
             .whereEqualTo("tenant.id", tenantID)
             .get()
     }
-
     suspend fun getAllRentsByTenantMail(tenantMail: String, paid:Boolean): QuerySnapshot? {
-        Log.e("DATA","Mail: "+tenantMail)
-        Log.e("DATA","Paid: "+paid)
+        Log.e("DATA", "Mail: " + tenantMail)
+        Log.e("DATA", "Paid: " + paid)
         return db.collection("rents")
             .whereEqualTo("tenant.mail", tenantMail)
-            .whereEqualTo("rent_paid", paid)
             .get().await()
     }
 
     fun getAllRentsByMail(mail: String, paid:Boolean): Task<QuerySnapshot> {
-        return db.collection("rents")
+        return rentsRef
             .whereEqualTo("tenant.mail", mail)
             .whereEqualTo("rent_paid", paid)
             .get()
     }
 
     fun getAllRentsByOwnerID(ownerID: Int): Task<QuerySnapshot> {
-        return db.collection("rents")
+        return rentsRef
             .whereEqualTo("tenant.flat.owner.id", ownerID)
             .get()
     }
 
     fun getAllRentsByOwnerID(ownerID: Int, paid:Boolean): Task<QuerySnapshot> {
-        return db.collection("rents")
+        return rentsRef
             .whereEqualTo("tenant.flat.owner.id", ownerID)
             .whereEqualTo("rent_paid", paid)
-            .get()
-    }
-
-    fun getAllRentByIDDueMonthYear(addedRentId: Int, addedRentMonthDue: Int, addedRentYearDue: Int): Query {
-        return db.collection("rents")
-            .whereEqualTo("id", addedRentId)
-            .whereEqualTo("month_to_be_paid", addedRentMonthDue)
-            .whereEqualTo("year_to_be_paid", addedRentYearDue)
-    }
-
-    fun getAllRentByIDDueMonthYearTest(mailRent: String, addedRentMonthDue: Int, addedRentYearDue: Int): Task<QuerySnapshot> {
-        return db.collection("rents")
-            .whereEqualTo("tenant.mail", mailRent)
-            .whereEqualTo("month_to_be_paid", addedRentMonthDue)
-            .whereEqualTo("year_to_be_paid", addedRentYearDue)
             .get()
     }
 
@@ -87,6 +72,21 @@ class RentsDAO {
             }
     }
 
+    fun getAllRentByIDDueMonthYear(addedRentId: Int, addedRentMonthDue: Int, addedRentYearDue: Int): Query {
+        return rentsRef
+            .whereEqualTo("id", addedRentId)
+            .whereEqualTo("month_to_be_paid", addedRentMonthDue)
+            .whereEqualTo("year_to_be_paid", addedRentYearDue)
+    }
+
+    private suspend fun getAllRentByIDDueMonthYearTest(mailRent: String, addedRentMonthDue: Int, addedRentYearDue: Int): QuerySnapshot? {
+        return rentsRef
+            .whereEqualTo("tenant.mail", mailRent)
+            .whereEqualTo("month_to_be_paid", addedRentMonthDue)
+            .whereEqualTo("year_to_be_paid", addedRentYearDue)
+            .get().await()
+    }
+
     private suspend fun checkForMissingRents(tenant: Tenant) {
         val dateFormat = SimpleDateFormat("MM/yyyy", Locale.getDefault())
         val currentDate = Date()
@@ -101,16 +101,16 @@ class RentsDAO {
         val startYear : Int = userDate?.substring(0, 4)!!.toInt()
 
         for (year in startYear..currentYear) {
+
             val monthStart = if (year == startYear) startMonth else 1
             val monthEnd = if (year == currentYear) currentMonth else 12
 
             for (month in monthStart..monthEnd) {
-
-                val size = getAllRentByIDDueMonthYearTest(tenant.mail, month, year).await().size()
+                val size = runBlocking { getAllRentByIDDueMonthYearTest(tenant.mail, month, year)?.size()}
                 if (size == 0) {
                     runBlocking { createRent(tenant, month, year) }
                 } else {
-                    Log.w("ERRRRRRRRRR", "ERRRRRRRRRR")
+                    Log.w("Error", "Error while creating rent.")
                 }
             }
         }
@@ -122,7 +122,6 @@ class RentsDAO {
         rents.addAll(result.toObjects(Rent::class.java))
 
         val rentsSize = rents.size
-        val rentsRef = db.collection("rents")
 
         rentsRef.add(Rent(rentsSize + 1, tenant, month, year, false))
     }
@@ -147,7 +146,7 @@ class RentsDAO {
     }
 
     private suspend fun updateRentPaidStatus(documentId: String) {
-        val documentReference = db.collection("rents").document(documentId)
+        val documentReference = rentsRef.document(documentId)
         documentReference.update("rent_paid", true).await()
     }
 }

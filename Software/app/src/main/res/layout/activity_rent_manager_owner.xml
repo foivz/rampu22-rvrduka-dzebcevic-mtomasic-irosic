@@ -5,7 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    tools:context=".RentManagerActivity">
+    tools:context=".RentManagerActivityOwner">
+
+    <Button
+        android:id="@+id/btn_check_for_rents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/check_for_rents"
+        android:layout_margin="10dp"
+        app:layout_constraintStart_toStartOf="@+id/text_view_rent_manager"
+        app:layout_constraintTop_toTopOf="@+id/text_view_rent_manager" />
 
     <TextView
         android:id="@+id/text_view_rent_manager"
@@ -20,8 +29,8 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_rent_manager"/>
+        app:layout_constraintTop_toBottomOf="@+id/btn_check_for_rents" />
 </androidx.constraintlayout.widget.ConstraintLayout>

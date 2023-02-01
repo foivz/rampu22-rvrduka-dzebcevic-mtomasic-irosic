@@ -20,7 +20,7 @@
     <string name="racuni">Računi</string>
     <string name="placeholder_text">Placeholder text</string>
     <string name="rent_title">Rent bill title:</string>
-    <string name="rent_main_title">Rent bill details:</string>
+    <string name="rent_main_title">Rent bill details</string>
     <string name="label_rent_tenant">Ime stanara:</string>
     <string name="label_rent_month">Month to be paid:</string>
     <string name="label_rent_year">Year to be paid:</string>
@@ -71,6 +71,7 @@
     <string name="enter_message">Enter message</string>
     <string name="send_button">Send button</string>
     <string name="tenant">Tenant</string>
+    <string name="check_for_rents">Check for rents</string>
     <string name="add_moving_in_date">Add moving in date</string>
     <string name="add_tenant">Add tenant</string>
     <string name="add_new_tenant">Add new tenant</string>
@@ -97,4 +98,9 @@
     <string name="malfunction_notification_title">Malfunction report</string>
     <string name="malfunction_reported">A malfunction is reported</string>
     <string name="menu_home">Home</string>
+    <string name="owner_contracts_title">Owner contracts</string>
+    <string name="rents_title">Rents</string>
+    <string name="tenant_contracts_title">Tenant contracts</string>
+    <string name="moving_out_title">Moving out</string>
+    <string name="add_new_flat_title">Add new flat</string>
 </resources>
