@@ -15,10 +15,12 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import hr.foi.rampu.stanarko.F01_Registracija.Registracija
 import hr.foi.rampu.stanarko.MainActivity
 import hr.foi.rampu.stanarko.R
 import hr.foi.rampu.stanarko.TenantActivity
+import hr.foi.rampu.stanarko.database.OwnersDAO
 
 class Prijava : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,9 +73,14 @@ class Prijava : AppCompatActivity() {
             ownersCollection.whereEqualTo("mail",userMail).get().addOnSuccessListener { document ->
                 if(!document.isEmpty){
                     val intent = Intent(this, MainActivity::class.java)
+                    FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                        val ownersDAO = OwnersDAO()
+                        ownersDAO.updateOwnerToken(userMail!!, token )
+                    }
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     intent.putExtra("Email",mail)
                     startActivity(intent)
+
                 }
                 val tenantsCollection = FirebaseFirestore.getInstance().collection("tenants")
                 tenantsCollection.whereEqualTo("mail",userMail).get().addOnSuccessListener { document ->

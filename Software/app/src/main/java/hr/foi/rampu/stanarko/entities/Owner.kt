@@ -8,5 +8,7 @@ class Owner(
     role: Role = Role.OWNER
 ) : Person( name, surname, phoneNumber, mail,role){
 
+    val token: String = ""
+
     constructor() : this( "", "", "", "", Role.OWNER)
 }
