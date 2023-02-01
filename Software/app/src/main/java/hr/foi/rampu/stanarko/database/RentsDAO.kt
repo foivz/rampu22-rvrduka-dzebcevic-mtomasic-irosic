@@ -31,12 +31,12 @@ class RentsDAO {
             .whereEqualTo("tenant.id", tenantID)
             .get()
     }
-
-    fun getAllRentsByTenantID(tenantID: Int, paid:Boolean): Task<QuerySnapshot> {
-        return rentsRef
-            .whereEqualTo("tenant.id", tenantID)
-            .whereEqualTo("rent_paid", paid)
-            .get()
+    suspend fun getAllRentsByTenantMail(tenantMail: String, paid:Boolean): QuerySnapshot? {
+        Log.e("DATA", "Mail: " + tenantMail)
+        Log.e("DATA", "Paid: " + paid)
+        return db.collection("rents")
+            .whereEqualTo("tenant.mail", tenantMail)
+            .get().await()
     }
 
     fun getAllRentsByMail(mail: String, paid:Boolean): Task<QuerySnapshot> {

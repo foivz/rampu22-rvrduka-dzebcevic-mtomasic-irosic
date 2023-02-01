@@ -1,9 +1,6 @@
 package hr.foi.rampu.stanarko
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.ImageButton
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -26,7 +23,9 @@ class MainActivity : OwnerDrawerActivity() {
 
         val mail = FirebaseAuth.getInstance().currentUser?.email
         recyclerView = findViewById(R.id.rv_flat_list)
-        recyclerView.adapter = runBlocking { FlatsAdapter(MockDataLoader.getFirebaseFlatsByOwner(mail!!)) }
+        recyclerView.adapter =
+            runBlocking { FlatsAdapter(MockDataLoader.getFirebaseFlatsByOwner(mail!!)) }
         recyclerView.layoutManager = LinearLayoutManager(this)
+
     }
 }

@@ -3,6 +3,7 @@ package hr.foi.rampu.stanarko.fragments
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -92,15 +93,25 @@ class OwnerActiveContractsFragment : Fragment() {
             selectedDate = calendar.time
         }
 
+        Log.e("DATA","prije dijaloga")
         AlertDialog.Builder(context).setView(newContractDialogView).setTitle(getString(R.string.generate_new_contract_dialog))
             .setPositiveButton(getString(R.string.generate_new_contract_dialog)){ _, _ ->
+                Log.e("DATA","unutar dijaloga")
                 if (!TextUtils.isEmpty(etTenantMail.text.toString().trim())&&etExpiredDate.date!=0L){
+                    Log.e("DATA","unutar nekog if-a")
                     db.collection("tenants").whereEqualTo("mail",etTenantMail.text.toString()).get()
                         .addOnSuccessListener { documents ->
-                            for (document in documents){
-                                val tenant = document.toObject(Tenant::class.java)
-                                val contractsRef = db.collection("contracts")
-                                contractsRef.add(Contract(Calendar.getInstance().time, selectedDate,tenant))
+                                Log.e("DATA","Tu sam opet")
+                            if (documents.size()!=0){
+                                for (document in documents){
+                                    Log.e("DATA","Tu sam u foru")
+                                    val tenant = document.toObject(Tenant::class.java)
+                                    Log.e("DATA","Tu sam opet sa mailom "+tenant.mail)
+                                    val contractsRef = db.collection("contracts")
+                                    contractsRef.add(Contract(Calendar.getInstance().time, selectedDate,tenant))
+                                }
+                            }else{
+                                Toast.makeText(context, getString(R.string.unable_to_generate_contract_message), Toast.LENGTH_SHORT).show()
                             }
                         }
                 }
