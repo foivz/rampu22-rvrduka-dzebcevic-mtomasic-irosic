@@ -1,11 +1,10 @@
 package hr.foi.rampu.stanarko.helpers
 
+import android.util.Log
 import hr.foi.rampu.stanarko.database.FlatsDAO
+import hr.foi.rampu.stanarko.database.MalfunctionsDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
-import hr.foi.rampu.stanarko.entities.Flat
-import hr.foi.rampu.stanarko.entities.Owner
-import hr.foi.rampu.stanarko.entities.Rent
-import hr.foi.rampu.stanarko.entities.Tenant
+import hr.foi.rampu.stanarko.entities.*
 import kotlinx.coroutines.tasks.await
 
 object MockDataLoader {
@@ -16,12 +15,30 @@ object MockDataLoader {
         flats.addAll(result.toObjects(Flat::class.java))
         return flats
     }
+
+    fun testMAL(): MutableList<Malfunction> {
+        val malfuncDAO = MalfunctionsDAO()
+        val mal = mutableListOf<Malfunction>()
+        malfuncDAO.getAllMalfunctions().addOnSuccessListener { querySnapshot ->
+            mal.addAll(querySnapshot.toObjects(Malfunction::class.java))
+        }
+        return mal
+    }
+    suspend fun getFirebaseMalfunctions(): MutableList<Malfunction> {
+        val malfunctionDAO = MalfunctionsDAO()
+        val flats = mutableListOf<Malfunction>()
+        val result = malfunctionDAO.getAllMalfunctions().await()
+        flats.addAll(result.toObjects(Malfunction::class.java))
+        return flats
+
+    }
     suspend fun getFirebaseFlatsByOwner(mail: String): MutableList<Flat> {
         val flatsDAO = FlatsDAO()
         val flats = mutableListOf<Flat>()
         val result = flatsDAO.getFlatsByOwnerMail(mail).await()
         flats.addAll(result.toObjects(Flat::class.java))
         return flats
+
     }
 
     suspend fun getFirebaseTenants(id: Int): List<Tenant> {
