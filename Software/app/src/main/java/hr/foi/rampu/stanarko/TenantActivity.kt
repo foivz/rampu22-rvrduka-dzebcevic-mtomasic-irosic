@@ -10,8 +10,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import hr.foi.rampu.stanarko.NavigationDrawer.TenantDrawerActivity
 import hr.foi.rampu.stanarko.database.MalfunctionsDAO
+import hr.foi.rampu.stanarko.database.OwnersDAO
 import hr.foi.rampu.stanarko.database.TenantsDAO
 import hr.foi.rampu.stanarko.databinding.ActivityTenantBinding
+import hr.foi.rampu.stanarko.entities.Flat
+import hr.foi.rampu.stanarko.entities.Owner
 import hr.foi.rampu.stanarko.entities.Tenant
 import hr.foi.rampu.stanarko.helpers.FirebaseNotifications
 import hr.foi.rampu.stanarko.helpers.MockDataLoader
@@ -65,8 +68,13 @@ class TenantActivity : TenantDrawerActivity() {
                 val malfunctionDAO = MalfunctionsDAO()
                 malfunctionDAO.addMalfunction(malfunction, this)
                 val notification = FirebaseNotifications()
-                notification.sendPushNotification(tenant.flat!!.owner!!.token, getString(R.string.malfunction_notification_title), getString(
-                                    R.string.malfunction_reported))
+                val ownersDAO = OwnersDAO()
+                ownersDAO.getOwnerByEmail(tenant.flat!!.owner!!.mail).addOnSuccessListener { snapshot ->
+                    val owner = snapshot.toObjects((Owner::class.java))
+                    println(owner[0].token)
+                    notification.sendPushNotification(owner[0].token, getString(R.string.malfunction_notification_title), getString(
+                        R.string.malfunction_reported))
+                }
             }
             .show()
 
