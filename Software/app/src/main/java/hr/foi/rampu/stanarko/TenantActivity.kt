@@ -22,7 +22,6 @@ class TenantActivity : TenantDrawerActivity() {
     lateinit var status: TextView
     lateinit var malfunctionButton: Button
     private lateinit var recyclerView: RecyclerView
-    private lateinit var listaKvara: MutableList<Malfunction>
 
     lateinit var binding: ActivityTenantBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,12 +36,6 @@ class TenantActivity : TenantDrawerActivity() {
         malfunctionButton = findViewById(R.id.btn_malfunction)
         malfunctionButton.visibility = View.GONE
         if (user.flat != null) {
-            listaKvara = MockDataLoader.testMAL()
-            Log.d("DADA", MockDataLoader.testMAL().toString())
-
-            recyclerView = findViewById(R.id.rv_malfunction_list)
-            recyclerView.adapter = runBlocking { MalfunctionAdapter(MockDataLoader.getFirebaseMalfunctions()) }
-            recyclerView.layoutManager = LinearLayoutManager(this)
 
 
             status = findViewById(R.id.tv_belongs_to_flat)
@@ -57,11 +50,15 @@ class TenantActivity : TenantDrawerActivity() {
 
                 }
             }
+            recyclerView = findViewById(R.id.rv_malfunction_list)
+            recyclerView.adapter = runBlocking { MalfunctionAdapter(MockDataLoader.getFirebaseMalfunctions()) }
+            recyclerView.layoutManager = LinearLayoutManager(this)
 
         }
 
 
     }
+
 
 
 }
