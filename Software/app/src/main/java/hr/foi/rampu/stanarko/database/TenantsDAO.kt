@@ -47,6 +47,12 @@ class TenantsDAO {
             .get()
     }
 
+    fun getTenantByMail(tenantMail : String): Task<QuerySnapshot> {
+        return db.collection("tenants")
+            .whereEqualTo("mail", tenantMail)
+            .get()
+    }
+
     fun getAllTenants(): Task<QuerySnapshot> {
         return db.collection("tenants").get()
     }
